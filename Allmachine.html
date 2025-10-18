@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Machine Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .breadcrumb-item a {
+            text-decoration: none;
+        }
+        .breadcrumb-item.active {
+            font-weight: 600;
+        }
+        .stat-card {
+            transition: transform 0.3s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        .action-btn {
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
+            border: none;
+            color: white;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 2px;
+        }
+        .action-btn:hover {
+            transform: scale(1.1);
+        }
+        .btn-view { background: #3b82f6; }
+        .btn-edit { background: #10b981; }
+        .btn-delete { background: #ef4444; }
+        .btn-pdf { background: #dc2626; }
+        .history-item {
+            border-left: 3px solid #667eea;
+            padding-left: 1rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+        .history-item:hover {
+            background: #f3f4f6;
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+        }
+        .machine-status-working { color: #198754; }
+        .machine-status-not-working { color: #6c757d; }
+        .machine-status-breakdown { color: #dc3545; }
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <!-- Header with Breadcrumb -->
+    <div class="container-fluid mt-3">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li class="breadcrumb-item active">Machine Management</li>
+            </ol>
+        </nav>
+    </div>
+
+<nav class="navbar navbar-white">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <i class="fas fa-cogs me-2"></i>Machine Management System
+        </a>
+        <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#addMachineModal">
+            <i class="fas fa-plus-circle me-1"></i> Add Machine
+        </button>
+    </div>
+</nav>
+
+    <div class="container-fluid mt-4">
+        <!-- Statistics Cards -->
+        <div class="row mb-4">
+            <div class="col-xl-3 col-md-6 mb-3">
+                <div class="card bg-primary text-white stat-card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h6 class="mb-2"><i class="fas fa-cogs"></i> Total Machines</h6>
+                                <h2 class="mb-0" id="totalMachines">0</h2>
+                            </div>
+                            <i class="fas fa-cogs fa-3x opacity-50"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6 mb-3">
+                <div class="card bg-success text-white stat-card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h6 class="mb-2"><i class="fas fa-play-circle"></i> Working</h6>
+                                <h2 class="mb-0" id="workingMachines">0</h2>
+                            </div>
+                            <i class="fas fa-play-circle fa-3x opacity-50"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6 mb-3">
+                <div class="card bg-warning text-white stat-card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h6 class="mb-2"><i class="fas fa-pause-circle"></i> Not Working</h6>
+                                <h2 class="mb-0" id="notWorkingMachines">0</h2>
+                            </div>
+                            <i class="fas fa-pause-circle fa-3x opacity-50"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6 mb-3">
+                <div class="card bg-danger text-white stat-card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h6 class="mb-2"><i class="fas fa-exclamation-circle"></i> Breakdown</h6>
+                                <h2 class="mb-0" id="breakdownMachines">0</h2>
+                            </div>
+                            <i class="fas fa-exclamation-circle fa-3x opacity-50"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search and Filter Section -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-search"></i></span>
+                            <input type="text" class="form-control" id="searchInput" placeholder="Search machines...">
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-6">
+                        <select class="form-select" id="statusFilter">
+                            <option value="">All Status</option>
+                            <option value="working">Working</option>
+                            <option value="not-working">Not Working</option>
+                            <option value="breakdown">Breakdown</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-2 col-md-6">
+                        <select class="form-select" id="typeFilter">
+                            <option value="">All Types</option>
+                            <option value="excavator">Excavator</option>
+                            <option value="crane">Crane</option>
+                            <option value="bulldozer">Bulldozer</option>
+                            <option value="concrete-mixer">Concrete Mixer</option>
+                            <option value="loader">Loader</option>
+                            <option value="grader">Grader</option>
+                            <option value="compactor">Compactor</option>
+                            <option value="dump-truck">Dump Truck</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-2 col-md-6">
+                        <select class="form-select" id="entriesPerPage">
+                            <option value="10">10 per page</option>
+                            <option value="25">25 per page</option>
+                            <option value="50">50 per page</option>
+                            <option value="100">100 per page</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-2 col-md-12">
+                        <button class="btn btn-outline-secondary w-100" onclick="resetFilters()">
+                            <i class="fas fa-redo"></i> Reset
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Sr No</th>
+                                <th>Machine No</th>
+                                <th>Machine Name</th>
+                                <th>Machine Type</th>
+                                <th>Live Location</th>
+                                <th>Status</th>
+                                <th>Last Servicing</th>
+                                <th>Next Servicing</th>
+                                <th>Total Money Earn</th>
+                                <th>Total Expenses</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="machineTableBody">
+                            <!-- Rows will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                <nav>
+                    <ul class="pagination justify-content-center mt-3" id="pagination"></ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Machine Modal -->
+    <div class="modal fade" id="addMachineModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title"><i class="fas fa-plus-circle"></i> Add New Machine</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addMachineForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Machine No *</label>
+                                <input type="text" class="form-control" id="machineNo" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Machine Name *</label>
+                                <input type="text" class="form-control" id="machineName" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Machine Type *</label>
+                                <select class="form-select" id="machineType" required>
+                                    <option value="">Select Type</option>
+                                    <option value="excavator">Excavator</option>
+                                    <option value="crane">Crane</option>
+                                    <option value="bulldozer">Bulldozer</option>
+                                    <option value="concrete-mixer">Concrete Mixer</option>
+                                    <option value="loader">Loader</option>
+                                    <option value="grader">Grader</option>
+                                    <option value="compactor">Compactor</option>
+                                    <option value="dump-truck">Dump Truck</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Status *</label>
+                                <select class="form-select" id="machineStatus" required>
+                                    <option value="">Select Status</option>
+                                    <option value="working">Working</option>
+                                    <option value="not-working">Not Working</option>
+                                    <option value="breakdown">Breakdown</option>
+                                </select>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <label class="form-label">Live Location</label>
+                                <input type="text" class="form-control" id="machineLocation" placeholder="Current location of machine">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Last Servicing Date</label>
+                                <input type="date" class="form-control" id="lastServicing">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Next Servicing Date</label>
+                                <input type="date" class="form-control" id="nextServicing">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Purchase Date</label>
+                                <input type="date" class="form-control" id="purchaseDate">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Purchase Cost (₹)</label>
+                                <input type="number" class="form-control" id="purchaseCost" min="0" value="0">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="addMachine()">
+                        <i class="fas fa-save"></i> Save Machine
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Machine Details Modal -->
+    <div class="modal fade" id="machineDetailsModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title"><i class="fas fa-info-circle"></i> Machine Details</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h5 id="detailMachineName"></h5>
+                            <p class="text-muted mb-1" id="detailMachineNo"></p>
+                            <p class="text-muted mb-0" id="detailMachineType"></p>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <button class="btn btn-danger" onclick="exportToPDF()">
+                                <i class="fas fa-file-pdf"></i> Export to PDF
+                            </button>
+                        </div>
+                    </div>
+
+                    <ul class="nav nav-tabs mb-3" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-bs-toggle="tab" href="#machineInfo">Machine Information</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#serviceHistory">Service History</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#usageHistory">Usage History</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#financials">Financials</a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="machineInfo">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <table class="table table-bordered">
+                                        <tr>
+                                            <th width="40%">Machine No:</th>
+                                            <td id="infoMachineNo"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Machine Name:</th>
+                                            <td id="infoMachineName"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Machine Type:</th>
+                                            <td id="infoMachineType"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Current Status:</th>
+                                            <td id="infoMachineStatus"></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-md-6">
+                                    <table class="table table-bordered">
+                                        <tr>
+                                            <th width="40%">Live Location:</th>
+                                            <td id="infoMachineLocation"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Last Servicing:</th>
+                                            <td id="infoLastServicing"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Next Servicing:</th>
+                                            <td id="infoNextServicing"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Purchase Date:</th>
+                                            <td id="infoPurchaseDate"></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="serviceHistory">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Service Type</th>
+                                            <th>Description</th>
+                                            <th>Cost (₹)</th>
+                                            <th>Technician</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="serviceHistoryBody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="usageHistory">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Customer Name</th>
+                                            <th>Project</th>
+                                            <th>Hours Used</th>
+                                            <th>Earnings (₹)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="usageHistoryBody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="financials">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card mb-4">
+                                        <div class="card-header bg-success text-white">
+                                            <h6 class="mb-0">Total Earnings</h6>
+                                        </div>
+                                        <div class="card-body text-center">
+                                            <h3 id="totalEarnings">₹0</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card mb-4">
+                                        <div class="card-header bg-danger text-white">
+                                            <h6 class="mb-0">Total Expenses</h6>
+                                        </div>
+                                        <div class="card-body text-center">
+                                            <h3 id="totalExpenses">₹0</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-header bg-primary text-white">
+                                            <h6 class="mb-0">Profit/Loss</h6>
+                                        </div>
+                                        <div class="card-body text-center">
+                                            <h3 id="profitLoss">₹0</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        // Initialize data from localStorage or use sample data
+        let machines = JSON.parse(localStorage.getItem('machines')) || [
+            {
+                id: 1, machineNo: "MCH-001", name: "Caterpillar Excavator", type: "excavator", 
+                location: "Construction Site A, Pune", status: "working", 
+                lastServicing: "2024-09-15", nextServicing: "2024-11-15",
+                totalEarnings: 1250000, totalExpenses: 350000, purchaseDate: "2023-05-10", purchaseCost: 2500000
+            },
+            {
+                id: 2, machineNo: "MCH-002", name: "Tower Crane", type: "crane", 
+                location: "Highrise Project B, Mumbai", status: "not-working", 
+                lastServicing: "2024-10-01", nextServicing: "2024-12-01",
+                totalEarnings: 980000, totalExpenses: 220000, purchaseDate: "2023-08-22", purchaseCost: 3200000
+            },
+            {
+                id: 3, machineNo: "MCH-003", name: "Komatsu Bulldozer", type: "bulldozer", 
+                location: "Road Construction Site C, Delhi", status: "breakdown", 
+                lastServicing: "2024-08-20", nextServicing: "2024-10-20",
+                totalEarnings: 750000, totalExpenses: 180000, purchaseDate: "2023-11-05", purchaseCost: 1800000
+            },
+            {
+                id: 4, machineNo: "MCH-004", name: "Concrete Mixer Truck", type: "concrete-mixer", 
+                location: "Residential Project D, Bangalore", status: "working", 
+                lastServicing: "2024-09-28", nextServicing: "2024-11-28",
+                totalEarnings: 620000, totalExpenses: 150000, purchaseDate: "2024-01-15", purchaseCost: 1200000
+            },
+            {
+                id: 5, machineNo: "MCH-005", name: "Wheel Loader", type: "loader", 
+                location: "Industrial Site E, Chennai", status: "working", 
+                lastServicing: "2024-10-05", nextServicing: "2024-12-05",
+                totalEarnings: 850000, totalExpenses: 200000, purchaseDate: "2023-12-20", purchaseCost: 1500000
+            },
+            {
+                id: 6, machineNo: "MCH-006", name: "Motor Grader", type: "grader", 
+                location: "Highway Project F, Hyderabad", status: "not-working", 
+                lastServicing: "2024-09-10", nextServicing: "2024-11-10",
+                totalEarnings: 720000, totalExpenses: 170000, purchaseDate: "2024-02-14", purchaseCost: 1400000
+            },
+            {
+                id: 7, machineNo: "MCH-007", name: "Vibratory Compactor", type: "compactor", 
+                location: "Road Project G, Kolkata", status: "working", 
+                lastServicing: "2024-10-08", nextServicing: "2024-12-08",
+                totalEarnings: 550000, totalExpenses: 120000, purchaseDate: "2024-03-22", purchaseCost: 900000
+            },
+            {
+                id: 8, machineNo: "MCH-008", name: "Dump Truck", type: "dump-truck", 
+                location: "Mining Site H, Ahmedabad", status: "breakdown", 
+                lastServicing: "2024-09-25", nextServicing: "2024-11-25",
+                totalEarnings: 680000, totalExpenses: 160000, purchaseDate: "2023-10-30", purchaseCost: 1100000
+            },
+            {
+                id: 9, machineNo: "MCH-009", name: "Crawler Excavator", type: "excavator", 
+                location: "Construction Site I, Surat", status: "working", 
+                lastServicing: "2024-10-12", nextServicing: "2024-12-12",
+                totalEarnings: 1150000, totalExpenses: 300000, purchaseDate: "2023-07-18", purchaseCost: 2200000
+            },
+            {
+                id: 10, machineNo: "MCH-010", name: "Mobile Crane", type: "crane", 
+                location: "Bridge Project J, Jaipur", status: "not-working", 
+                lastServicing: "2024-09-30", nextServicing: "2024-11-30",
+                totalEarnings: 920000, totalExpenses: 210000, purchaseDate: "2024-01-08", purchaseCost: 1800000
+            },
+            {
+                id: 11, machineNo: "MCH-011", name: "Mini Excavator", type: "excavator", 
+                location: "Residential Project K, Lucknow", status: "working", 
+                lastServicing: "2024-10-03", nextServicing: "2024-12-03",
+                totalEarnings: 480000, totalExpenses: 110000, purchaseDate: "2024-04-12", purchaseCost: 800000
+            },
+            {
+                id: 12, machineNo: "MCH-012", name: "Telescopic Crane", type: "crane", 
+                location: "Industrial Complex L, Nagpur", status: "working", 
+                lastServicing: "2024-09-18", nextServicing: "2024-11-18",
+                totalEarnings: 1350000, totalExpenses: 320000, purchaseDate: "2023-09-25", purchaseCost: 2800000
+            }
+        ];
+
+        // Service history data
+        let serviceHistory = JSON.parse(localStorage.getItem('serviceHistory')) || {
+            1: [
+                {date: "2024-09-15", type: "Regular Maintenance", description: "Oil change, filter replacement", cost: 15000, technician: "Rajesh Kumar"},
+                {date: "2024-07-10", type: "Inspection", description: "Routine safety inspection", cost: 5000, technician: "Amit Sharma"},
+                {date: "2024-05-20", type: "Repair", description: "Hydraulic system repair", cost: 45000, technician: "Vikram Singh"}
+            ],
+            2: [
+                {date: "2024-10-01", type: "Regular Maintenance", description: "Lubrication and inspection", cost: 12000, technician: "Sanjay Patel"},
+                {date: "2024-08-15", type: "Electrical Check", description: "Wiring and control system check", cost: 8000, technician: "Priya Desai"}
+            ],
+            3: [
+                {date: "2024-08-20", type: "Engine Repair", description: "Engine overhaul", cost: 75000, technician: "Rahul Verma"},
+                {date: "2024-06-05", type: "Regular Maintenance", description: "Oil and filter change", cost: 10000, technician: "Neha Reddy"}
+            ],
+            4: [
+                {date: "2024-09-28", type: "Regular Maintenance", description: "Brake inspection and adjustment", cost: 8000, technician: "Anil Mehta"},
+                {date: "2024-07-15", type: "Tire Replacement", description: "All tires replaced", cost: 45000, technician: "Suresh Nair"}
+            ],
+            5: [
+                {date: "2024-10-05", type: "Regular Maintenance", description: "Hydraulic system service", cost: 12000, technician: "Rajesh Kumar"},
+                {date: "2024-08-20", type: "Transmission Service", description: "Transmission fluid change", cost: 15000, technician: "Vikram Singh"}
+            ]
+        };
+
+        // Usage history data
+        let usageHistory = JSON.parse(localStorage.getItem('usageHistory')) || {
+            1: [
+                {date: "2024-10-15", customer: "ABC Constructions", project: "Commercial Complex", hours: 40, earnings: 80000},
+                {date: "2024-10-10", customer: "XYZ Builders", project: "Residential Tower", hours: 32, earnings: 64000},
+                {date: "2024-10-05", customer: "PQR Infrastructure", project: "Road Widening", hours: 48, earnings: 96000}
+            ],
+            2: [
+                {date: "2024-10-12", customer: "LMN Developers", project: "Highrise Apartments", hours: 56, earnings: 112000},
+                {date: "2024-10-08", customer: "EFG Constructions", project: "Shopping Mall", hours: 40, earnings: 80000}
+            ],
+            3: [
+                {date: "2024-10-14", customer: "STU Builders", project: "Industrial Park", hours: 36, earnings: 54000},
+                {date: "2024-10-07", customer: "OPQ Infrastructure", project: "Highway Construction", hours: 44, earnings: 66000}
+            ],
+            4: [
+                {date: "2024-10-16", customer: "RST Developers", project: "Residential Complex", hours: 28, earnings: 42000},
+                {date: "2024-10-11", customer: "UVW Constructions", project: "School Building", hours: 24, earnings: 36000}
+            ],
+            5: [
+                {date: "2024-10-13", customer: "CDE Infrastructure", project: "Warehouse Construction", hours: 35, earnings: 70000},
+                {date: "2024-10-09", customer: "FGH Builders", project: "Office Building", hours: 42, earnings: 84000}
+            ]
+        };
+
+        let currentPage = 1;
+        let entriesPerPage = 10;
+        let filteredMachines = [...machines];
+        let currentMachineId = null;
+
+        // Save data to localStorage
+        function saveData() {
+            localStorage.setItem('machines', JSON.stringify(machines));
+            localStorage.setItem('serviceHistory', JSON.stringify(serviceHistory));
+            localStorage.setItem('usageHistory', JSON.stringify(usageHistory));
+        }
+
+        // Update statistics
+        function updateStatistics() {
+            const totalMachines = machines.length;
+            const workingMachines = machines.filter(m => m.status === 'working').length;
+            const notWorkingMachines = machines.filter(m => m.status === 'not-working').length;
+            const breakdownMachines = machines.filter(m => m.status === 'breakdown').length;
+
+            document.getElementById('totalMachines').textContent = totalMachines;
+            document.getElementById('workingMachines').textContent = workingMachines;
+            document.getElementById('notWorkingMachines').textContent = notWorkingMachines;
+            document.getElementById('breakdownMachines').textContent = breakdownMachines;
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('machineTableBody');
+            const start = (currentPage - 1) * entriesPerPage;
+            const end = start + entriesPerPage;
+            const pageMachines = filteredMachines.slice(start, end);
+
+            tbody.innerHTML = pageMachines.map((machine, index) => `
+                <tr>
+                    <td>${(currentPage - 1) * entriesPerPage + index + 1}</td>
+                    <td><strong>${machine.machineNo}</strong></td>
+                    <td>${machine.name}</td>
+                    <td>${formatMachineType(machine.type)}</td>
+                    <td>${machine.location}</td>
+                    <td>
+                        <span class="badge ${getStatusBadgeClass(machine.status)}">
+                            ${formatStatus(machine.status)}
+                        </span>
+                    </td>
+                    <td>${machine.lastServicing || 'N/A'}</td>
+                    <td>${machine.nextServicing || 'N/A'}</td>
+                    <td>₹${machine.totalEarnings.toLocaleString()}</td>
+                    <td>₹${machine.totalExpenses.toLocaleString()}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="action-btn btn-view" onclick="viewMachineDetails(${machine.id})" title="View Details">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="action-btn btn-edit" onclick="editMachine(${machine.id})" title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="action-btn btn-delete" onclick="deleteMachine(${machine.id})" title="Delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                            <button class="action-btn btn-pdf" onclick="exportMachinePDF(${machine.id})" title="Export PDF">
+                                <i class="fas fa-file-pdf"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+
+            renderPagination();
+            updateStatistics();
+        }
+
+        function formatMachineType(type) {
+            const typeMap = {
+                'excavator': 'Excavator',
+                'crane': 'Crane',
+                'bulldozer': 'Bulldozer',
+                'concrete-mixer': 'Concrete Mixer',
+                'loader': 'Loader',
+                'grader': 'Grader',
+                'compactor': 'Compactor',
+                'dump-truck': 'Dump Truck'
+            };
+            return typeMap[type] || type;
+        }
+
+        function formatStatus(status) {
+            const statusMap = {
+                'working': 'Working',
+                'not-working': 'Not Working',
+                'breakdown': 'Breakdown'
+            };
+            return statusMap[status] || status;
+        }
+
+        function getStatusBadgeClass(status) {
+            switch(status) {
+                case 'working': return 'bg-success';
+                case 'not-working': return 'bg-warning';
+                case 'breakdown': return 'bg-danger';
+                default: return 'bg-secondary';
+            }
+        }
+
+        function renderPagination() {
+            const totalPages = Math.ceil(filteredMachines.length / entriesPerPage);
+            const pagination = document.getElementById('pagination');
+            
+            let html = '';
+            
+            // Previous button
+            html += `
+                <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                    <a class="page-link" href="#" onclick="changePage(${currentPage - 1}); return false;">
+                        <i class="fas fa-chevron-left"></i>
+                    </a>
+                </li>
+            `;
+            
+            // Page numbers
+            for (let i = 1; i <= totalPages; i++) {
+                html += `
+                    <li class="page-item ${i === currentPage ? 'active' : ''}">
+                        <a class="page-link" href="#" onclick="changePage(${i}); return false;">${i}</a>
+                    </li>
+                `;
+            }
+            
+            // Next button
+            html += `
+                <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+                    <a class="page-link" href="#" onclick="changePage(${currentPage + 1}); return false;">
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                </li>
+            `;
+            
+            pagination.innerHTML = html;
+        }
+
+        function changePage(page) {
+            const totalPages = Math.ceil(filteredMachines.length / entriesPerPage);
+            if (page < 1 || page > totalPages) return;
+            
+            currentPage = page;
+            renderTable();
+        }
+
+        function searchMachines() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const statusFilter = document.getElementById('statusFilter').value;
+            const typeFilter = document.getElementById('typeFilter').value;
+            
+            filteredMachines = machines.filter(machine => {
+                const matchesSearch = machine.machineNo.toLowerCase().includes(searchTerm) ||
+                                    machine.name.toLowerCase().includes(searchTerm) ||
+                                    machine.location.toLowerCase().includes(searchTerm);
+                const matchesStatus = !statusFilter || machine.status === statusFilter;
+                const matchesType = !typeFilter || machine.type === typeFilter;
+                return matchesSearch && matchesStatus && matchesType;
+            });
+
+            currentPage = 1;
+            renderTable();
+        }
+
+        function resetFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('statusFilter').value = '';
+            document.getElementById('typeFilter').value = '';
+            document.getElementById('entriesPerPage').value = '10';
+            entriesPerPage = 10;
+            filteredMachines = [...machines];
+            currentPage = 1;
+            renderTable();
+        }
+
+        function addMachine() {
+            const machineNo = document.getElementById('machineNo').value;
+            const name = document.getElementById('machineName').value;
+            const type = document.getElementById('machineType').value;
+            const status = document.getElementById('machineStatus').value;
+            const location = document.getElementById('machineLocation').value;
+            const lastServicing = document.getElementById('lastServicing').value;
+            const nextServicing = document.getElementById('nextServicing').value;
+            const purchaseDate = document.getElementById('purchaseDate').value;
+            const purchaseCost = parseInt(document.getElementById('purchaseCost').value) || 0;
+            
+            // Generate new ID
+            const newId = machines.length > 0 ? Math.max(...machines.map(m => m.id)) + 1 : 1;
+            
+            // Add new machine
+            const newMachine = {
+                id: newId,
+                machineNo,
+                name,
+                type,
+                location,
+                status,
+                lastServicing,
+                nextServicing,
+                purchaseDate,
+                purchaseCost,
+                totalEarnings: 0,
+                totalExpenses: 0
+            };
+            
+            machines.push(newMachine);
+            saveData();
+            
+            // Reset form and close modal
+            document.getElementById('addMachineForm').reset();
+            bootstrap.Modal.getInstance(document.getElementById('addMachineModal')).hide();
+            
+            // Refresh table
+            filteredMachines = [...machines];
+            renderTable();
+            
+            alert('Machine added successfully!');
+        }
+
+        function editMachine(id) {
+            const machine = machines.find(m => m.id === id);
+            if (machine) {
+                document.getElementById('machineNo').value = machine.machineNo;
+                document.getElementById('machineName').value = machine.name;
+                document.getElementById('machineType').value = machine.type;
+                document.getElementById('machineStatus').value = machine.status;
+                document.getElementById('machineLocation').value = machine.location;
+                document.getElementById('lastServicing').value = machine.lastServicing;
+                document.getElementById('nextServicing').value = machine.nextServicing;
+                document.getElementById('purchaseDate').value = machine.purchaseDate;
+                document.getElementById('purchaseCost').value = machine.purchaseCost;
+                
+                // Show modal
+                new bootstrap.Modal(document.getElementById('addMachineModal')).show();
+                
+                // Change modal title
+                document.querySelector('#addMachineModal .modal-title').innerHTML = '<i class="fas fa-edit"></i> Edit Machine';
+                
+                // Change save button behavior
+                const saveBtn = document.querySelector('#addMachineModal .btn-primary');
+                saveBtn.innerHTML = '<i class="fas fa-save"></i> Update Machine';
+                saveBtn.onclick = function() { updateMachine(id); };
+            }
+        }
+
+        function updateMachine(id) {
+            const machineIndex = machines.findIndex(m => m.id === id);
+            if (machineIndex !== -1) {
+                const machineNo = document.getElementById('machineNo').value;
+                const name = document.getElementById('machineName').value;
+                const type = document.getElementById('machineType').value;
+                const status = document.getElementById('machineStatus').value;
+                const location = document.getElementById('machineLocation').value;
+                const lastServicing = document.getElementById('lastServicing').value;
+                const nextServicing = document.getElementById('nextServicing').value;
+                const purchaseDate = document.getElementById('purchaseDate').value;
+                const purchaseCost = parseInt(document.getElementById('purchaseCost').value) || 0;
+                
+                // Update machine
+                machines[machineIndex] = {
+                    ...machines[machineIndex],
+                    machineNo,
+                    name,
+                    type,
+                    status,
+                    location,
+                    lastServicing,
+                    nextServicing,
+                    purchaseDate,
+                    purchaseCost
+                };
+                
+                saveData();
+                
+                // Reset form and close modal
+                document.getElementById('addMachineForm').reset();
+                bootstrap.Modal.getInstance(document.getElementById('addMachineModal')).hide();
+                
+                // Refresh table
+                filteredMachines = [...machines];
+                renderTable();
+                
+                alert('Machine updated successfully!');
+            }
+        }
+
+        function deleteMachine(id) {
+            if (confirm('Are you sure you want to delete this machine? This action cannot be undone.')) {
+                machines = machines.filter(m => m.id !== id);
+                saveData();
+                
+                // Refresh table
+                filteredMachines = [...machines];
+                renderTable();
+                
+                alert('Machine deleted successfully!');
+            }
+        }
+
+        function viewMachineDetails(machineId) {
+            currentMachineId = machineId;
+            const machine = machines.find(m => m.id === machineId);
+            
+            // Set header information
+            document.getElementById('detailMachineName').textContent = machine.name;
+            document.getElementById('detailMachineNo').textContent = `Machine No: ${machine.machineNo}`;
+            document.getElementById('detailMachineType').textContent = `Type: ${formatMachineType(machine.type)}`;
+            
+            // Set machine information
+            document.getElementById('infoMachineNo').textContent = machine.machineNo;
+            document.getElementById('infoMachineName').textContent = machine.name;
+            document.getElementById('infoMachineType').textContent = formatMachineType(machine.type);
+            document.getElementById('infoMachineStatus').innerHTML = `<span class="badge ${getStatusBadgeClass(machine.status)}">${formatStatus(machine.status)}</span>`;
+            document.getElementById('infoMachineLocation').textContent = machine.location;
+            document.getElementById('infoLastServicing').textContent = machine.lastServicing || 'N/A';
+            document.getElementById('infoNextServicing').textContent = machine.nextServicing || 'N/A';
+            document.getElementById('infoPurchaseDate').textContent = machine.purchaseDate || 'N/A';
+            
+            // Set service history
+            const services = serviceHistory[machineId] || [];
+            document.getElementById('serviceHistoryBody').innerHTML = services.map(s => `
+                <tr>
+                    <td>${s.date}</td>
+                    <td>${s.type}</td>
+                    <td>${s.description}</td>
+                    <td>₹${s.cost.toLocaleString()}</td>
+                    <td>${s.technician}</td>
+                </tr>
+            `).join('');
+            
+            // Set usage history
+            const usages = usageHistory[machineId] || [];
+            document.getElementById('usageHistoryBody').innerHTML = usages.map(u => `
+                <tr>
+                    <td>${u.date}</td>
+                    <td>${u.customer}</td>
+                    <td>${u.project}</td>
+                    <td>${u.hours}</td>
+                    <td>₹${u.earnings.toLocaleString()}</td>
+                </tr>
+            `).join('');
+            
+            // Set financials
+            document.getElementById('totalEarnings').textContent = `₹${machine.totalEarnings.toLocaleString()}`;
+            document.getElementById('totalExpenses').textContent = `₹${machine.totalExpenses.toLocaleString()}`;
+            const profitLoss = machine.totalEarnings - machine.totalExpenses;
+            document.getElementById('profitLoss').textContent = `₹${profitLoss.toLocaleString()}`;
+            document.getElementById('profitLoss').className = profitLoss >= 0 ? 'text-success' : 'text-danger';
+            
+            new bootstrap.Modal(document.getElementById('machineDetailsModal')).show();
+        }
+
+        function exportMachinePDF(machineId) {
+            const machine = machines.find(m => m.id === machineId);
+            if (!machine) return;
+            
+            // In a real implementation, you would use jsPDF to generate a PDF
+            // For this example, we'll just show an alert
+            alert(`PDF export for ${machine.name} (${machine.machineNo}) would be generated here.`);
+            
+            // Example of how you might implement PDF generation:
+            /*
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            doc.text(`Machine Report: ${machine.name}`, 20, 20);
+            doc.text(`Machine No: ${machine.machineNo}`, 20, 30);
+            doc.text(`Type: ${formatMachineType(machine.type)}`, 20, 40);
+            doc.text(`Status: ${formatStatus(machine.status)}`, 20, 50);
+            doc.text(`Location: ${machine.location}`, 20, 60);
+            doc.text(`Total Earnings: ₹${machine.totalEarnings.toLocaleString()}`, 20, 70);
+            doc.text(`Total Expenses: ₹${machine.totalExpenses.toLocaleString()}`, 20, 80);
+            
+            doc.save(`Machine_Report_${machine.machineNo}.pdf`);
+            */
+        }
+
+        function exportToPDF() {
+            exportMachinePDF(currentMachineId);
+        }
+
+        // Event listeners
+        document.getElementById('searchInput').addEventListener('input', searchMachines);
+        document.getElementById('statusFilter').addEventListener('change', searchMachines);
+        document.getElementById('typeFilter').addEventListener('change', searchMachines);
+        document.getElementById('entriesPerPage').addEventListener('change', (e) => {
+            entriesPerPage = parseInt(e.target.value);
+            currentPage = 1;
+            renderTable();
+        });
+
+        // Reset modal when closed
+        document.getElementById('addMachineModal').addEventListener('hidden.bs.modal', function() {
+            document.querySelector('#addMachineModal .modal-title').innerHTML = '<i class="fas fa-plus-circle"></i> Add New Machine';
+            const saveBtn = document.querySelector('#addMachineModal .btn-primary');
+            saveBtn.innerHTML = '<i class="fas fa-save"></i> Save Machine';
+            saveBtn.onclick = addMachine;
+            document.getElementById('addMachineForm').reset();
+        });
+
+        // Initial render
+        renderTable();
+    </script>
+</body>
+</html>

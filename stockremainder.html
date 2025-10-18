@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Reminder / PO Order</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container-fluid py-4">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <div class="card shadow-lg border-0">
+                    <!-- Breadcrumb -->
+                    <div class="card-header bg-white py-3">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb mb-0">
+                                <li class="breadcrumb-item">
+                                    <a href="#" class="text-decoration-none">
+                                        <i class="fas fa-home me-1"></i>Dashboard
+                                    </a>
+                                </li>
+                                <li class="breadcrumb-item active" aria-current="page">Diesel & Machine Service</li>
+                            </ol>
+                        </nav>
+                    </div>
+                    
+                    <!-- Header -->
+                    <div class="card-header bg-primary text-white py-4">
+                        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                            <div class="d-flex align-items-center mb-3 mb-md-0">
+                                <button class="btn btn-light me-3">
+                                    <i class="fas fa-arrow-left"></i>
+                                </button>
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-box-open fs-3 me-3"></i>
+                                    <h2 class="mb-0">STOCK REMINDER / PO ORDER</h2>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex flex-wrap gap-2">
+                                <button class="btn btn-light">
+                                    <i class="fas fa-print me-2"></i>PRINT
+                                </button>
+                                <button class="btn btn-light">
+                                    <i class="fas fa-file-excel me-2"></i>Excel File
+                                </button>
+                                <select class="form-select" style="width: auto;">
+                                    <option>Select Bill</option>
+                                    <option>Bill 1</option>
+                                    <option>Bill 2</option>
+                                </select>
+                                <button class="btn btn-success">
+                                    <i class="fas fa-sync-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Filter Section -->
+                    <div class="card-body bg-light py-4">
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <select class="form-select">
+                                    <option>SELECT CATEGORY</option>
+                                    <option>Electronics</option>
+                                    <option>Hardware</option>
+                                    <option>Chemicals</option>
+                                    <option>Spare Parts</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <select class="form-select">
+                                    <option>SELECT SUBCATEGORY</option>
+                                    <option>Motors</option>
+                                    <option>Controllers</option>
+                                    <option>Sensors</option>
+                                    <option>Switches</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <select class="form-select">
+                                    <option>SELECT BRAND</option>
+                                    <option>FSCURTIS</option>
+                                    <option>EUROPA</option>
+                                    <option>KIRLOSKAR OIL ENGINES LIMITED</option>
+                                    <option>LT</option>
+                                    <option>P CUBE</option>
+                                    <option>HUSQVARNA</option>
+                                    <option>ATORSE</option>
+                                    <option>CRUXWELD</option>
+                                    <option>OTHER</option>
+                                    <option>CLSJ</option>
+                                    <option>POTAIN</option>
+                                    <option>ACE</option>
+                                    <option>HITLI</option>
+                                    <option>SPARTAN</option>
+                                    <option>ALBISO</option>
+                                    <option>BOSCH</option>
+                                    <option>SIGMA</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control" placeholder="Enter Item Name..">
+                            </div>
+                            <div class="col-12">
+                                <button class="btn btn-info text-white w-100">
+                                    <i class="fas fa-search me-2"></i>
+                                    Search Items
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Supplier Section -->
+                    <div class="card-body bg-warning bg-opacity-10 border-start border-warning border-5 py-4">
+                        <div class="row align-items-center">
+                            <div class="col-md-4 mb-3 mb-md-0">
+                                <label class="form-label fw-bold text-warning text-uppercase small">Supplier Name</label>
+                                <input type="text" class="form-control" placeholder="Enter Supplier Name..">
+                            </div>
+                            <div class="col-md-3 mb-3 mb-md-0">
+                                <label class="form-label fw-bold text-warning text-uppercase small">Date</label>
+                                <input type="date" class="form-control" value="2025-10-13">
+                            </div>
+                            <div class="col-md-3 mb-3 mb-md-0">
+                                <div class="d-flex justify-content-center">
+                                    <span class="badge bg-danger p-3">
+                                        <i class="fas fa-clock me-2"></i>
+                                        TIME: 18:04 PM
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <button class="btn btn-primary w-100 fw-bold">
+                                    <i class="fas fa-shopping-cart me-2"></i>
+                                    ORDER
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Table Section -->
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="selectAll">
+                                                <label class="form-check-label" for="selectAll">Select</label>
+                                            </div>
+                                        </th>
+                                        <th>SR NO</th>
+                                        <th>ITEM NAME</th>
+                                        <th>STOCK LIMIT</th>
+                                        <th>CURRENT STOCK</th>
+                                        <th>STATUS</th>
+                                        <th>ORDER</th>
+                                        <th>QTY</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Low Stock Items -->
+                                    <tr class="table-danger">
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox">
+                                            </div>
+                                        </td>
+                                        <td><strong>1</strong></td>
+                                        <td><strong>Electric Motor - 5HP</strong></td>
+                                        <td>50</td>
+                                        <td><strong>15</strong></td>
+                                        <td><span class="badge bg-danger">LOW STOCK</span></td>
+                                        <td><input type="number" class="form-control form-control-sm" value="35" min="0"></td>
+                                        <td><strong>35</strong></td>
+                                    </tr>
+                                    <tr class="table-danger">
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox">
+                                            </div>
+                                        </td>
+                                        <td><strong>2</strong></td>
+                                        <td><strong>Bearing - SKF 6205</strong></td>
+                                        <td>100</td>
+                                        <td><strong>25</strong></td>
+                                        <td><span class="badge bg-danger">LOW STOCK</span></td>
+                                        <td><input type="number" class="form-control form-control-sm" value="75" min="0"></td>
+                                        <td><strong>75</strong></td>
+                                    </tr>
+                                    <tr class="table-success">
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox">
+                                            </div>
+                                        </td>
+                                        <td><strong>3</strong></td>
+                                        <td><strong>Hydraulic Oil - 20L</strong></td>
+                                        <td>30</td>
+                                        <td><strong>85</strong></td>
+                                        <td><span class="badge bg-success">GOOD STOCK</span></td>
+                                        <td><input type="number" class="form-control form-control-sm" value="0" min="0"></td>
+                                        <td><strong>0</strong></td>
+                                    </tr>
+                                    <tr class="table-danger">
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox">
+                                            </div>
+                                        </td>
+                                        <td><strong>4</strong></td>
+                                        <td><strong>V-Belt - A Section</strong></td>
+                                        <td>40</td>
+                                        <td><strong>12</strong></td>
+                                        <td><span class="badge bg-danger">LOW STOCK</span></td>
+                                        <td><input type="number" class="form-control form-control-sm" value="28" min="0"></td>
+                                        <td><strong>28</strong></td>
+                                    </tr>
+                                    <tr class="table-success">
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox">
+                                            </div>
+                                        </td>
+                                        <td><strong>5</strong></td>
+                                        <td><strong>Control Panel Switch</strong></td>
+                                        <td>20</td>
+                                        <td><strong>45</strong></td>
+                                        <td><span class="badge bg-success">GOOD STOCK</span></td>
+                                        <td><input type="number" class="form-control form-control-sm" value="0" min="0"></td>
+                                        <td><strong>0</strong></td>
+                                    </tr>
+                                    <tr class="table-danger">
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox">
+                                            </div>
+                                        </td>
+                                        <td><strong>6</strong></td>
+                                        <td><strong>Welding Electrode - 4mm</strong></td>
+                                        <td>200</td>
+                                        <td><strong>45</strong></td>
+                                        <td><span class="badge bg-danger">LOW STOCK</span></td>
+                                        <td><input type="number" class="form-control form-control-sm" value="155" min="0"></td>
+                                        <td><strong>155</strong></td>
+                                    </tr>
+                                    <tr class="table-danger">
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox">
+                                            </div>
+                                        </td>
+                                        <td><strong>7</strong></td>
+                                        <td><strong>Air Filter Element</strong></td>
+                                        <td>25</td>
+                                        <td><strong>8</strong></td>
+                                        <td><span class="badge bg-danger">LOW STOCK</span></td>
+                                        <td><input type="number" class="form-control form-control-sm" value="17" min="0"></td>
+                                        <td><strong>17</strong></td>
+                                    </tr>
+                                    <tr class="table-success">
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox">
+                                            </div>
+                                        </td>
+                                        <td><strong>8</strong></td>
+                                        <td><strong>Safety Gloves - Large</strong></td>
+                                        <td>50</td>
+                                        <td><strong>120</strong></td>
+                                        <td><span class="badge bg-success">GOOD STOCK</span></td>
+                                        <td><input type="number" class="form-control form-control-sm" value="0" min="0"></td>
+                                        <td><strong>0</strong></td>
+                                    </tr>
+                                    <tr class="table-danger">
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox">
+                                            </div>
+                                        </td>
+                                        <td><strong>9</strong></td>
+                                        <td><strong>Grease Gun Cartridge</strong></td>
+                                        <td>60</td>
+                                        <td><strong>18</strong></td>
+                                        <td><span class="badge bg-danger">LOW STOCK</span></td>
+                                        <td><input type="number" class="form-control form-control-sm" value="42" min="0"></td>
+                                        <td><strong>42</strong></td>
+                                    </tr>
+                                    <tr class="table-success">
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox">
+                                            </div>
+                                        </td>
+                                        <td><strong>10</strong></td>
+                                        <td><strong>Cable Ties - 300mm</strong></td>
+                                        <td>100</td>
+                                        <td><strong>250</strong></td>
+                                        <td><span class="badge bg-success">GOOD STOCK</span></td>
+                                        <td><input type="number" class="form-control form-control-sm" value="0" min="0"></td>
+                                        <td><strong>0</strong></td>
+                                    </tr>
+                                    <tr class="table-danger">
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox">
+                                            </div>
+                                        </td>
+                                        <td><strong>11</strong></td>
+                                        <td><strong>Pressure Gauge - 0-10 Bar</strong></td>
+                                        <td>15</td>
+                                        <td><strong>4</strong></td>
+                                        <td><span class="badge bg-danger">LOW STOCK</span></td>
+                                        <td><input type="number" class="form-control form-control-sm" value="11" min="0"></td>
+                                        <td><strong>11</strong></td>
+                                    </tr>
+                                    <tr class="table-success">
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox">
+                                            </div>
+                                        </td>
+                                        <td><strong>12</strong></td>
+                                        <td><strong>Industrial Lubricant - 5L</strong></td>
+                                        <td>40</td>
+                                        <td><strong>65</strong></td>
+                                        <td><span class="badge bg-success">GOOD STOCK</span></td>
+                                        <td><input type="number" class="form-control form-control-sm" value="0" min="0"></td>
+                                        <td><strong>0</strong></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Select all functionality
+        document.getElementById('selectAll').addEventListener('change', function() {
+            const checkboxes = document.querySelectorAll('tbody input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = this.checked;
+            });
+        });
+        
+        // Calculate QTY based on order input
+        const orderInputs = document.querySelectorAll('tbody input[type="number"]');
+        orderInputs.forEach(input => {
+            input.addEventListener('input', function() {
+                const row = this.closest('tr');
+                const qtyCell = row.querySelector('td:last-child strong');
+                qtyCell.textContent = this.value;
+            });
+        });
+        
+        // Breadcrumb navigation function
+        function navigateBacktoIndex() {
+           
+           window.location.href = 'index.html';
+        }
+        
+        // Add click event to breadcrumb
+        document.querySelector('.breadcrumb-item a').addEventListener('click', navigateBacktoIndex);
+    </script>
+</body>
+</html>

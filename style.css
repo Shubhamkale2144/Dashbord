@@ -1,0 +1,1579 @@
+/* Mobile Sidebar Styles */
+.mobile-sidebar {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 280px;
+    height: 100vh;
+    background: white;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1050;
+    overflow-y: auto;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+}
+
+.mobile-sidebar.show {
+    transform: translateX(0);
+}
+
+.mobile-sidebar-header {
+    padding: 1rem;
+    border-bottom: 1px solid #dee2e6;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.mobile-sidebar-content {
+    padding: 1rem;
+}
+
+.mobile-sidebar-backdrop {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1049;
+}
+
+.mobile-sidebar-backdrop.show {
+    display: block;
+}
+
+/* Mobile Menu Toggle Button */
+.mobile-menu-toggle {
+    display: none;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1060;
+    background: #0d6efd;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Enhanced Mobile Dropdown Styles */
+@media (max-width: 992.98px) {
+    .mobile-sidebar .dropdown-submenu {
+        position: static !important;
+        width: 100% !important;
+        min-width: auto !important;
+        max-height: none;
+        box-shadow: none;
+        margin-left: 15px;
+        border-left: 2px solid #dee2e6;
+        background: rgba(248, 249, 250, 0.8);
+        display: none;
+        overflow: visible !important;
+        z-index: 1001;
+    }
+
+    .mobile-sidebar .dropdown-submenu.show {
+        display: block !important;
+    }
+
+    .mobile-sidebar .dropdown-submenu .dropdown-submenu {
+        margin-left: 15px;
+        background: rgba(241, 243, 245, 0.8);
+        position: static !important;
+        width: 100% !important;
+    }
+
+    .mobile-sidebar .dropdown-item {
+        padding: 10px 15px;
+        border-radius: 6px;
+        margin-bottom: 2px;
+        border: none;
+        font-size: 14px;
+        white-space: normal;
+        word-wrap: break-word;
+    }
+
+    .mobile-sidebar .dropdown-item:hover {
+        background-color: rgba(13, 110, 253, 0.1);
+        transform: translateX(5px);
+    }
+
+    .mobile-sidebar .has-dropdown,
+    .mobile-sidebar .has-submenu {
+        position: relative;
+    }
+
+    .mobile-sidebar .has-dropdown>span:last-child,
+    .mobile-sidebar .has-submenu>span:last-child {
+        transition: transform 0.3s ease;
+    }
+
+    .mobile-sidebar .has-dropdown.active>span:last-child,
+    .mobile-sidebar .has-submenu.active>span:last-child {
+        transform: rotate(90deg);
+    }
+
+    /* Ensure proper spacing in mobile sidebar */
+    .mobile-sidebar .nav-item {
+        position: relative;
+    }
+
+    .mobile-sidebar-content {
+        padding: 1rem;
+        overflow-y: auto;
+        max-height: calc(100vh - 60px);
+    }
+
+    /* Animation for dropdowns */
+    .mobile-sidebar .dropdown-submenu {
+        animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Prevent body scroll when dropdown is open */
+    .mobile-sidebar.show {
+        overflow-y: auto;
+    }
+}
+
+/* Hide main sidebar at 993px breakpoint */
+@media (max-width: 992.98px) {
+    .sidebar {
+        display: none !important;
+    }
+
+    .mobile-menu-toggle {
+        display: flex;
+    }
+
+    .mobile-sidebar {
+        display: block;
+    }
+
+    .main-content {
+        margin-left: 0 !important;
+        width: 100% !important;
+    }
+}
+
+/* Keep desktop layout above 993px */
+@media (min-width: 993px) {
+
+    .mobile-sidebar,
+    .mobile-menu-toggle,
+    .mobile-sidebar-backdrop {
+        display: none !important;
+    }
+
+    .sidebar {
+        display: block !important;
+    }
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #FAFBFC;
+    color: #151D48;
+    overflow-x: hidden;
+}
+
+
+.main-content {
+    margin-left: 0;
+    transition: margin-left 0.3s ease;
+    width: 100%;
+}
+
+@media (min-width: 992px) {
+    .main-content {
+        margin-left: 200px;
+        width: calc(100% - 200px);
+    }
+}
+
+
+/* ===== SIDEBAR DROPDOWN Z-INDEX FIX ===== */
+.sidebar {
+    z-index: 1040;
+}
+
+/* ===== MOBILE MENU TOGGLE BUTTON ===== */
+#mobileMenuToggle {
+    display: none;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1060;
+    background-color: #0d6efd;
+    border: none;
+    color: white;
+}
+
+
+.dropdown-submenu {
+    display: none;
+    position: fixed;
+    min-width: 220px;
+    max-height: 70vh;
+    overflow-y: auto;
+    z-index: 1001;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-submenu .dropdown-submenu {
+    min-width: 200px;
+    top: 0;
+    left: 100%;
+    margin-left: 2px;
+}
+
+@media (max-width: 991.98px) {
+    #mobileMenuToggle {
+        display: flex !important;
+    }
+
+    .sidebar {
+        transform: translateX(-100%);
+        width: 180px;
+        /* Reduced mobile width */
+        z-index: 1050;
+    }
+
+    .sidebar.show {
+        transform: translateX(0);
+    }
+
+    .dropdown-submenu {
+        position: static !important;
+        width: 100% !important;
+        min-width: auto !important;
+        max-height: none;
+        box-shadow: none;
+        margin-left: 0 !important;
+    }
+}
+
+/* Custom scrollbar for dropdowns */
+.dropdown-submenu::-webkit-scrollbar {
+    width: 6px;
+}
+
+.dropdown-submenu::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.dropdown-submenu::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 10px;
+}
+
+.dropdown-submenu::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* Menu item styling */
+.menu-item {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.menu-item:hover {
+    background-color: rgba(13, 110, 253, 0.1) !important;
+    transform: translateX(5px);
+}
+
+.menu-item.active {
+    transform: translateX(5px);
+}
+
+.dropdown-item {
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+    background-color: rgba(13, 110, 253, 0.1) !important;
+    padding-left: 20px !important;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+/* Bootstrap column padding adjustments */
+.col,
+.col-1,
+.col-2,
+.col-3,
+.col-4,
+.col-5,
+.col-6,
+.col-7,
+.col-8,
+.col-9,
+.col-10,
+.col-11,
+.col-12 {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+/* ===== HEADER STYLES ===== */
+.header {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    padding: 8px 0;
+    position: relative;
+    top: 0;
+
+    background: white;
+}
+
+.company-name {
+    white-space: nowrap;
+}
+
+.header-section {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: space-between;
+}
+
+.header-divider {
+    width: 1px;
+    height: 20px;
+    background-color: #dee2e6;
+}
+
+/* ===== STAT CARDS ===== */
+.stat-card {
+    transition: all 0.3s ease;
+    min-width: 120px;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1) !important;
+}
+
+.stat-icon {
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.workers-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+}
+
+.gradient-bg {
+    background: linear-gradient(135deg, #4481EB 0%, #04BEFE 100%);
+}
+
+/* ===== MACHINE CARDS ===== */
+.machine-card {
+    transition: all 0.3s ease;
+    border-left-width: 4px !important;
+}
+
+.machine-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.border-purple {
+    border-color: #6f42c1 !important;
+}
+
+.text-purple {
+    color: #6f42c1 !important;
+}
+
+/* ===== RENT SUMMARY ===== */
+.rent-summary {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: none;
+}
+
+/* ===== NOTIFICATIONS ===== */
+.notifications-panel {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.notification-item {
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.notification-item:hover {
+    background-color: #f0f4ff !important;
+    border-color: #cfe2ff !important;
+}
+
+/* ===== CHART CONTAINER ===== */
+.chart-container-custom {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+
+/* Payment Reminders Styles */
+.payment-reminder-item {
+    transition: all 0.3s ease;
+    border-left: 4px solid #28a745 !important;
+}
+
+.payment-reminder-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-left-color: #218838 !important;
+}
+
+.metric-card {
+    transition: all 0.3s ease;
+}
+
+.metric-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Modal enhancements */
+.modal-content {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+    border-radius: 12px 12px 0 0;
+}
+
+/* Toast notifications */
+.toast {
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+/* Form styles */
+.form-control:focus {
+    border-color: #28a745;
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+}
+
+/* ===== COMPLAINT & LEAD CARDS ===== */
+.worker-card {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 15px;
+    border-left: 4px solid #3498db;
+    transition: all 0.3s ease;
+    height: fit-content;
+}
+
+.worker-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.worker-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #3498db;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/* Date indicators - Responsive Grid */
+.complaint-date-indicators,
+.lead-date-indicators {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+}
+
+@media (min-width: 576px) {
+
+    .complaint-date-indicators,
+    .lead-date-indicators {
+        grid-template-columns: repeat(7, 1fr);
+    }
+}
+
+@media (max-width: 575px) {
+
+    .complaint-date-indicators,
+    .lead-date-indicators {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 400px) {
+
+    .complaint-date-indicators,
+    .lead-date-indicators {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.date-indicator {
+    text-align: center;
+    padding: 10px 5px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    min-height: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.date-indicator:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.date-indicator.active {
+    border-color: #dc3545;
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.2);
+}
+
+.date-indicator.lead-active {
+    border-color: #28a745;
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.2);
+}
+
+.date-day {
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 2px;
+}
+
+.date-number {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.date-badge {
+    font-size: 11px;
+    padding: 2px 6px;
+    border-radius: 10px;
+}
+
+/* Calendar styles */
+.complaint-calendar-popup,
+.lead-calendar-popup {
+    background: white;
+    border: 1px solid #dee2e6;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.complaint-calendar-dates,
+.lead-calendar-dates {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+    width: 100%;
+}
+
+.calendar-weekday {
+    text-align: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: #6c757d;
+    padding: 8px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.calendar-date {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+    margin: 2px;
+}
+
+.calendar-date:hover {
+    background: #007bff;
+    color: white;
+    transform: scale(1.1);
+}
+
+.calendar-date.available {
+    background: #e3f2fd;
+    color: #1976d2;
+    font-weight: 600;
+}
+
+.calendar-date.available:hover {
+    background: #1976d2;
+    color: white;
+}
+
+.calendar-date.selected {
+    background: #dc3545;
+    color: white;
+    font-weight: 700;
+    transform: scale(1.1);
+}
+
+.calendar-date.empty {
+    color: #dee2e6;
+    cursor: not-allowed;
+    background: transparent;
+}
+
+.calendar-date.empty:hover {
+    background: transparent;
+    color: #dee2e6;
+    transform: none;
+}
+
+/* Complaint Calendar specific styles */
+.complaint-calendar-popup {
+    background: white;
+    border: 1px solid #dee2e6;
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    min-width: 280px;
+    z-index: 1060;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+/* Force fixed positioning when visible */
+.complaint-calendar-popup[style*="display: block"] {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    z-index: 1060 !important;
+}
+
+/* Mobile optimization for Complaint Calendar */
+@media (max-width: 767px) {
+    .complaint-calendar-popup {
+        width: 95vw !important;
+        max-width: 320px;
+        margin: 0 auto;
+    }
+}
+
+.complaint-calendar-dates {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+    width: 100%;
+    padding: 5px;
+}
+
+.complaint-calendar-weekday {
+    text-align: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: #6c757d;
+    padding: 8px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.complaint-calendar-date {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+    margin: 2px;
+}
+
+.complaint-calendar-date:hover {
+    background: #007bff;
+    color: white;
+    transform: scale(1.1);
+}
+
+.complaint-calendar-date.available {
+    background: #e3f2fd;
+    color: #1976d2;
+    font-weight: 600;
+}
+
+.complaint-calendar-date.available:hover {
+    background: #1976d2;
+    color: white;
+}
+
+.complaint-calendar-date.selected {
+    background: #dc3545;
+    color: white;
+    font-weight: 700;
+    transform: scale(1.1);
+}
+
+.complaint-calendar-date.empty {
+    color: #dee2e6;
+    cursor: not-allowed;
+    background: transparent;
+}
+
+.complaint-calendar-date.empty:hover {
+    background: transparent;
+    color: #dee2e6;
+    transform: none;
+}
+
+/* Lead Calendar specific styles */
+.lead-calendar-popup {
+    background: white;
+    border: 1px solid #dee2e6;
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    min-width: 280px;
+    z-index: 1060;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+/* Force fixed positioning when visible */
+.lead-calendar-popup[style*="display: block"] {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    z-index: 1060 !important;
+}
+
+/* Mobile optimization for Lead Calendar */
+@media (max-width: 767px) {
+    .lead-calendar-popup {
+        width: 95vw !important;
+        max-width: 320px;
+        margin: 0 auto;
+    }
+}
+
+.lead-calendar-dates {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+    width: 100%;
+    padding: 5px;
+}
+
+.lead-calendar-weekday {
+    text-align: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: #6c757d;
+    padding: 8px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.lead-calendar-date {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+    margin: 2px;
+}
+
+.lead-calendar-date:hover {
+    background: #007bff;
+    color: white;
+    transform: scale(1.1);
+}
+
+.lead-calendar-date.available {
+    background: #e3f2fd;
+    color: #1976d2;
+    font-weight: 600;
+}
+
+.lead-calendar-date.available:hover {
+    background: #1976d2;
+    color: white;
+}
+
+.lead-calendar-date.selected {
+    background: #28a745;
+    color: white;
+    font-weight: 700;
+    transform: scale(1.1);
+}
+
+.lead-calendar-date.empty {
+    color: #dee2e6;
+    cursor: not-allowed;
+    background: transparent;
+}
+
+.lead-calendar-date.empty:hover {
+    background: transparent;
+    color: #dee2e6;
+    transform: none;
+}
+
+/* Custom scrollbar */
+.complaint-workers-container::-webkit-scrollbar,
+.lead-workers-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.complaint-workers-container::-webkit-scrollbar-track,
+.lead-workers-container::-webkit-scrollbar-track {
+    background: #f8f9fa;
+    border-radius: 4px;
+}
+
+.complaint-workers-container::-webkit-scrollbar-thumb,
+.lead-workers-container::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+.complaint-workers-container::-webkit-scrollbar-thumb:hover,
+.lead-workers-container::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .worker-card {
+        padding: 12px;
+    }
+
+    .worker-avatar {
+        width: 35px;
+        height: 35px;
+        font-size: 14px;
+    }
+
+    .date-indicator {
+        min-height: 60px;
+        padding: 8px 4px;
+    }
+
+    .date-day {
+        font-size: 12px;
+    }
+
+    .date-number {
+        font-size: 14px;
+    }
+
+    .date-badge {
+        font-size: 10px;
+        padding: 1px 4px;
+    }
+}
+
+@media (max-width: 576px) {
+
+    .complaint-calendar-popup,
+    .lead-calendar-popup {
+        position: fixed !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        width: 90vw;
+        max-width: 300px;
+    }
+}
+
+/* ===== SCROLLBAR STYLES ===== */
+.sidebar::-webkit-scrollbar,
+.notifications-panel::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track,
+.notifications-panel::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.sidebar::-webkit-scrollbar-thumb,
+.notifications-panel::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 10px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover,
+.notifications-panel::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+:root {
+    --primary: #4361ee;
+    --secondary: #3f37c9;
+    --success: #4cc9f0;
+    --info: #4895ef;
+    --warning: #f72585;
+    --light: #f8f9fa;
+    --dark: #212529;
+}
+
+.card {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.card-header {
+    border-bottom: none;
+    font-weight: 600;
+}
+
+.table th {
+    font-weight: 600;
+    font-size: 0.85rem;
+    border-top: none;
+}
+
+.table td {
+    font-size: 0.82rem;
+    padding: 0.75rem 0.5rem;
+}
+
+.badge {
+    font-size: 0.7rem;
+    font-weight: 500;
+}
+
+.form-control,
+.form-select {
+    font-size: 0.85rem;
+    border-radius: 8px;
+}
+
+.btn {
+    font-size: 0.8rem;
+    border-radius: 6px;
+}
+
+.metric-card {
+    border-radius: 10px;
+    transition: transform 0.2s;
+}
+
+.metric-card:hover {
+    transform: translateY(-2px);
+}
+
+.border-start {
+    border-left-width: 4px !important;
+}
+
+.progress {
+    height: 6px;
+    border-radius: 3px;
+}
+
+.date-navigator {
+    background: linear-gradient(135deg, #4361ee, #3a0ca3);
+    border-radius: 12px;
+    padding: 1rem;
+}
+
+.date-display {
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.date-display:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+}
+
+.date-modal .modal-content {
+    border-radius: 12px;
+    border: none;
+}
+
+.date-modal .modal-header {
+    background: linear-gradient(135deg, #4361ee, #3a0ca3);
+    color: white;
+    border-radius: 12px 12px 0 0;
+}
+
+.stats-highlight {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-radius: 10px;
+    padding: 1rem;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.dropdown-submenu {
+    animation: slideIn 0.2s ease;
+}
+
+/* ===== UTILITY CLASSES ===== */
+.cursor-pointer {
+    cursor: pointer;
+}
+
+/* ===== RESPONSIVE DESIGN FIXES ===== */
+@media (max-width: 991px) {
+    .sidebar.show::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1049;
+    }
+}
+
+/* ===== 1070x662 SPECIFIC FIXES ===== */
+@media (min-width: 992px) and (max-width: 1199px) {
+
+    /* Header fixes */
+    .header-section {
+        gap: 0.8rem;
+        flex-wrap: wrap;
+        padding: 8px 0;
+    }
+
+    .header-divider {
+        display: none;
+    }
+
+    .company-name {
+        font-size: 18px;
+    }
+
+    .software-code {
+        font-size: 0.75rem;
+    }
+
+    .header .btn-sm {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+    }
+
+    .header .badge {
+        font-size: 0.65rem;
+    }
+
+    /* Stats cards fixes */
+    .stat-card {
+        min-width: 100px;
+        padding: 10px;
+    }
+
+    .stat-card h6 {
+        font-size: 0.8rem;
+    }
+
+    .stat-card small {
+        font-size: 0.7rem;
+    }
+
+    .stat-icon {
+        width: 30px;
+        height: 30px;
+    }
+
+    /* Machine cards fixes */
+    .machine-card {
+        padding: 15px 10px;
+    }
+
+    .machine-card h2 {
+        font-size: 1.8rem;
+    }
+
+    /* Rent summary fixes */
+    .rent-summary .table th,
+    .rent-summary .table td {
+        font-size: 0.75rem;
+        padding: 0.5rem;
+    }
+
+    /* Chart fixes */
+    .chart-container-custom {
+        padding: 15px;
+    }
+
+    .chart-container-custom .d-flex.flex-column.flex-md-row {
+        flex-direction: column !important;
+        gap: 10px;
+    }
+
+    /* Worker cards fixes */
+    .worker-card {
+        padding: 10px;
+    }
+
+    /* Date navigator fixes */
+    .date-navigator {
+        padding: 0.8rem;
+    }
+
+    /* Lead performance table fixes */
+    .table-responsive {
+        font-size: 0.8rem;
+    }
+
+    /* Payment reminder fixes */
+    .payment-reminder-item {
+        padding: 12px;
+    }
+
+    /* Support table fixes */
+    .support-table th,
+    .support-table td {
+        font-size: 0.75rem;
+    }
+
+    /* Layout adjustments */
+    .container-fluid {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .row {
+        margin-left: -5px;
+        margin-right: -5px;
+    }
+
+    .col,
+    .col-1,
+    .col-2,
+    .col-3,
+    .col-4,
+    .col-5,
+    .col-6,
+    .col-7,
+    .col-8,
+    .col-9,
+    .col-10,
+    .col-11,
+    .col-12 {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    /* Stats cards grid */
+    .col-xl {
+        flex: 0 0 auto;
+        width: 16.66666667%;
+    }
+
+    /* Machine cards grid */
+    .col-lg-3 {
+        flex: 0 0 auto;
+        width: 50%;
+    }
+
+    /* Rent summary filter controls */
+    .rent-summary .d-flex.flex-column.flex-sm-row {
+        flex-direction: row !important;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .rent-summary .form-select,
+    .rent-summary .form-control,
+    .rent-summary .btn {
+        flex: 1;
+        min-width: 120px;
+    }
+
+    /* Chart controls */
+    .chart-container-custom .d-flex.flex-column.flex-md-row {
+        flex-direction: column !important;
+        gap: 10px;
+    }
+
+    .chart-container-custom .d-flex.gap-1.gap-sm-2 {
+        justify-content: center;
+    }
+
+    /* Complaint and lead sections */
+    .col-12.col-lg-6 {
+        flex: 0 0 auto;
+        width: 100%;
+    }
+
+    /* Lead, payment, support sections */
+    .col-12.col-lg-4 {
+        flex: 0 0 auto;
+        width: 33.33333333%;
+    }
+}
+
+/* Additional fixes for smaller height */
+@media (min-width: 992px) and (max-width: 1199px) and (max-height: 700px) {
+    .header {
+        padding: 6px 0;
+    }
+
+    .header-section {
+        gap: 0.6rem;
+    }
+
+    .stat-card {
+        padding: 8px;
+    }
+
+    .machine-card {
+        padding: 12px 8px;
+    }
+
+    .machine-card h2 {
+        font-size: 1.6rem;
+    }
+}
+
+/* ===== MOBILE RESPONSIVE FIXES ===== */
+@media (max-width: 767px) {
+
+    /* Header fixes for mobile */
+    .header {
+        padding: 10px 0;
+        position: relative;
+        top: 0;
+        background: white;
+    }
+
+    .header-section {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 0 15px;
+    }
+
+    .company-info {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .header-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .header-buttons .btn {
+        flex: 1;
+        min-width: 120px;
+        font-size: 0.7rem;
+        padding: 6px 8px;
+    }
+
+    .header-buttons .badge {
+        font-size: 0.6rem;
+    }
+
+    .header-user {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .header-divider {
+        display: none;
+    }
+
+    .company-name {
+        font-size: 16px;
+    }
+
+    .software-code {
+        font-size: 0.7rem;
+    }
+
+    /* Stats cards for mobile */
+    .stat-card {
+        min-width: auto;
+        padding: 10px;
+    }
+
+    .stat-card h6 {
+        font-size: 0.75rem;
+    }
+
+    .stat-card small {
+        font-size: 0.65rem;
+    }
+
+    .stat-icon {
+        width: 28px;
+        height: 28px;
+    }
+
+    /* Machine cards for mobile */
+    .machine-card {
+        padding: 12px 8px;
+    }
+
+    .machine-card h2 {
+        font-size: 1.5rem;
+    }
+
+    /* Rent summary for mobile */
+    .rent-summary .d-flex.flex-column.flex-sm-row {
+        flex-direction: column !important;
+        gap: 8px;
+    }
+
+    .rent-summary .form-select,
+    .rent-summary .form-control,
+    .rent-summary .btn {
+        width: 100%;
+    }
+
+    /* Chart for mobile */
+    .chart-container-custom {
+        padding: 12px;
+    }
+
+    .chart-container-custom .d-flex.flex-column.flex-md-row {
+        flex-direction: column !important;
+        gap: 8px;
+    }
+
+    /* Worker cards for mobile */
+    .worker-card {
+        padding: 10px;
+    }
+
+    /* Date navigator for mobile */
+    .date-navigator {
+        padding: 0.8rem;
+    }
+
+    .date-navigator .d-flex {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    /* Lead performance table for mobile */
+    .table-responsive {
+        font-size: 0.75rem;
+    }
+
+    /* Payment reminder for mobile */
+    .payment-reminder-item {
+        padding: 10px;
+    }
+
+    /* Support table for mobile */
+    .support-table th,
+    .support-table td {
+        font-size: 0.7rem;
+    }
+
+    /* Layout adjustments for mobile */
+    .container-fluid {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    .row {
+        margin-left: -4px;
+        margin-right: -4px;
+    }
+
+    .col,
+    .col-1,
+    .col-2,
+    .col-3,
+    .col-4,
+    .col-5,
+    .col-6,
+    .col-7,
+    .col-8,
+    .col-9,
+    .col-10,
+    .col-11,
+    .col-12 {
+        padding-left: 4px;
+        padding-right: 4px;
+    }
+
+    /* Stats cards grid for mobile */
+    .col-xl {
+        flex: 0 0 auto;
+        width: 50%;
+    }
+
+    /* Machine cards grid for mobile */
+    .col-lg-3 {
+        flex: 0 0 auto;
+        width: 100%;
+    }
+
+    /* Complaint and lead sections for mobile */
+    .col-12.col-lg-6 {
+        flex: 0 0 auto;
+        width: 100%;
+    }
+
+    /* Lead, payment, support sections for mobile */
+    .col-12.col-lg-4 {
+        flex: 0 0 auto;
+        width: 100%;
+    }
+}
+
+/* ===== TABLET RESPONSIVE FIXES ===== */
+@media (min-width: 768px) and (max-width: 991px) {
+
+    /* Header fixes for tablet */
+    .header-section {
+        flex-wrap: wrap;
+        gap: 0.8rem;
+    }
+
+    .company-info {
+        flex: 0 0 100%;
+        margin-bottom: 10px;
+    }
+
+    .header-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        flex: 1;
+    }
+
+    .header-user {
+        flex: 0 0 auto;
+    }
+
+    .header-divider {
+        display: none;
+    }
+
+    /* Stats cards for tablet */
+    .col-xl {
+        flex: 0 0 auto;
+        width: 33.333%;
+    }
+
+    /* Machine cards for tablet */
+    .col-lg-3 {
+        flex: 0 0 auto;
+        width: 50%;
+    }
+
+    /* Lead, payment, support sections for tablet */
+    .col-12.col-lg-4 {
+        flex: 0 0 auto;
+        width: 50%;
+    }
+}
+
+/* ===== FIX FOR HEADER SHAKING ===== */
+.header {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000;
+}
+
+/* Notification Modal Styles */
+.notification-modal .modal-dialog {
+    max-width: 500px;
+}
+
+.notification-modal .modal-header {
+    background: linear-gradient(135deg, #4361ee, #3a0ca3);
+    color: white;
+}
+
+.notification-modal .modal-body img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+}

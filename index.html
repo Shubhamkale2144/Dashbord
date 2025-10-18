@@ -1,0 +1,2713 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REVA TECH Dashboard</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- Bootstrap 5 CSS -->
+    <link href="style.css" rel="stylesheet">
+
+</head>
+
+<body>
+     <!-- Mobile Menu Toggle Button -->
+    <button class="mobile-menu-toggle" id="mobileMenuToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Mobile Sidebar Backdrop -->
+    <div class="mobile-sidebar-backdrop" id="mobileSidebarBackdrop"></div>
+
+    <!-- Mobile Sidebar -->
+    <aside class="mobile-sidebar" id="mobileSidebar">
+        <div class="mobile-sidebar-header">
+            <h1 class="fs-4 fw-semibold text-dark">REVA TECH</h1>
+            <button class="btn-close" id="closeMobileSidebar"></button>
+        </div>
+        <div class="mobile-sidebar-content">
+            <!-- Copy your sidebar navigation content here -->
+            <nav class="d-flex flex-column gap-2">
+                <!-- Dashboard -->
+                <a href="#"
+                    class="menu-item text-decoration-none d-flex align-items-center gap-3 p-3 rounded text-muted fw-medium active bg-primary text-white shadow">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+
+                <!-- Purchase with dropdown -->
+                <div class="nav-item position-relative">
+                    <a href="#"
+                        class="menu-item has-dropdown text-decoration-none d-flex align-items-center gap-3 p-3 rounded text-muted fw-medium">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>Purchase</span>
+                        <span class="ms-auto">›</span>
+                    </a>
+                    <ul class="dropdown-submenu bg-white rounded shadow p-2">
+                        <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                href="#">Purchase Orders</a></li>
+                        <li class="position-relative">
+                            <a class="dropdown-item has-submenu text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                href="#">
+                                Vendor Management
+                                <span class="ms-auto">›</span>
+                            </a>
+                            <ul class="dropdown-submenu bg-white rounded shadow p-2">
+                                <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                        href="#">Add Vendor</a></li>
+                                <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                        href="#">Vendor List</a></li>
+                                <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                        href="#">Vendor Payments</a></li>
+                                <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                        href="#">Vendor History</a></li>
+                            </ul>
+                        </li>
+                        <li class="position-relative">
+                            <a class="dropdown-item has-submenu text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                href="#">
+                                Inventory
+                                <span class="ms-auto">›</span>
+                            </a>
+                            <ul class="dropdown-submenu bg-white rounded shadow p-2">
+                                <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                        href="#">Stock Update</a></li>
+                                <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                        href="#">Stock Alerts</a></li>
+                                <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                        href="#">Inventory Report</a></li>
+                                <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                        href="#">Stock Transfer</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Accounting with dropdown -->
+                <div class="nav-item position-relative">
+                    <a href="#"
+                        class="menu-item has-dropdown text-decoration-none d-flex align-items-center gap-3 p-3 rounded text-muted fw-medium">
+                        <i class="fas fa-calculator"></i>
+                        <span>Accounting</span>
+                        <span class="ms-auto">›</span>
+                    </a>
+                    <ul class="dropdown-submenu bg-white rounded shadow p-2">
+                        <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                href="#">General Ledger</a></li>
+                        <li class="position-relative">
+                            <a class="dropdown-item has-submenu text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                href="#">
+                                Accounts Payable
+                                <span class="ms-auto">›</span>
+                            </a>
+                            <ul class="dropdown-submenu bg-white rounded shadow p-2">
+                                <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                        href="#">Payment Processing</a></li>
+                                <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                        href="#">Vendor Payments</a></li>
+                            </ul>
+                        </li>
+                        <li class="position-relative">
+                            <a class="dropdown-item has-submenu text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                href="#">
+                                Accounts Receivable
+                                <span class="ms-auto">›</span>
+                            </a>
+                            <ul class="dropdown-submenu bg-white rounded shadow p-2">
+                                <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                        href="#">Invoice Tracking</a></li>
+                                <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                        href="#">Customer Payments</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                  <!-- sales report with dropdown -->
+                <div class="nav-item position-relative">
+                    <a href="#"
+                        class="menu-item has-dropdown text-decoration-none d-flex align-items-center gap-3 p-3 rounded text-muted fw-medium">
+                        <i class="fas fa-calculator"></i>
+                        <span>Sales Report</span>
+                        <span class="ms-auto">›</span>
+                    </a>
+                    <ul class="dropdown-submenu bg-white rounded shadow p-2">
+                        <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                href="#">Daily sales</a></li>
+                        <li class="position-relative">
+                            <a class="dropdown-item has-submenu text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                href="#">
+                               >monthly report
+                                <span class="ms-auto">›</span>
+                            </a>
+                            <ul class="dropdown-submenu bg-white rounded shadow p-2">
+                                <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                        href="#">Rvenue anylsis</a></li>
+                                <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                        href="#">sales trend</a></li>
+                            </ul>
+                        </li>
+                        <li class="position-relative">
+                            <a class="dropdown-item has-submenu text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                href="#">
+                               Customer report
+                                <span class="ms-auto">›</span>
+                            </a>
+                            <ul class="dropdown-submenu bg-white rounded shadow p-2">
+                                <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                        href="#">Top customer</a></li>
+                                <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                        href="#">Customer segment</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                   <!-- Stocking     with dropdown -->
+                <div class="nav-item position-relative">
+                    <a href="#"
+                        class="menu-item has-dropdown text-decoration-none d-flex align-items-center gap-3 p-3 rounded text-muted fw-medium">
+                        <i class="fas fa-calculator"></i>
+                        <span>Stocking</span>
+                        <span class="ms-auto">›</span>
+                    </a>
+                    <ul class="dropdown-submenu bg-white rounded shadow p-2">
+                        <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                href="#">Stock level</a></li>
+                        <li class="position-relative">
+                            <a class="dropdown-item has-submenu text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                href="#">
+                               >Inventory check
+                                <span class="ms-auto">›</span>
+                            </a>
+                            <ul class="dropdown-submenu bg-white rounded shadow p-2">
+                                <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                        href="#">Stock count</a></li>
+                                <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                        href="#">Invenory audit</a></li>
+                            </ul>
+                        </li>
+                        <li class="position-relative">
+                            <a class="dropdown-item has-submenu text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                href="#">
+                              warerhouse
+                                <span class="ms-auto">›</span>
+                            </a>
+                            <ul class="dropdown-submenu bg-white rounded shadow p-2">
+                                <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                        href="#">Location managment</a></li>
+                                <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                        href="#">warehounse layout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+              
+
+                <!-- Sign Out -->
+                <a href="#"
+                    class="menu-item text-decoration-none d-flex align-items-center gap-3 p-3 rounded text-muted fw-medium">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Sign Out</span>
+                </a>
+            </nav>
+        </div>
+    </aside>
+    <!-- Sidebar -->
+    <aside class="sidebar bg-white position-fixed vh-100 overflow-y-auto shadow" id="sidebar">
+        <div class="d-flex justify-content-between align-items-center mb-5">
+            <h1 class="fs-4 fw-semibold text-dark">REVA TECH</h1>
+            <div class="close-sidebar d-lg-none text-muted cursor-pointer" id="closeSidebar">
+                <i class="fas fa-times fs-5"></i>
+            </div>
+        </div>
+
+        <nav class="d-flex flex-column gap-2">
+            <!-- Dashboard -->
+            <a href="#"
+                class="menu-item text-decoration-none d-flex align-items-center gap-3 p-3 rounded text-muted fw-medium active bg-primary text-white shadow">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <!-- Purchase with dropdown -->
+            <div class="nav-item position-relative">
+                <a href="#"
+                    class="menu-item has-dropdown text-decoration-none d-flex align-items-center gap-3 p-3 rounded text-muted fw-medium">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Purchase</span>
+                    <span class="ms-auto">›</span>
+                </a>
+                <ul class="dropdown-submenu bg-white rounded shadow p-2">
+                    <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                            href="#">Purchase Orders</a></li>
+                    <li class="position-relative">
+                        <a class="dropdown-item has-submenu text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                            href="#">
+                            Vendor Management
+                            <span class="ms-auto">›</span>
+                        </a>
+                        <ul class="dropdown-submenu bg-white rounded shadow p-2">
+                            <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                    href="#">Add Vendor</a></li>
+                            <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                    href="#">Vendor List</a></li>
+                            <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                    href="#">Vendor Payments</a></li>
+                            <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                    href="#">Vendor History</a></li>
+                        </ul>
+                    </li>
+                    <li class="position-relative">
+                        <a class="dropdown-item has-submenu text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                            href="#">
+                            Inventory
+                            <span class="ms-auto">›</span>
+                        </a>
+                        <ul class="dropdown-submenu bg-white rounded shadow p-2">
+                            <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                    href="#">Stock Update</a></li>
+                            <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                    href="#">Stock Alerts</a></li>
+                            <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                    href="#">Inventory Report</a></li>
+                            <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                    href="#">Stock Transfer</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Accounting with dropdown -->
+            <div class="nav-item position-relative">
+                <a href="#"
+                    class="menu-item has-dropdown text-decoration-none d-flex align-items-center gap-3 p-3 rounded text-muted fw-medium">
+                    <i class="fas fa-calculator"></i>
+                    <span>Accounting</span>
+                    <span class="ms-auto">›</span>
+                </a>
+                <ul class="dropdown-submenu bg-white rounded shadow p-2">
+                    <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                            href="#">General Ledger</a></li>
+                    <li class="position-relative">
+                        <a class="dropdown-item has-submenu text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                            href="#">
+                            Accounts Payable
+                            <span class="ms-auto">›</span>
+                        </a>
+                        <ul class="dropdown-submenu bg-white rounded shadow p-2">
+                            <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                    href="#">Payment Processing</a></li>
+                            <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                    href="#">Vendor Payments</a></li>
+                        </ul>
+                    </li>
+                    <li class="position-relative">
+                        <a class="dropdown-item has-submenu text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                            href="#">
+                            Accounts Receivable
+                            <span class="ms-auto">›</span>
+                        </a>
+                        <ul class="dropdown-submenu bg-white rounded shadow p-2">
+                            <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                    href="#">Invoice Tracking</a></li>
+                            <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                    href="#">Customer Payments</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Sales Report with dropdown -->
+            <div class="nav-item position-relative">
+                <a href="#"
+                    class="menu-item has-dropdown text-decoration-none d-flex align-items-center gap-3 p-3 rounded text-muted fw-medium">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Sales Report</span>
+                    <span class="ms-auto">›</span>
+                </a>
+                <ul class="dropdown-submenu bg-white rounded shadow p-2">
+                    <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                            href="#">Daily Sales</a></li>
+                    <li class="position-relative">
+                        <a class="dropdown-item has-submenu text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                            href="#">
+                            Monthly Report
+                            <span class="ms-auto">›</span>
+                        </a>
+                        <ul class="dropdown-submenu bg-white rounded shadow p-2">
+                            <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                    href="#">Revenue Analysis</a></li>
+                            <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                    href="#">Sales Trends</a></li>
+                        </ul>
+                    </li>
+                    <li class="position-relative">
+                        <a class="dropdown-item has-submenu text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                            href="#">
+                            Customer Report
+                            <span class="ms-auto">›</span>
+                        </a>
+                        <ul class="dropdown-submenu bg-white rounded shadow p-2">
+                            <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                    href="#">Top Customers</a></li>
+                            <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                    href="#">Customer Segmentation</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Stocking with dropdown -->
+            <div class="nav-item position-relative">
+                <a href="#"
+                    class="menu-item has-dropdown text-decoration-none d-flex align-items-center gap-3 p-3 rounded text-muted fw-medium">
+                    <i class="fas fa-boxes"></i>
+                    <span>Stocking</span>
+                    <span class="ms-auto">›</span>
+                </a>
+                <ul class="dropdown-submenu bg-white rounded shadow p-2">
+                    <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                            href="#">Stock Levels</a></li>
+                    <li class="position-relative">
+                        <a class="dropdown-item has-submenu text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                            href="#">
+                            Inventory Check
+                            <span class="ms-auto">›</span>
+                        </a>
+                        <ul class="dropdown-submenu bg-white rounded shadow p-2">
+                            <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                    href="#">Stock Count</a></li>
+                            <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                    href="#">Inventory Audit</a></li>
+                        </ul>
+                    </li>
+                    <li class="position-relative">
+                        <a class="dropdown-item has-submenu text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                            href="#">
+                            Warehouse
+                            <span class="ms-auto">›</span>
+                        </a>
+                        <ul class="dropdown-submenu bg-white rounded shadow p-2">
+                            <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                    href="#">Location Management</a></li>
+                            <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                    href="#">Warehouse Layout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Admin with dropdown -->
+            <div class="nav-item position-relative">
+                <a href="#"
+                    class="menu-item has-dropdown text-decoration-none d-flex align-items-center gap-3 p-3 rounded text-muted fw-medium">
+                    <i class="fas fa-cogs"></i>
+                    <span>Admin</span>
+                    <span class="ms-auto">›</span>
+                </a>
+                <ul class="dropdown-submenu bg-white rounded shadow p-2">
+                    <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                            href="#">User Management</a></li>
+                    <li class="position-relative">
+                        <a class="dropdown-item has-submenu text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                            href="#">
+                            Permissions
+                            <span class="ms-auto">›</span>
+                        </a>
+                        <ul class="dropdown-submenu bg-white rounded shadow p-2">
+                            <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                    href="#">Role Settings</a></li>
+                            <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                    href="#">Access Control</a></li>
+                        </ul>
+                    </li>
+                    <li class="position-relative">
+                        <a class="dropdown-item has-submenu text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                            href="#">
+                            Settings
+                            <span class="ms-auto">›</span>
+                        </a>
+                        <ul class="dropdown-submenu bg-white rounded shadow p-2">
+                            <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                    href="#">System Config</a></li>
+                            <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                    href="#">Preferences</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Quality with dropdown -->
+            <div class="nav-item position-relative">
+                <a href="#"
+                    class="menu-item has-dropdown text-decoration-none d-flex align-items-center gap-3 p-3 rounded text-muted fw-medium">
+                    <i class="fas fa-award"></i>
+                    <span>Quality</span>
+                    <span class="ms-auto">›</span>
+                </a>
+                <ul class="dropdown-submenu bg-white rounded shadow p-2">
+                    <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                            href="#">QC Checks</a></li>
+                    <li class="position-relative">
+                        <a class="dropdown-item has-submenu text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                            href="#">
+                            Standards
+                            <span class="ms-auto">›</span>
+                        </a>
+                        <ul class="dropdown-submenu bg-white rounded shadow p-2">
+                            <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                    href="#">Quality Metrics</a></li>
+                            <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                    href="#">Compliance Standards</a></li>
+                        </ul>
+                    </li>
+                    <li class="position-relative">
+                        <a class="dropdown-item has-submenu text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                            href="#">
+                            Compliance
+                            <span class="ms-auto">›</span>
+                        </a>
+                        <ul class="dropdown-submenu bg-white rounded shadow p-2">
+                            <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                    href="#">Audit Reports</a></li>
+                            <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                    href="#">Regulatory Compliance</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Diesel entry with dropdown -->
+            <div class="nav-item position-relative">
+                <a href="#"
+                    class="menu-item has-dropdown text-decoration-none d-flex align-items-center gap-3 p-3 rounded text-muted fw-medium">
+                    <i class="fas fa-gas-pump"></i>
+                    <span>Diesel entry</span>
+                    <span class="ms-auto">›</span>
+                </a>
+                <ul class="dropdown-submenu bg-white rounded shadow p-2">
+                    <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                            href="#">Fuel Log</a></li>
+                    <li class="position-relative">
+                        <a class="dropdown-item has-submenu text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                            href="#">
+                            Consumption
+                            <span class="ms-auto">›</span>
+                        </a>
+                        <ul class="dropdown-submenu bg-white rounded shadow p-2">
+                            <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                    href="#">Usage Report</a></li>
+                            <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                    href="#">Efficiency Analysis</a></li>
+                        </ul>
+                    </li>
+                    <li class="position-relative">
+                        <a class="dropdown-item has-submenu text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                            href="#">
+                            Inventory
+                            <span class="ms-auto">›</span>
+                        </a>
+                        <ul class="dropdown-submenu bg-white rounded shadow p-2">
+                            <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                    href="#">Stock Level</a></li>
+                            <li><a class="dropdown-item text-decoration-none d-flex align-items-center p-2 rounded text-muted"
+                                    href="#">Reorder Points</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Help -->
+            <a href="#"
+                class="menu-item text-decoration-none d-flex align-items-center gap-3 p-3 rounded text-muted fw-medium">
+                <i class="fas fa-question-circle"></i>
+                <span>Help</span>
+            </a>
+
+            <!-- Sign Out -->
+            <a href="#"
+                class="menu-item text-decoration-none d-flex align-items-center gap-3 p-3 rounded text-muted fw-medium">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Sign Out</span>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+        <!-- Header -->
+        <header class="header bg-white py-2">
+            <div class="container-fluid">
+                <div class="header-section">
+                    <!-- Company Info -->
+                    <div class="company-info">
+                        <div class="d-flex align-items-center">
+                            <div class="me-3">
+                                <i class="fas fa-industry fa-2x text-primary"></i>
+                            </div>
+                            <div>
+                                <h1 class="company-name mb-0 fs-4 fw-bold text-dark">KOLOKHE PIPES</h1>
+                                <p class="software-code mb-0 text-muted small">
+                                    <i class="fas fa-code me-1"></i>Software code-09
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Due Days & Expiry -->
+                    <div class="d-flex gap-4">
+                        <div class="text-center">
+                            <small class="text-muted d-block fw-medium">
+                                <i class="fas fa-calendar-day me-1"></i>Due Days
+                            </small>
+                            <strong class="text-success fs-6">046 Days</strong>
+                        </div>
+                        <div class="text-center">
+                            <small class="text-muted d-block fw-medium">
+                                <i class="fas fa-clock me-1"></i>Expiry Date
+                            </small>
+                            <strong class="text-dark fs-6">09/02/2027</strong>
+                        </div>
+                    </div>
+
+                    <!-- Buttons Group -->
+                    <div class="header-buttons">
+                        <button class="btn btn-outline-primary btn-sm px-2">
+                            <span class="badge bg-primary text-white me-2">08</span>
+                            Sales Order
+                        </button>
+
+                        <a href="stockremainder.html">
+                            <button class="btn btn-outline-warning btn-sm px-1">
+                                <span class="badge bg-warning text-dark me-2">08</span>
+                                Stock Reminder
+                            </button>
+                        </a>
+
+                        <a href="Complaint.html">
+                            <button class="btn btn-outline-danger btn-sm px-1">
+                                <span class="badge bg-danger text-white me-2">22</span>
+                                Compliant
+                            </button>
+                        </a>
+
+
+                        <button class="btn btn-success btn-sm px-2" data-bs-toggle="modal"
+                            data-bs-target="#phoneCallModal">
+                            <i class="fas fa-phone me-1"></i> Call
+                        </button>
+                    </div>
+
+                    <!-- Notification Bell -->
+
+                    <div class="position-relative" onclick="navigateToRemainder()">
+                        <button class="btn btn-light btn-sm position-relative" id="notificationBell1">
+                            <i class="fas fa-bell text-dark"></i>
+                            <span
+                                class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-2 border-white rounded-circle">
+                                <span class="visually-hidden">Notifications</span>
+                            </span>
+                        </button>
+                    </div>
+
+                    <!-- User Profile -->
+                    <!-- User Header Section -->
+                    <div class="header-user">
+                        <div class="d-flex align-items-center gap-2 dropdown">
+                            <a href="#" class="d-flex align-items-center gap-2 text-decoration-none dropdown-toggle"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="https://ui-avatars.com/api/?name=Sandeep&background=615EF0&color=fff&size=40&bold=true"
+                                    alt="User" class="rounded-circle border border-3 border-primary" width="42"
+                                    height="42">
+                                <div class="d-none d-md-block">
+                                    <div class="fw-bold text-dark">Sandeep</div>
+                                    <small class="text-muted">
+                                        <i class="fas fa-shield-alt me-1"></i>Admin
+                                    </small>
+                                </div>
+
+                            </a>
+
+                            <!-- Dropdown Menu -->
+                            <ul class="dropdown-menu dropdown-menu-end shadow border-0" style="min-width: 280px;">
+                                <!-- User Info -->
+                                <li>
+                                    <div class="dropdown-header">
+                                        <div class="d-flex align-items-center gap-3">
+                                            <img src="https://ui-avatars.com/api/?name=Sandeep&background=615EF0&color=fff&size=50&bold=true"
+                                                alt="User" class="rounded-circle border border-2 border-primary"
+                                                width="50" height="50">
+                                            <div>
+                                                <h6 class="fw-bold mb-0">Sandeep</h6>
+                                                <small class="text-muted">
+                                                    <i class="fas fa-shield-alt me-1"></i>Administrator
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+
+                                <!-- Profile Actions -->
+                                <li>
+                                    <a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                        data-bs-target="#userProfileModal">
+                                        <i class="fas fa-user-edit me-2 text-primary"></i>Update Profile
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                        data-bs-target="#changePasswordModal">
+                                        <i class="fas fa-key me-2 text-warning"></i>Change Password
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                        data-bs-target="#viewCredentialsModal">
+                                        <i class="fas fa-eye me-2 text-info"></i>View Credentials
+                                    </a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li>
+                                    <a class="dropdown-item text-danger" href="#">
+                                        <i class="fas fa-sign-out-alt me-2"></i>Logout
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+        </header>
+
+        <!-- Stats Cards -->
+        <section class="py-3">
+            <div class="container-fluid px-2 px-sm-3">
+                <div class="row g-2 g-sm-3">
+                    <!-- Revenue Card -->
+                    <div class="col-6 col-sm-4 col-md-3 col-lg-2 col-xl">
+                        <div
+                            class="stat-card bg-white p-2 rounded-3 border border-light-subtle shadow-sm d-flex align-items-center gap-2 h-100">
+                            <div
+                                class="stat-icon bg-light rounded-2 d-flex align-items-center justify-content-center flex-shrink-0">
+                                <i class="fas fa-chart-line fs-6 text-primary"></i>
+                            </div>
+                            <div class="flex-grow-1 min-w-0">
+                                <small class="text-muted d-block">Revenue</small>
+                                <h6 class="mb-0 fw-bold text-truncate">$3,21,91,250</h6>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Expenses Card -->
+                    <div class="col-6 col-sm-4 col-md-3 col-lg-2 col-xl">
+                        <div
+                            class="stat-card bg-white p-2 rounded-3 border border-light-subtle shadow-sm d-flex align-items-center gap-2 h-100">
+                            <div
+                                class="stat-icon bg-light rounded-2 d-flex align-items-center justify-content-center flex-shrink-0">
+                                <i class="fa-regular fa-credit-card fs-6 text-danger"></i>
+                            </div>
+                            <div class="flex-grow-1 min-w-0">
+                                <small class="text-muted d-block">Expenses</small>
+                                <h6 class="mb-0 fw-bold text-truncate">$3,21,91,250</h6>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Profit Card -->
+                    <div class="col-6 col-sm-4 col-md-3 col-lg-2 col-xl">
+                        <div
+                            class="stat-card bg-white p-2 rounded-3 border border-light-subtle shadow-sm d-flex align-items-center gap-2 h-100">
+                            <div
+                                class="stat-icon bg-light rounded-2 d-flex align-items-center justify-content-center flex-shrink-0">
+                                <i class="fas fa-money-bill-wave fs-6 text-success"></i>
+                            </div>
+                            <div class="flex-grow-1 min-w-0">
+                                <small class="text-muted d-block">Profit</small>
+                                <h6 class="mb-0 fw-bold text-truncate">$3,21,91,250</h6>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Total Customers Card -->
+                    <div class="col-6 col-sm-4 col-md-3 col-lg-2 col-xl">
+                        <div class="stat-card bg-white p-2 rounded-3 border border-light-subtle shadow-sm d-flex align-items-center gap-2 h-100"
+                            onclick="navigateToCustomer()">
+                            <div
+                                class="stat-icon gradient-bg rounded-2 d-flex align-items-center justify-content-center flex-shrink-0">
+                                <i class="fas fa-users fs-6 text-white"></i>
+                            </div>
+                            <div class="flex-grow-1 min-w-0">
+                                <small class="text-muted d-block">Total Customers</small>
+                                <h6 class="mb-0 fw-bold text-truncate">1,250</h6>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <!-- Total Supplier Card -->
+                    <div class="col-6 col-sm-4 col-md-3 col-lg-2 col-xl">
+                        <div class="stat-card bg-white p-2 rounded-3 border border-light-subtle shadow-sm d-flex align-items-center gap-2 h-100"
+                            onclick="navigateTosupplier()">
+                            <div
+                                class="stat-icon bg-light rounded-2 d-flex align-items-center justify-content-center flex-shrink-0">
+                                <i class="fas fa-truck fs-6 text-warning"></i>
+                            </div>
+                            <div class="flex-grow-1 min-w-0">
+                                <small class="text-muted d-block">Total Supplier</small>
+                                <h6 class="mb-0 fw-bold text-truncate">120</h6>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Diesel Expense Card -->
+                    <div class="col-6 col-sm-4 col-md-3 col-lg-2 col-xl">
+                        <div class="stat-card bg-white p-2 rounded-3 border border-light-subtle shadow-sm d-flex align-items-center gap-2 h-100"
+                            onclick="navigateToDisel()">
+                            <div
+                                class="stat-icon bg-light rounded-2 d-flex align-items-center justify-content-center flex-shrink-0">
+                                <i class="fas fa-gas-pump fs-6 text-secondary"></i>
+                            </div>
+                            <div class="flex-grow-1 min-w-0">
+                                <small class="text-muted d-block">Diesel Expense</small>
+                                <h6 class="mb-0 fw-bold text-truncate">$12,450</h6>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Total Workers Card -->
+                    <div class="col-6 col-sm-4 col-md-3 col-lg-2 col-xl">
+                        <div class="stat-card workers-card p-2 rounded-3 text-white d-flex align-items-center justify-content-between h-100"
+                            onclick="navigateToContact()">
+                            <div class="flex-grow-1 min-w-0">
+                                <small class="text-white-50 d-block">Total workers</small>
+                                <h6 class="mb-0 fw-bold text-truncate">153</h6>
+                            </div>
+                            <div class="d-flex flex-shrink-0 ms-1 ms-sm-2">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=30&h=30&fit=crop"
+                                    class="rounded-circle border border-2 border-white" width="16" height="16"
+                                    alt="Worker">
+                                <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=30&h=30&fit=crop"
+                                    class="rounded-circle border border-2 border-white ms-n1" width="16" height="16"
+                                    alt="Worker">
+                                <div class="rounded-circle bg-white bg-opacity-25 border border-2 border-white ms-n1 d-flex align-items-center justify-content-center"
+                                    style="width: 16px; height: 16px;">
+                                    <small class="text-white fw-bold" style="font-size: 0.4rem;">18+</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dashboard Content -->
+        <div class="container-fluid px-3 px-md-4 py-3">
+            <div class="row g-3">
+                <!-- Left Column -->
+                <div class="col-lg-8">
+                    <!-- Machine Stats -->
+                    <section class="mb-4">
+                        <h4 class="mb-3"><i class="fas fa-server me-2"></i>Machine Status</h4>
+                        <div class="row g-3">
+                            <!-- Total Machines Card -->
+                            <div class="col-12 col-sm-6 col-lg-3">
+                                <div class="machine-card total-machine bg-white text-center p-3 p-md-4 shadow-sm rounded-3 h-100 border-start border-success border-4 position-relative overflow-hidden transition-all
+                                    " onclick="navigateToMachine()">
+                                    <div class="mb-2">
+                                        <i class="fas fa-cubes fa-2x text-success mb-2"></i>
+                                        <h6 class="fw-semibold mb-2">Total Machines</h6>
+                                    </div>
+                                    <h2 class="display-6 fw-bold text-dark mb-3">5045</h2>
+                                    <a href="#" class="text-decoration-none small fw-medium text-primary">
+                                        View entire list <i class="fas fa-arrow-right ms-1"></i>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Live Machine Card -->
+                            <div class="col-12 col-sm-6 col-lg-3">
+                                <div
+                                    class="machine-card live-machine bg-white text-center p-3 p-md-4 shadow-sm rounded-3 h-100 border-start border-danger border-4 position-relative overflow-hidden transition-all">
+                                    <div class="mb-2">
+                                        <i class="fas fa-play-circle fa-2x text-danger mb-2"></i>
+                                        <h6 class="fw-semibold mb-2">Live Machine</h6>
+                                    </div>
+                                    <h2 class="display-6 fw-bold text-dark mb-3">1045</h2>
+                                    <a href="#" class="text-decoration-none small fw-medium text-primary">
+                                        View entire list <i class="fas fa-arrow-right ms-1"></i>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Stock Machine Card -->
+                            <div class="col-12 col-sm-6 col-lg-3">
+                                <div
+                                    class="machine-card stock-machine bg-white text-center p-3 p-md-4 shadow-sm rounded-3 h-100 border-start border-warning border-4 position-relative overflow-hidden transition-all">
+                                    <div class="mb-2">
+                                        <i class="fas fa-boxes fa-2x text-warning mb-2"></i>
+                                        <h6 class="fw-semibold mb-2">Stock Machine</h6>
+                                    </div>
+                                    <h2 class="display-6 fw-bold text-dark mb-3">4045</h2>
+                                    <a href="#" class="text-decoration-none small fw-medium text-primary">
+                                        View entire list <i class="fas fa-arrow-right ms-1"></i>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Break Down Machine Card -->
+                            <div class="col-12 col-sm-6 col-lg-3">
+                                <div
+                                    class="machine-card breakdown-machine bg-white text-center p-3 p-md-4 shadow-sm rounded-3 h-100 border-start border-purple border-4 position-relative overflow-hidden transition-all">
+                                    <div class="mb-2">
+                                        <i class="fas fa-exclamation-triangle fa-2x text-purple mb-2"></i>
+                                        <h6 class="fw-semibold mb-2">Break Down Machine</h6>
+                                    </div>
+                                    <h2 class="display-6 fw-bold text-dark mb-3">75</h2>
+                                    <a href="#" class="text-decoration-none small fw-medium text-primary">
+                                        View entire list <i class="fas fa-arrow-right ms-1"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+
+                    <!-- Rent Summary -->
+                    <section class="bg-white p-3 p-md-4 rounded-3 shadow-lg mb-4 border-0 rent-summary">
+                        <!-- Header Section -->
+                        <div
+                            class="d-flex justify-content-between align-items-start align-items-md-center flex-column flex-md-row mb-3 mb-md-4">
+                            <h4 class="text-primary fw-bold mb-3 mb-md-0 fs-5 fs-md-4">
+                                <i class="fas fa-file-invoice-dollar me-2"></i>Rent Summary
+                            </h4>
+
+                            <!-- Improved Responsive Filter -->
+                            <div class="w-100 w-md-auto">
+                                <div class="row g-2 align-items-end">
+                                    <div class="col-12 col-sm-6 col-md-4">
+                                        <select class="form-select form-select-sm border-primary shadow-sm">
+                                            <option>Rent Type</option>
+                                            <option>Monthly</option>
+                                            <option>Quarterly</option>
+                                            <option>Yearly with special conditions</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12 col-sm-6 col-md-4">
+                                        <input type="date" class="form-control form-control-sm border-primary shadow-sm"
+                                            value="2025-11-02">
+                                    </div>
+                                    <div class="col-12 col-sm-6 col-md-2">
+                                        <button class="btn btn-primary btn-sm shadow-sm w-100">
+                                            <i class="fas fa-filter me-1"></i>Filter
+                                        </button>
+                                    </div>
+                                    <div class="col-12 col-sm-6 col-md-2">
+                                        <button class="btn btn-secondary btn-sm shadow-sm w-100">
+                                            Check
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Desktop Table View -->
+                        <div class="d-none d-md-block">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-borderless align-middle mb-0">
+                                    <thead class="table-light border-bottom">
+                                        <tr>
+                                            <th class="text-primary border-0 py-3">ID</th>
+                                            <th class="text-primary border-0 py-3">Units</th>
+                                            <th class="text-primary border-0 py-3">Tenant</th>
+                                            <th class="text-primary border-0 py-3">Days Left</th>
+                                            <th class="text-primary border-0 py-3">Amount Due</th>
+                                            <th class="text-primary border-0 py-3">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="border-bottom">
+                                            <td class="fw-semibold">01</td>
+                                            <td><span class="badge bg-primary rounded-pill px-3 py-2">45</span></td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <img src="https://ui-avatars.com/api/?name=Abhishek&background=615EF0&color=fff"
+                                                        class="rounded-circle me-2 shadow-sm" width="35" height="35"
+                                                        alt="Abhishek">
+                                                    <span class="fw-semibold">Abhishek</span>
+                                                </div>
+                                            </td>
+                                            <td><span class="badge bg-dark text-white px-3 py-2">11</span></td>
+                                            <td class="fw-bold text-success">$ 12,335.44</td>
+                                            <td>
+                                                <button class="btn btn-primary btn-sm rounded-pill px-3 shadow-sm">
+                                                    <i class="fas fa-eye me-1"></i>Details
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr class="border-bottom">
+                                            <td class="fw-semibold">02</td>
+                                            <td><span class="badge bg-primary rounded-pill px-3 py-2">50</span></td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <img src="https://ui-avatars.com/api/?name=Vijay&background=615EF0&color=fff"
+                                                        class="rounded-circle me-2 shadow-sm" width="35" height="35"
+                                                        alt="Vijay">
+                                                    <span class="fw-semibold">Vijay</span>
+                                                </div>
+                                            </td>
+                                            <td><span class="badge bg-dark text-white px-3 py-2">17</span></td>
+                                            <td class="fw-bold text-success">$ 67,432.44</td>
+                                            <td>
+                                                <button class="btn btn-primary btn-sm rounded-pill px-3 shadow-sm">
+                                                    <i class="fas fa-eye me-1"></i>Details
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr class="border-bottom">
+                                            <td class="fw-semibold">03</td>
+                                            <td><span class="badge bg-primary rounded-pill px-3 py-2">40</span></td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <img src="https://ui-avatars.com/api/?name=ABHISHEK&background=615EF0&color=fff"
+                                                        class="rounded-circle me-2 shadow-sm" width="35" height="35"
+                                                        alt="Vijay">
+                                                    <span class="fw-semibold">Abhishek</span>
+                                                </div>
+                                            </td>
+                                            <td><span class="badge bg-dark text-white px-3 py-2">55</span></td>
+                                            <td class="fw-bold text-success">$ 37,432.44</td>
+                                            <td>
+                                                <button class="btn btn-primary btn-sm rounded-pill px-3 shadow-sm">
+                                                    <i class="fas fa-eye me-1"></i>Details
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr class="border-bottom">
+                                            <td class="fw-semibold">04</td>
+                                            <td><span class="badge bg-primary rounded-pill px-3 py-2">20</span></td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <img src="https://ui-avatars.com/api/?name=MAyur&background=615EF0&color=fff"
+                                                        class="rounded-circle me-2 shadow-sm" width="35" height="35"
+                                                        alt="Vijay">
+                                                    <span class="fw-semibold">mayur</span>
+                                                </div>
+                                            </td>
+                                            <td><span class="badge bg-dark text-white px-3 py-2">127</span></td>
+                                            <td class="fw-bold text-success">$ 31,122.44</td>
+                                            <td>
+                                                <button class="btn btn-primary btn-sm rounded-pill px-3 shadow-sm">
+                                                    <i class="fas fa-eye me-1"></i>Details
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr class="border-bottom">
+                                            <td class="fw-semibold">05</td>
+                                            <td><span class="badge bg-primary rounded-pill px-3 py-2">50</span></td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <img src="https://ui-avatars.com/api/?name=Vijay&background=615EF0&color=fff"
+                                                        class="rounded-circle me-2 shadow-sm" width="35" height="35"
+                                                        alt="Vijay">
+                                                    <span class="fw-semibold">Vijay</span>
+                                                </div>
+                                            </td>
+                                            <td><span class="badge bg-dark text-white px-3 py-2">34</span></td>
+                                            <td class="fw-bold text-success">$ 67,432.44</td>
+                                            <td>
+                                                <button class="btn btn-primary btn-sm rounded-pill px-3 shadow-sm">
+                                                    <i class="fas fa-eye me-1"></i>Details
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr class="border-bottom">
+                                            <td class="fw-semibold">06</td>
+                                            <td><span class="badge bg-primary rounded-pill px-3 py-2">12</span></td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <img src="https://ui-avatars.com/api/?name=kshtij&background=615EF0&color=fff"
+                                                        class="rounded-circle me-2 shadow-sm" width="35" height="35"
+                                                        alt="KSHTIJ">
+                                                    <span class="fw-semibold">KSHTIJ</span>
+                                                </div>
+                                            </td>
+                                            <td><span class="badge bg-dark text-white px-3 py-2">21</span></td>
+                                            <td class="fw-bold text-success">$ 34,542.23</td>
+                                            <td>
+                                                <button class="btn btn-primary btn-sm rounded-pill px-3 shadow-sm">
+                                                    <i class="fas fa-eye me-1"></i>Details
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr class="border-bottom">
+                                            <td class="fw-semibold">07</td>
+                                            <td><span class="badge bg-primary rounded-pill px-3 py-2">43</span></td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <img src="https://ui-avatars.com/api/?name=Abhiraj&background=615EF0&color=fff"
+                                                        class="rounded-circle me-2 shadow-sm" width="35" height="35"
+                                                        alt="ABHIRAJ">
+                                                    <span class="fw-semibold">ABHIRAJ</span>
+                                                </div>
+                                            </td>
+                                            <td><span class="badge bg-dark text-white px-3 py-2">54</span></td>
+                                            <td class="fw-bold text-success">$ 78,322.44</td>
+                                            <td>
+                                                <button class="btn btn-primary btn-sm rounded-pill px-3 shadow-sm">
+                                                    <i class="fas fa-eye me-1"></i>Details
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr class="border-bottom">
+                                            <td class="fw-semibold">08</td>
+                                            <td><span class="badge bg-primary rounded-pill px-3 py-2">65</span></td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <img src="https://ui-avatars.com/api/?name=Narayan&background=615EF0&color=fff"
+                                                        class="rounded-circle me-2 shadow-sm" width="35" height="35"
+                                                        alt="NARAYAN">
+                                                    <span class="fw-semibold">NARAYAN</span>
+                                                </div>
+                                            </td>
+                                            <td><span class="badge bg-dark text-white px-3 py-2">23</span></td>
+                                            <td class="fw-bold text-success">$ 67,432.44</td>
+                                            <td>
+                                                <button class="btn btn-primary btn-sm rounded-pill px-3 shadow-sm">
+                                                    <i class="fas fa-eye me-1"></i>Details
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr class="border-bottom">
+                                            <td class="fw-semibold">09</td>
+                                            <td><span class="badge bg-primary rounded-pill px-3 py-2">40</span></td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <img src="https://ui-avatars.com/api/?name=Rahulmishra&background=615EF0&color=fff"
+                                                        class="rounded-circle me-2 shadow-sm" width="35" height="35"
+                                                        alt="Rahul">
+                                                    <span class="fw-semibold">Rahul Mishra</span>
+                                                </div>
+                                            </td>
+                                            <td><span class="badge bg-dark text-white px-3 py-2">02</span></td>
+                                            <td class="fw-bold text-success">$ 67,432.44</td>
+                                            <td>
+                                                <button class="btn btn-primary btn-sm rounded-pill px-3 shadow-sm">
+                                                    <i class="fas fa-eye me-1"></i>Details
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr class="border-bottom">
+                                            <td class="fw-semibold">10</td>
+                                            <td><span class="badge bg-primary rounded-pill px-3 py-2">38</span></td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <img src="https://ui-avatars.com/api/?name=Priya&background=615EF0&color=fff"
+                                                        class="rounded-circle me-2 shadow-sm" width="35" height="35"
+                                                        alt="Priya">
+                                                    <span class="fw-semibold">Priya Sharma</span>
+                                                </div>
+                                            </td>
+                                            <td><span class="badge bg-dark text-white px-3 py-2">05</span></td>
+                                            <td class="fw-bold text-success">$ 23,150.00</td>
+                                            <td>
+                                                <button class="btn btn-primary btn-sm rounded-pill px-3 shadow-sm">
+                                                    <i class="fas fa-eye me-1"></i>Details
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr class="border-bottom">
+                                            <td class="fw-semibold">11</td>
+                                            <td><span class="badge bg-primary rounded-pill px-3 py-2">62</span></td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <img src="https://ui-avatars.com/api/?name=Rahul&background=615EF0&color=fff"
+                                                        class="rounded-circle me-2 shadow-sm" width="35" height="35"
+                                                        alt="Rahul">
+                                                    <span class="fw-semibold">Rahul Kumar</span>
+                                                </div>
+                                            </td>
+                                            <td><span class="badge bg-dark text-white px-3 py-2">22</span></td>
+                                            <td class="fw-bold text-success">$ 45,780.25</td>
+                                            <td>
+                                                <button class="btn btn-primary btn-sm rounded-pill px-3 shadow-sm">
+                                                    <i class="fas fa-eye me-1"></i>Details
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr class="border-bottom">
+                                            <td class="fw-semibold">12</td>
+                                            <td><span class="badge bg-primary rounded-pill px-3 py-2">29</span></td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <img src="https://ui-avatars.com/api/?name=Neha&background=615EF0&color=fff"
+                                                        class="rounded-circle me-2 shadow-sm" width="35" height="35"
+                                                        alt="Neha">
+                                                    <span class="fw-semibold">Neha Patel</span>
+                                                </div>
+                                            </td>
+                                            <td><span class="badge bg-dark text-white px-3 py-2">15</span></td>
+                                            <td class="fw-bold text-success">$ 18,645.75</td>
+                                            <td>
+                                                <button class="btn btn-primary btn-sm rounded-pill px-3 shadow-sm">
+                                                    <i class="fas fa-eye me-1"></i>Details
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Mobile Card View - Simplified Layout -->
+                        <div class="d-md-none">
+                            <div class="row g-2">
+                                <!-- Card 1 -->
+                                <div class="col-12">
+                                    <div class="card border-0 shadow-sm">
+                                        <div class="card-body p-3">
+                                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                                <div class="d-flex align-items-center gap-3">
+                                                    <div class="text-center">
+                                                        <small class="text-muted d-block">SR No</small>
+                                                        <strong class="text-primary fs-6">01</strong>
+                                                    </div>
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <img src="https://ui-avatars.com/api/?name=Abhishek&background=615EF0&color=fff"
+                                                            class="rounded-circle shadow-sm" width="35" height="35"
+                                                            alt="Abhishek">
+                                                        <div>
+                                                            <small class="text-muted d-block">Name</small>
+                                                            <strong class="text-dark fs-6">Abhishek</strong>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex gap-3">
+                                                    <div class="text-center">
+                                                        <small class="text-muted d-block">Units</small>
+                                                        <span class="badge bg-primary rounded-pill px-2">45</span>
+                                                    </div>
+                                                    <div class="text-center">
+                                                        <small class="text-muted d-block">Days</small>
+                                                        <span class="badge bg-dark text-white px-2">11</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="d-flex justify-content-between align-items-center mt-2 pt-2 border-top">
+                                                <div>
+                                                    <small class="text-muted d-block">Amount Due</small>
+                                                    <strong class="text-success fs-6">$ 12,335.44</strong>
+                                                </div>
+                                                <button class="btn btn-primary btn-sm rounded-pill px-3">
+                                                    <i class="fas fa-eye me-1"></i>Details
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Card 2 -->
+                                <div class="col-12">
+                                    <div class="card border-0 shadow-sm">
+                                        <div class="card-body p-3">
+                                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                                <div class="d-flex align-items-center gap-3">
+                                                    <div class="text-center">
+                                                        <small class="text-muted d-block">SR No</small>
+                                                        <strong class="text-primary fs-6">02</strong>
+                                                    </div>
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <img src="https://ui-avatars.com/api/?name=Vijay&background=615EF0&color=fff"
+                                                            class="rounded-circle shadow-sm" width="35" height="35"
+                                                            alt="Vijay">
+                                                        <div>
+                                                            <small class="text-muted d-block">Name</small>
+                                                            <strong class="text-dark fs-6">Vijay</strong>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex gap-3">
+                                                    <div class="text-center">
+                                                        <small class="text-muted d-block">Units</small>
+                                                        <span class="badge bg-primary rounded-pill px-2">50</span>
+                                                    </div>
+                                                    <div class="text-center">
+                                                        <small class="text-muted d-block">Days</small>
+                                                        <span class="badge bg-dark text-white px-2">17</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="d-flex justify-content-between align-items-center mt-2 pt-2 border-top">
+                                                <div>
+                                                    <small class="text-muted d-block">Amount Due</small>
+                                                    <strong class="text-success fs-6">$ 67,432.44</strong>
+                                                </div>
+                                                <button class="btn btn-primary btn-sm rounded-pill px-3">
+                                                    <i class="fas fa-eye me-1"></i>Details
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Card 3 -->
+                                <div class="col-12">
+                                    <div class="card border-0 shadow-sm">
+                                        <div class="card-body p-3">
+                                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                                <div class="d-flex align-items-center gap-3">
+                                                    <div class="text-center">
+                                                        <small class="text-muted d-block">SR No</small>
+                                                        <strong class="text-primary fs-6">03</strong>
+                                                    </div>
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <img src="https://ui-avatars.com/api/?name=Priya&background=615EF0&color=fff"
+                                                            class="rounded-circle shadow-sm" width="35" height="35"
+                                                            alt="Priya">
+                                                        <div>
+                                                            <small class="text-muted d-block">Name</small>
+                                                            <strong class="text-dark fs-6">Priya Sharma</strong>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex gap-3">
+                                                    <div class="text-center">
+                                                        <small class="text-muted d-block">Units</small>
+                                                        <span class="badge bg-primary rounded-pill px-2">38</span>
+                                                    </div>
+                                                    <div class="text-center">
+                                                        <small class="text-muted d-block">Days</small>
+                                                        <span class="badge bg-dark text-white px-2">05</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="d-flex justify-content-between align-items-center mt-2 pt-2 border-top">
+                                                <div>
+                                                    <small class="text-muted d-block">Amount Due</small>
+                                                    <strong class="text-success fs-6">$ 23,150.00</strong>
+                                                </div>
+                                                <button class="btn btn-primary btn-sm rounded-pill px-3">
+                                                    <i class="fas fa-eye me-1"></i>Details
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Card 4 -->
+                                <div class="col-12">
+                                    <div class="card border-0 shadow-sm">
+                                        <div class="card-body p-3">
+                                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                                <div class="d-flex align-items-center gap-3">
+                                                    <div class="text-center">
+                                                        <small class="text-muted d-block">SR No</small>
+                                                        <strong class="text-primary fs-6">04</strong>
+                                                    </div>
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <img src="https://ui-avatars.com/api/?name=Rahul&background=615EF0&color=fff"
+                                                            class="rounded-circle shadow-sm" width="35" height="35"
+                                                            alt="Rahul">
+                                                        <div>
+                                                            <small class="text-muted d-block">Name</small>
+                                                            <strong class="text-dark fs-6">Rahul Kumar</strong>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex gap-3">
+                                                    <div class="text-center">
+                                                        <small class="text-muted d-block">Units</small>
+                                                        <span class="badge bg-primary rounded-pill px-2">62</span>
+                                                    </div>
+                                                    <div class="text-center">
+                                                        <small class="text-muted d-block">Days</small>
+                                                        <span class="badge bg-dark text-white px-2">22</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="d-flex justify-content-between align-items-center mt-2 pt-2 border-top">
+                                                <div>
+                                                    <small class="text-muted d-block">Amount Due</small>
+                                                    <strong class="text-success fs-6">$ 45,780.25</strong>
+                                                </div>
+                                                <button class="btn btn-primary btn-sm rounded-pill px-3">
+                                                    <i class="fas fa-eye me-1"></i>Details
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Card 5 -->
+                                <div class="col-12">
+                                    <div class="card border-0 shadow-sm">
+                                        <div class="card-body p-3">
+                                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                                <div class="d-flex align-items-center gap-3">
+                                                    <div class="text-center">
+                                                        <small class="text-muted d-block">SR No</small>
+                                                        <strong class="text-primary fs-6">05</strong>
+                                                    </div>
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <img src="https://ui-avatars.com/api/?name=Neha&background=615EF0&color=fff"
+                                                            class="rounded-circle shadow-sm" width="35" height="35"
+                                                            alt="Neha">
+                                                        <div>
+                                                            <small class="text-muted d-block">Name</small>
+                                                            <strong class="text-dark fs-6">Neha Patel</strong>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex gap-3">
+                                                    <div class="text-center">
+                                                        <small class="text-muted d-block">Units</small>
+                                                        <span class="badge bg-primary rounded-pill px-2">29</span>
+                                                    </div>
+                                                    <div class="text-center">
+                                                        <small class="text-muted d-block">Days</small>
+                                                        <span class="badge bg-dark text-white px-2">15</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="d-flex justify-content-between align-items-center mt-2 pt-2 border-top">
+                                                <div>
+                                                    <small class="text-muted d-block">Amount Due</small>
+                                                    <strong class="text-success fs-6">$ 18,645.75</strong>
+                                                </div>
+                                                <button class="btn btn-primary btn-sm rounded-pill px-3">
+                                                    <i class="fas fa-eye me-1"></i>Details
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Right Column -->
+                <div class="col-lg-4">
+                    <!-- Notifications -->
+                    <section
+                        class="bg-white p-3 rounded shadow-sm mb-3 notifications-panel border-start border-primary border-4">
+                        <div
+                            class="d-flex align-items-center justify-content-between notification-header border-bottom pb-3 mb-3">
+                            <div class="d-flex align-items-center gap-2">
+                                <h5 class="mb-0 fw-bold">Notifications</h5>
+                                <span
+                                    class="badge bg-primary rounded-circle text-white d-flex align-items-center justify-content-center"
+                                    style="width: 24px; height: 24px; font-size: 0.75rem;">12</span>
+                            </div>
+                        </div>
+
+                        <!-- Notification Item 1 -->
+                        <div class="notification-item d-flex align-items-start p-3 mb-3 bg-light rounded-3 border border-transparent"
+                            data-bs-toggle="modal" data-bs-target="#notificationModal" data-notification-id="1">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop"
+                                alt="Chetan patil" class="rounded-circle border border-2 border-white shadow-sm"
+                                style="width: 45px; height: 45px; object-fit: cover;">
+                            <div class="notification-content flex-grow-1 ms-3">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <h6 class="notification-title fw-semibold mb-1 text-dark">Chetan Patil</h6>
+                                    <small class="notification-time text-muted">11:12 AM</small>
+                                </div>
+                                <p class="notification-message mb-1 text-muted small">
+                                    <span
+                                        class="notification-icon icon-delivery bg-success bg-opacity-25 text-success rounded-circle d-inline-flex align-items-center justify-content-center me-2"
+                                        style="width: 20px; height: 20px; font-size: 0.75rem;">
+                                        <i class="fas fa-truck"></i>
+                                    </span>
+                                    Order #A123 — Driver Rahul has reached the customer's address.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Notification Item 2 -->
+                        <div class="notification-item d-flex align-items-start p-3 mb-3 bg-light rounded-3 border border-transparent"
+                            data-bs-toggle="modal" data-bs-target="#notificationModal" data-notification-id="2">
+                            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=100&h=100&fit=crop"
+                                alt="SM SUPPLIER" class="rounded-circle border border-2 border-white shadow-sm"
+                                style="width: 45px; height: 45px; object-fit: cover;">
+                            <div class="notification-content flex-grow-1 ms-3">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <h6 class="notification-title fw-semibold mb-1 text-dark">SM SUPPLIER</h6>
+                                    <small class="notification-time text-muted">10:45 AM</small>
+                                </div>
+                                <p class="notification-message mb-1 text-muted small">
+                                    <span
+                                        class="notification-icon icon-order bg-primary bg-opacity-25 text-primary rounded-circle d-inline-flex align-items-center justify-content-center me-2"
+                                        style="width: 20px; height: 20px; font-size: 0.75rem;">
+                                        <i class="fas fa-cart"></i>
+                                    </span>
+                                    New Order #B456 — Customer Ramesh Kumar has placed an order for RCC Pipes.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Notification Item 3 -->
+                        <div class="notification-item d-flex align-items-start p-3 mb-3 bg-light rounded-3 border border-transparent"
+                            data-bs-toggle="modal" data-bs-target="#notificationModal" data-notification-id="3">
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop"
+                                alt="The Hindavi Group" class="rounded-circle border border-2 border-white shadow-sm"
+                                style="width: 45px; height: 45px; object-fit: cover;">
+                            <div class="notification-content flex-grow-1 ms-3">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <h6 class="notification-title fw-semibold mb-1 text-dark">The Hindavi Group</h6>
+                                    <small class="notification-time text-muted">09:30 AM</small>
+                                </div>
+                                <p class="notification-message mb-1 text-muted small">
+                                    <span
+                                        class="notification-icon icon-urgent bg-danger bg-opacity-25 text-danger rounded-circle d-inline-flex align-items-center justify-content-center me-2"
+                                        style="width: 20px; height: 20px; font-size: 0.75rem;">
+                                        <i class="fas fa-bolt"></i>
+                                    </span>
+                                    Urgent Order #D112 — Customer Suresh Buildcon ordered RCC Manhole Covers.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Notification Item 4 -->
+                        <div class="notification-item d-flex align-items-start p-3 mb-3 bg-light rounded-3 border border-transparent"
+                            data-bs-toggle="modal" data-bs-target="#notificationModal" data-notification-id="4">
+                            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&h=100&fit=crop"
+                                alt="Rajesh Kumar" class="rounded-circle border border-2 border-white shadow-sm"
+                                style="width: 45px; height: 45px; object-fit: cover;">
+                            <div class="notification-content flex-grow-1 ms-3">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <h6 class="notification-title fw-semibold mb-1 text-dark">Rajesh Kumar</h6>
+                                    <small class="notification-time text-muted">Yesterday</small>
+                                </div>
+                                <p class="notification-message mb-1 text-muted small">
+                                    <span
+                                        class="notification-icon icon-completed bg-success bg-opacity-25 text-success rounded-circle d-inline-flex align-items-center justify-content-center me-2"
+                                        style="width: 20px; height: 20px; font-size: 0.75rem;">
+                                        <i class="fas fa-check"></i>
+                                    </span>
+                                    Order #C789 — Delivery completed successfully at 2:30 PM.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="text-center mt-3">
+                            <button class="btn btn-sm btn-outline-primary">View All Notifications</button>
+                        </div>
+                    </section>
+
+                    <!-- Chart -->
+                    <section class="chart-container-custom bg-white p-4 rounded-3 shadow">
+                        <div
+                            class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3 gap-2 gap-md-0">
+                            <div class="text-center text-md-start">
+                                <h5 class="mb-1 mb-md-2 fs-5 fs-md-4 fw-semibold text-dark">Earning Summary</h5>
+                                <div class="d-flex gap-2 gap-md-3 justify-content-center justify-content-md-start">
+                                    <div class="d-flex align-items-center gap-1">
+                                        <div class="bg-primary rounded-circle" style="width: 10px; height: 10px;"></div>
+                                        <small class="text-muted fw-medium">Revenue</small>
+                                    </div>
+                                    <div class="d-flex align-items-center gap-1">
+                                        <div class="bg-secondary bg-opacity-50 rounded-circle"
+                                            style="width: 10px; height: 10px;"></div>
+                                        <small class="text-muted fw-medium">Profit</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div
+                                class="d-flex gap-1 gap-sm-2 align-items-center justify-content-center flex-wrap w-100 w-md-auto">
+                                <input type="date" class="form-control form-control-sm border" value="2024-03-01"
+                                    style="max-width: 120px; min-width: 110px;">
+                                <span class="text-muted d-none d-sm-inline small">to</span>
+                                <input type="date" class="form-control form-control-sm border" value="2025-10-31"
+                                    style="max-width: 120px; min-width: 110px;">
+                            </div>
+                        </div>
+
+                        <!-- Additional Features -->
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="d-flex gap-3">
+                                <div class="text-center">
+                                    <small class="text-muted d-block">Total Revenue</small>
+                                    <h6 class="mb-0 fw-bold text-primary">$850K</h6>
+                                </div>
+                                <div class="text-center">
+                                    <small class="text-muted d-block">Total Profit</small>
+                                    <h6 class="mb-0 fw-bold text-secondary">$515K</h6>
+                                </div>
+                                <div class="text-center">
+                                    <small class="text-muted d-block">Growth</small>
+                                    <h6 class="mb-0 fw-bold text-success">+24.5%</h6>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div style="height: 250px;" class="position-relative">
+                            <canvas id="earningsChart"></canvas>
+                        </div>
+
+                        <!-- Chart Stats Footer -->
+                        <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">
+                            <small class="text-muted">Last updated: Today</small>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-download me-1"></i>Export
+                                </button>
+                                <button class="btn btn-sm btn-outline-secondary">
+                                    <i class="fas fa-sync-alt me-1"></i>Refresh
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <!-- Left Column - Complaint To-do List -->
+                <div class="col-12 col-lg-6 mb-4 mb-lg-0">
+                    <section class="bg-white p-3 p-md-4 rounded shadow-sm d-flex flex-column h-100">
+                        <div class="d-flex justify-content-between align-items-center mb-3 flex-column flex-sm-row">
+                            <h4 class="mb-2 mb-sm-0 fs-5 fs-md-4">Complaint To-do List</h4>
+                            <div class="d-flex gap-2 align-items-center">
+                                <button class="btn btn-primary btn-sm complaint-prev-btn">←</button>
+                                <div class="fw-bold px-2 px-sm-3 fs-6 fs-md-inherit complaint-current-date"
+                                    style="cursor: pointer;" title="Click to select date">June 14</div>
+                                <button class="btn btn-primary btn-sm complaint-next-btn">→</button>
+                            </div>
+                        </div>
+
+                        <!-- Calendar Date Picker -->
+                        <!-- Complaint Calendar -->
+                        <div class="complaint-calendar-popup position-fixed bg-white border rounded shadow-lg p-3"
+                            style="display: none;">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <button class="btn btn-sm btn-outline-secondary complaint-calendar-prev">←</button>
+                                <h6 class="mb-0 complaint-calendar-month fw-bold">June 2024</h6>
+                                <button class="btn btn-sm btn-outline-secondary complaint-calendar-next">→</button>
+                            </div>
+                            <div class="complaint-calendar-dates"></div>
+                        </div>
+
+                        <!-- Date Indicators - Responsive Grid -->
+                        <div class="row g-2 mb-3 complaint-date-indicators">
+                            <!-- Dates will be inserted here by JavaScript -->
+                        </div>
+
+                        <div class="row g-2 g-sm-3 mb-3 complaint-workers-container flex-grow-1 overflow-auto"></div>
+
+                        <div class="row text-center mt-auto">
+                            <div class="col-4">
+                                <h3 class="fs-4 fs-md-3 complaint-total-complaints">0</h3>
+                                <small class="text-muted d-block fs-7 fs-md-inherit">Total Complaints</small>
+                            </div>
+                            <div class="col-4">
+                                <h3 class="fs-4 fs-md-3 complaint-assigned-workers">0</h3>
+                                <small class="text-muted d-block fs-7 fs-md-inherit">Assigned Workers</small>
+                            </div>
+                            <div class="col-4">
+                                <h3 class="fs-4 fs-md-3 complaint-completed-tasks">0</h3>
+                                <small class="text-muted d-block fs-7 fs-md-inherit">Completed Today</small>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Right Column - Lead To-do List -->
+                <div class="col-12 col-lg-6">
+                    <section class="bg-white p-3 p-md-4 rounded shadow-sm d-flex flex-column h-100">
+                        <div class="d-flex justify-content-between align-items-center mb-3 flex-column flex-sm-row">
+                            <h4 class="mb-2 mb-sm-0 fs-5 fs-md-4">Lead To-do List</h4>
+                            <div class="d-flex gap-2 align-items-center">
+                                <button class="btn btn-primary btn-sm lead-prev-btn">←</button>
+                                <div class="fw-bold px-2 px-sm-3 fs-6 fs-md-inherit lead-current-date"
+                                    style="cursor: pointer;" title="Click to select date">June 14</div>
+                                <button class="btn btn-primary btn-sm lead-next-btn">→</button>
+                            </div>
+                        </div>
+
+                        <!-- Calendar Date Picker for Leads -->
+                        <!-- Lead Calendar -->
+                        <div class="lead-calendar-popup position-fixed bg-white border rounded shadow-lg p-3"
+                            style="display: none;">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <button class="btn btn-sm btn-outline-secondary lead-calendar-prev">←</button>
+                                <h6 class="mb-0 lead-calendar-month fw-bold">June 2024</h6>
+                                <button class="btn btn-sm btn-outline-secondary lead-calendar-next">→</button>
+                            </div>
+                            <div class="lead-calendar-dates"></div>
+                        </div>
+                        <!-- Date Indicators - Responsive Grid -->
+                        <div class="row g-2 mb-3 lead-date-indicators">
+                            <!-- Dates will be inserted here by JavaScript -->
+                        </div>
+
+                        <div class="row g-2 g-sm-3 mb-3 lead-workers-container flex-grow-1 overflow-auto"></div>
+
+                        <div class="row text-center mt-auto">
+                            <div class="col-4">
+                                <h3 class="fs-4 fs-md-3 total-leads">0</h3>
+                                <small class="text-muted d-block fs-7 fs-md-inherit">Total Leads</small>
+                            </div>
+                            <div class="col-4">
+                                <h3 class="fs-4 fs-md-3 assigned-lead-workers">0</h3>
+                                <small class="text-muted d-block fs-7 fs-md-inherit">Assigned Workers</small>
+                            </div>
+                            <div class="col-4">
+                                <h3 class="fs-4 fs-md-3 converted-leads">0</h3>
+                                <small class="text-muted d-block fs-7 fs-md-inherit">Converted Today</small>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+            <!-- Date Navigation Section -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="date-navigator text-white shadow">
+                        <div class="row align-items-center">
+                            <div class="col-md-4">
+                                <h5 class="mb-0"><i class="bi bi-calendar-range me-2"></i>All</h5>
+                                <small class="opacity-75">View data for specific time periods</small>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <button class="btn btn-light btn-sm" id="prevDate">
+                                        <i class="bi bi-chevron-left me-1"></i> Previous
+                                    </button>
+
+                                    <div class="text-center date-display py-2 px-3" data-bs-toggle="modal"
+                                        data-bs-target="#dateModal">
+                                        <div class="fw-bold fs-5" id="currentDate">December 15, 2023</div>
+                                        <small class="opacity-75">Click to change date</small>
+                                    </div>
+
+                                    <button class="btn btn-light btn-sm" id="nextDate">
+                                        Next <i class="bi bi-chevron-right ms-1"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Stats Summary -->
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <div class="stats-highlight text-center p-3 bg-white rounded shadow-sm">
+                        <div class="text-primary fw-bold fs-4">31</div>
+                        <small class="text-muted">Total Leads</small>
+                        <div class="progress mt-2">
+                            <div class="progress-bar bg-primary" style="width: 65%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stats-highlight text-center p-3 bg-white rounded shadow-sm">
+                        <div class="text-success fw-bold fs-4">$1,28,450</div>
+                        <small class="text-muted">Pending Payments</small>
+                        <div class="progress mt-2">
+                            <div class="progress-bar bg-success" style="width: 42%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stats-highlight text-center p-3 bg-white rounded shadow-sm">
+                        <div class="text-info fw-bold fs-4">55</div>
+                        <small class="text-muted">Support Tickets</small>
+                        <div class="progress mt-2">
+                            <div class="progress-bar bg-info" style="width: 78%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lead, Payment, and Support Sections -->
+            <div class="container-fluid py-4">
+                <div class="row g-4">
+                    <!-- Lead Status Section -->
+                    <div class="col-12 col-lg-4">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-header bg-primary text-white py-3">
+                                <h5 class="card-title mb-0">
+                                    <i class="bi bi-graph-up-arrow me-2"></i>Lead Performance
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <!-- Performance Metrics -->
+                                <div class="performance-metrics mb-3">
+                                    <h6 class="text-primary mb-3 fw-bold">Lead Performance Summary</h6>
+                                    <div class="row g-2">
+                                        <div class="col-4">
+                                            <div
+                                                class="p-2 border-0 bg-success bg-opacity-10 rounded text-center metric-card">
+                                                <div class="text-success fw-bold fs-5">04</div>
+                                                <small class="text-success fw-semibold">WON</small>
+                                                <div class="progress mt-2">
+                                                    <div class="progress-bar bg-success" style="width: 75%"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div
+                                                class="p-2 border-0 bg-danger bg-opacity-10 rounded text-center metric-card">
+                                                <div class="text-danger fw-bold fs-5">04</div>
+                                                <small class="text-danger fw-semibold">LOST</small>
+                                                <div class="progress mt-2">
+                                                    <div class="progress-bar bg-danger" style="width: 45%"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div
+                                                class="p-2 border-0 bg-warning bg-opacity-10 rounded text-center metric-card">
+                                                <div class="text-warning fw-bold fs-5">02</div>
+                                                <small class="text-warning fw-semibold">PROGRESS</small>
+                                                <div class="progress mt-2">
+                                                    <div class="progress-bar bg-warning" style="width: 30%"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label text-dark fw-semibold small">Filter by lead type</label>
+                                    <select class="form-select border-primary">
+                                        <option class="text-primary">All Leads (31)</option>
+                                        <option>New Leads</option>
+                                        <option>In Progress</option>
+                                        <option>Won</option>
+                                        <option>Lost</option>
+                                    </select>
+                                </div>
+                                <div class="table-container flex-grow-1" style="max-height: 300px; overflow-y: auto;">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover align-middle">
+                                            <thead class="table-light sticky-top" style="top: 0;">
+                                                <tr>
+                                                    <th class="text-primary small">TEAM MEMBER</th>
+                                                    <th class="text-primary small">LEADS</th>
+                                                    <th class="text-primary small">STATUS</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="border-start border-success">
+                                                    <td>
+                                                        <div class="d-flex align-items-center">
+                                                            <div
+                                                                class="bg-success bg-opacity-10 rounded-circle p-2 me-2">
+                                                                <i class="bi bi-person-check text-success"></i>
+                                                            </div>
+                                                            <div>
+                                                                <div class="fw-bold text-dark small">Vasant G</div>
+                                                                <small class="text-muted">Sales Executive</small>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="fw-bold text-dark small">10</td>
+                                                    <td><span class="badge bg-success rounded-pill px-2">WON</span></td>
+                                                </tr>
+                                                <tr class="border-start border-success">
+                                                    <td>
+                                                        <div class="d-flex align-items-center">
+                                                            <div
+                                                                class="bg-success bg-opacity-10 rounded-circle p-2 me-2">
+                                                                <i class="bi bi-person-check text-success"></i>
+                                                            </div>
+                                                            <div>
+                                                                <div class="fw-bold text-dark small">abhi k</div>
+                                                                <small class="text-muted">Sales Executive</small>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="fw-bold text-dark small">5</td>
+                                                    <td><span class="badge bg-success rounded-pill px-2">WON</span></td>
+                                                </tr>
+                                                <tr class="border-start border-warning">
+                                                    <td>
+                                                        <div class="d-flex align-items-center">
+                                                            <div
+                                                                class="bg-warning bg-opacity-10 rounded-circle p-2 me-2">
+                                                                <i class="bi bi-person-gear text-warning"></i>
+                                                            </div>
+                                                            <div>
+                                                                <div class="fw-bold text-dark small">Priya S</div>
+                                                                <small class="text-muted">Sales Manager</small>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="fw-bold text-dark small">07</td>
+                                                    <td><span class="badge bg-warning text-dark rounded-pill px-2">IN
+                                                            PROGRESS</span></td>
+                                                </tr>
+                                                <tr class="border-start border-warning">
+                                                    <td>
+                                                        <div class="d-flex align-items-center">
+                                                            <div
+                                                                class="bg-warning bg-opacity-10 rounded-circle p-2 me-2">
+                                                                <i class="bi bi-person-gear text-warning"></i>
+                                                            </div>
+                                                            <div>
+                                                                <div class="fw-bold text-dark small">rutuja p</div>
+                                                                <small class="text-muted">Sales Manager</small>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="fw-bold text-dark small">07</td>
+                                                    <td><span class="badge bg-warning text-dark rounded-pill px-2">IN
+                                                            PROGRESS</span></td>
+                                                </tr>
+                                                <tr class="border-start border-warning">
+                                                    <td>
+                                                        <div class="d-flex align-items-center">
+                                                            <div
+                                                                class="bg-warning bg-opacity-10 rounded-circle p-2 me-2">
+                                                                <i class="bi bi-person-gear text-warning"></i>
+                                                            </div>
+                                                            <div>
+                                                                <div class="fw-bold text-dark small">radhika S</div>
+                                                                <small class="text-muted">Sales Manager</small>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="fw-bold text-dark small">17</td>
+                                                    <td><span class="badge bg-warning text-dark rounded-pill px-2">IN
+                                                            PROGRESS</span></td>
+                                                </tr>
+                                                <tr class="border-start border-danger">
+                                                    <td>
+                                                        <div class="d-flex align-items-center">
+                                                            <div
+                                                                class="bg-danger bg-opacity-10 rounded-circle p-2 me-2">
+                                                                <i class="bi bi-person-x text-danger"></i>
+                                                            </div>
+                                                            <div>
+                                                                <div class="fw-bold text-dark small">Raj M</div>
+                                                                <small class="text-muted">Sales Rep</small>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="fw-bold text-dark small">08</td>
+                                                    <td><span class="badge bg-danger rounded-pill px-2">LOST</span></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Reminder Section -->
+                    <div class="col-12 col-lg-4">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-header bg-success text-white py-3">
+                                <h5 class="card-title mb-0">
+                                    <i class="bi bi-currency-dollar me-2"></i>Payment Reminders
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <!-- Quick Stats -->
+                                <div class="row g-2 mb-3">
+                                    <div class="col-6">
+                                        <div
+                                            class="p-2 bg-success bg-opacity-10 border-0 rounded text-center metric-card">
+                                            <div class="text-success fw-bold small total-pending-amount">$1,28,450</div>
+                                            <small class="text-muted">Total Pending</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div
+                                            class="p-2 bg-primary bg-opacity-10 border-0 rounded text-center metric-card">
+                                            <div class="text-primary fw-bold small overdue-count">12</div>
+                                            <small class="text-muted">Overdue</small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="payment-reminders" id="paymentRemindersList">
+                                    <!-- Payment items will be dynamically generated -->
+                                </div>
+
+                                <!-- Quick Actions -->
+                                <div class="row g-2 mt-3">
+                                    <div class="col-6">
+                                        <button class="btn btn-success btn-sm w-100" data-bs-toggle="modal"
+                                            data-bs-target="#addPaymentModal">
+                                            <i class="bi bi-plus-circle me-1"></i>Add Payment
+                                        </button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button class="btn btn-outline-primary btn-sm w-100" id="exportPayments">
+                                            <i class="bi bi-download me-1"></i>Export
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Support Status Section -->
+                    <div class="col-12 col-lg-4">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-header bg-info text-white py-3">
+                                <h5 class="card-title mb-0">
+                                    <i class="bi bi-headset me-2"></i>Support Status
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <!-- Performance Summary -->
+                                <div class="performance-metrics mb-3">
+                                    <h6 class="text-info mb-3 fw-bold">Support Performance Summary</h6>
+                                    <div class="row g-2">
+                                        <div class="col-6">
+                                            <div class="p-2 bg-primary bg-opacity-10 border-0 rounded metric-card">
+                                                <div class="d-flex align-items-center justify-content-center">
+                                                    <div class="bg-primary text-white rounded-circle p-2 me-2">
+                                                        <i class="bi bi-check-circle-fill"></i>
+                                                    </div>
+                                                    <div>
+                                                        <h6 class="text-primary mb-0 fs-5 total-solved">32</h6>
+                                                        <small class="text-muted">Total Solved</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="p-2 bg-warning bg-opacity-10 border-0 rounded metric-card">
+                                                <div class="d-flex align-items-center justify-content-center">
+                                                    <div class="bg-warning text-dark rounded-circle p-2 me-2">
+                                                        <i class="bi bi-clock-fill"></i>
+                                                    </div>
+                                                    <div>
+                                                        <h6 class="text-warning mb-0 fs-5 total-pending">23</h6>
+                                                        <small class="text-muted">Total Pending</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="table-responsive">
+                                    <table class="table table-hover align-middle support-table">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th class="small">SUPPORT AGENT</th>
+                                                <th class="small">TOTAL</th>
+                                                <th class="small">SOLVED</th>
+                                                <th class="small">PENDING</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="supportAgentsList">
+                                            <!-- Support agents will be dynamically generated -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Support Agent Detail Modal -->
+                    <div class="modal fade" id="supportAgentModal" tabindex="-1">
+                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header bg-info text-white">
+                                    <h5 class="modal-title" id="agentModalTitle">Support Agent Details</h5>
+                                    <button type="button" class="btn-close btn-close-white"
+                                        data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- Agent Info -->
+                                    <div class="row mb-4">
+                                        <div class="col-md-6">
+                                            <div class="d-flex align-items-center">
+                                                <div class="bg-info bg-opacity-10 rounded-circle p-3 me-3">
+                                                    <i class="bi bi-person-badge text-info fs-4"></i>
+                                                </div>
+                                                <div>
+                                                    <h4 class="mb-1 fw-bold" id="agentName">Agent Name</h4>
+                                                    <p class="text-muted mb-0" id="agentRole">Role</p>
+                                                    <p class="text-muted mb-0" id="agentEmail">Email</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="row text-center">
+                                                <div class="col-4">
+                                                    <div class="p-2">
+                                                        <div class="fw-bold fs-4 text-secondary" id="modalTotalTasks">0
+                                                        </div>
+                                                        <small class="text-muted">Total Tasks</small>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4">
+                                                    <div class="p-2">
+                                                        <div class="fw-bold fs-4 text-success" id="modalSolvedTasks">0
+                                                        </div>
+                                                        <small class="text-muted">Solved</small>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4">
+                                                    <div class="p-2">
+                                                        <div class="fw-bold fs-4 text-warning" id="modalPendingTasks">0
+                                                        </div>
+                                                        <small class="text-muted">Pending</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Tasks Tabs -->
+                                    <ul class="nav nav-tabs" id="agentTabs" role="tablist">
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link active" id="solved-tab" data-bs-toggle="tab"
+                                                data-bs-target="#solved" type="button" role="tab">
+                                                <i class="bi bi-check-circle me-1"></i>Solved Tasks <span
+                                                    class="badge bg-success ms-1" id="solvedCount">0</span>
+                                            </button>
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link" id="pending-tab" data-bs-toggle="tab"
+                                                data-bs-target="#pending" type="button" role="tab">
+                                                <i class="bi bi-clock me-1"></i>Pending Tasks <span
+                                                    class="badge bg-warning ms-1" id="pendingCount">0</span>
+                                            </button>
+                                        </li>
+                                    </ul>
+
+                                    <div class="tab-content mt-3" id="agentTabContent">
+                                        <!-- Solved Tasks Tab -->
+                                        <div class="tab-pane fade show active" id="solved" role="tabpanel">
+                                            <div class="table-responsive">
+                                                <table class="table table-hover">
+                                                    <thead class="table-success">
+                                                        <tr>
+                                                            <th class="small">Ticket ID</th>
+                                                            <th class="small">Customer</th>
+                                                            <th class="small">Issue Type</th>
+                                                            <th class="small">Solved Date</th>
+                                                            <th class="small">Rating</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="solvedTasksList">
+                                                        <!-- Solved tasks will be populated here -->
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                        <!-- Pending Tasks Tab -->
+                                        <div class="tab-pane fade" id="pending" role="tabpanel">
+                                            <div class="table-responsive">
+                                                <table class="table table-hover">
+                                                    <thead class="table-warning">
+                                                        <tr>
+                                                            <th class="small">Ticket ID</th>
+                                                            <th class="small">Customer</th>
+                                                            <th class="small">Issue Type</th>
+                                                            <th class="small">Priority</th>
+                                                            <th class="small">Due Date</th>
+                                                            <th class="small">Actions</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="pendingTasksList">
+                                                        <!-- Pending tasks will be populated here -->
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-info" id="assignNewTask">
+                                        <i class="bi bi-plus-circle me-1"></i>Assign New Task
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Assign Task Modal -->
+                    <div class="modal fade" id="assignTaskModal" tabindex="-1">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header bg-info text-white">
+                                    <h5 class="modal-title">Assign New Task</h5>
+                                    <button type="button" class="btn-close btn-close-white"
+                                        data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="assignTaskForm">
+                                        <div class="mb-3">
+                                            <label for="taskCustomer" class="form-label">Customer</label>
+                                            <input type="text" class="form-control" id="taskCustomer" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="taskIssue" class="form-label">Issue Type</label>
+                                            <select class="form-select" id="taskIssue" required>
+                                                <option value="">Select Issue Type</option>
+                                                <option value="Technical Support">Technical Support</option>
+                                                <option value="Billing Issue">Billing Issue</option>
+                                                <option value="Feature Request">Feature Request</option>
+                                                <option value="Bug Report">Bug Report</option>
+                                                <option value="Account Issue">Account Issue</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="taskPriority" class="form-label">Priority</label>
+                                            <select class="form-select" id="taskPriority" required>
+                                                <option value="">Select Priority</option>
+                                                <option value="Low">Low</option>
+                                                <option value="Medium">Medium</option>
+                                                <option value="High">High</option>
+                                                <option value="Urgent">Urgent</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="taskDescription" class="form-label">Description</label>
+                                            <textarea class="form-control" id="taskDescription" rows="3"
+                                                required></textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="taskDueDate" class="form-label">Due Date</label>
+                                            <input type="date" class="form-control" id="taskDueDate" required>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Cancel</button>
+                                    <button type="button" class="btn btn-info" id="saveTask">Assign Task</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </main>
+    <!-- Payment Reminder Modals -->
+    <!-- Payment Detail Modals -->
+    <div class="modal fade" id="paymentModal1" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">Payment Details - Sp Group</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Invoice:</strong> INV-001</p>
+                            <p><strong>Amount:</strong> $34,295</p>
+                            <p><strong>Due Date:</strong> <span class="due-date">15 Dec 2023</span></p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Status:</strong> <span class="badge bg-danger status-badge">Overdue</span></p>
+                            <p><strong>Days Overdue:</strong> <span class="days-overdue">5 days</span></p>
+                            <p><strong>Contact:</strong> John Smith (555-1234)</p>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <h6>Payment History</h6>
+                        <ul class="list-group payment-history">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Initial Payment
+                                <span class="badge bg-success rounded-pill">$10,000</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Second Installment
+                                <span class="badge bg-warning rounded-pill">Pending</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary send-reminder-btn">Send Reminder</button>
+                    <button type="button" class="btn btn-success mark-paid-btn">Mark as Paid</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="paymentModal2" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">Payment Details - Tech Corp</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Invoice:</strong> INV-002</p>
+                            <p><strong>Amount:</strong> $28,150</p>
+                            <p><strong>Due Date:</strong> <span class="due-date">20 Dec 2023</span></p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Status:</strong> <span class="badge bg-warning status-badge">Due Soon</span></p>
+                            <p><strong>Days Until Due:</strong> <span class="days-until-due">3 days</span></p>
+                            <p><strong>Contact:</strong> Sarah Johnson (555-5678)</p>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <h6>Payment History</h6>
+                        <ul class="list-group payment-history">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Advance Payment
+                                <span class="badge bg-success rounded-pill">$5,000</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary send-reminder-btn">Send Reminder</button>
+                    <button type="button" class="btn btn-success mark-paid-btn">Mark as Paid</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="paymentModal3" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">Payment Details - Global Enterprises</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Invoice:</strong> INV-003</p>
+                            <p><strong>Amount:</strong> $45,800</p>
+                            <p><strong>Due Date:</strong> <span class="due-date">25 Dec 2023</span></p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Status:</strong> <span class="badge bg-success status-badge">On Time</span></p>
+                            <p><strong>Days Until Due:</strong> <span class="days-until-due">10 days</span></p>
+                            <p><strong>Contact:</strong> Mike Wilson (555-9012)</p>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <h6>Payment History</h6>
+                        <ul class="list-group payment-history">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                First Installment
+                                <span class="badge bg-success rounded-pill">$15,000</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary send-reminder-btn">Send Reminder</button>
+                    <button type="button" class="btn btn-success mark-paid-btn">Mark as Paid</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Payment Modal -->
+    <div class="modal fade" id="addPaymentModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">Add New Payment</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addPaymentForm">
+                        <div class="mb-3">
+                            <label for="companyName" class="form-label">Company Name</label>
+                            <input type="text" class="form-control" id="companyName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="invoiceNumber" class="form-label">Invoice Number</label>
+                            <input type="text" class="form-control" id="invoiceNumber" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="amount" class="form-label">Amount</label>
+                            <input type="number" class="form-control" id="amount" step="0.01" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="dueDate" class="form-label">Due Date</label>
+                            <input type="date" class="form-control" id="dueDate" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="contactInfo" class="form-label">Contact Information</label>
+                            <input type="text" class="form-control" id="contactInfo">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-success" id="savePayment">Save Payment</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Date Modal -->
+    <div class="modal fade date-modal" id="dateModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Select Date</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="datePicker" class="form-label">Choose Date</label>
+                        <input type="date" class="form-control" id="datePicker">
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-primary date-quick" data-days="0">Today</button>
+                        <button class="btn btn-outline-primary date-quick" data-days="-1">Yesterday</button>
+                        <button class="btn btn-outline-primary date-quick" data-days="1">Tomorrow</button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="applyDate">Apply</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Modal -->
+    <div class="modal fade notification-modal" id="notificationModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Notification Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <img id="modalImage" src="" alt="User" class="rounded-circle me-3" width="60" height="60">
+                        <div>
+                            <h6 id="modalTitle" class="mb-1">Notification Title</h6>
+                            <small id="modalTime" class="text-muted">Time</small>
+                        </div>
+                    </div>
+                    <p id="modalMessage" class="mb-0">Notification message content will appear here.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Mark as Read</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Phone Call Modal -->
+    <div class="modal fade" id="phoneCallModal" tabindex="-1" aria-labelledby="phoneCallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg">
+                <!-- Header -->
+                <div class="modal-header bg-success text-white border-0">
+                    <h5 class="modal-title fw-bold" id="phoneCallModalLabel">
+                        <i class="fas fa-phone me-2"></i>Make a Call
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+
+                <!-- Body -->
+                <div class="modal-body p-4">
+                    <form id="phoneCallForm">
+                        <!-- Phone Number -->
+                        <div class="mb-3">
+                            <label for="callPhoneNumber" class="form-label fw-semibold">
+                                <i class="fas fa-mobile-alt me-2 text-success"></i>Phone Number
+                            </label>
+                            <input type="tel" class="form-control" id="callPhoneNumber"
+                                placeholder="Enter 10-digit phone number" required pattern="[0-9]{10}" maxlength="10">
+                            <div class="form-text">Enter 10-digit phone number without country code</div>
+                        </div>
+
+                        <!-- Call Options -->
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">
+                                <i class="fas fa-bell me-2 text-success"></i>Call Type
+                            </label>
+                            <div class="d-flex gap-2">
+                                <div class="form-check flex-fill">
+                                    <input class="form-check-input" type="radio" name="callType" id="callNow"
+                                        value="now" checked>
+                                    <label class="form-check-label small" for="callNow">
+                                        Call Now
+                                    </label>
+                                </div>
+                                <div class="form-check flex-fill">
+                                    <input class="form-check-input" type="radio" name="callType" id="callLater"
+                                        value="later">
+                                    <label class="form-check-label small" for="callLater">
+                                        Call Later
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Message Options -->
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">
+                                <i class="fas fa-comment me-2 text-success"></i>Send Message
+                            </label>
+                            <div class="d-flex gap-2 mb-2">
+                                <div class="form-check flex-fill">
+                                    <input class="form-check-input" type="radio" name="messageOption" id="noMessage"
+                                        value="none" checked>
+                                    <label class="form-check-label small" for="noMessage">
+                                        No Message
+                                    </label>
+                                </div>
+                                <div class="form-check flex-fill">
+                                    <input class="form-check-input" type="radio" name="messageOption" id="sendMessage"
+                                        value="send">
+                                    <label class="form-check-label small" for="sendMessage">
+                                        Send Message
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Message Text Area (Hidden by default) -->
+                            <div id="messageSection" class="mt-2" style="display: none;">
+                                <textarea class="form-control" id="callMessage" rows="3"
+                                    placeholder="Type your message here..." maxlength="500"></textarea>
+                                <div class="form-text d-flex justify-content-between">
+                                    <span>Message will be sent before the call</span>
+                                    <span id="messageCharCount">0/500</span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Footer -->
+                <div class="modal-footer border-top">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-1"></i>Cancel
+                    </button>
+                    <button type="button" class="btn btn-success" onclick="initiatePhoneCall()">
+                        <i class="fas fa-phone me-1"></i>Done
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Update Profile Modal -->
+    <div class="modal fade" id="userProfileModal" tabindex="-1" aria-labelledby="userProfileModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title fw-bold" id="userProfileModalLabel">
+                        <i class="fas fa-user-edit me-2"></i>Update Profile
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="userProfileForm">
+                        <div class="mb-3">
+                            <label for="userFullName" class="form-label fw-semibold">Full Name</label>
+                            <input type="text" class="form-control" id="userFullName" value="Sandeep" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="userPosition" class="form-label fw-semibold">Position</label>
+                            <select class="form-select" id="userPosition" required>
+                                <option value="admin" selected>Administrator</option>
+                                <option value="manager">Manager</option>
+                                <option value="user">User</option>
+                                <option value="viewer">Viewer</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="userEmail" class="form-label fw-semibold">Email Address</label>
+                            <input type="email" class="form-control" id="userEmail" value="sandeep@example.com"
+                                required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="userPhone" class="form-label fw-semibold">Phone Number</label>
+                            <input type="tel" class="form-control" id="userPhone" value="+91 9876543210">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="updateUserProfile()">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Change Password Modal -->
+    <div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header bg-warning text-dark">
+                    <h5 class="modal-title fw-bold" id="changePasswordModalLabel">
+                        <i class="fas fa-key me-2"></i>Change Password
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="changePasswordForm">
+                        <div class="mb-3">
+                            <label for="currentPassword" class="form-label fw-semibold">Current Password</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="currentPassword" required>
+                                <button type="button" class="btn btn-outline-secondary"
+                                    onclick="togglePassword('currentPassword')">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="newPassword" class="form-label fw-semibold">New Password</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="newPassword" required>
+                                <button type="button" class="btn btn-outline-secondary"
+                                    onclick="togglePassword('newPassword')">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <div class="form-text">
+                                Password must contain at least 8 characters with uppercase, lowercase, number and
+                                special character.
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirmPassword" class="form-label fw-semibold">Confirm New Password</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="confirmPassword" required>
+                                <button type="button" class="btn btn-outline-secondary"
+                                    onclick="togglePassword('confirmPassword')">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i>
+                            <strong>Password Requirements:</strong><br>
+                            • Minimum 8 characters<br>
+                            • At least one uppercase letter<br>
+                            • At least one lowercase letter<br>
+                            • At least one number<br>
+                            • At least one special character
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-warning" onclick="changeUserPassword()">Update
+                        Password</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Credentials Modal -->
+    <!-- View Credentials Modal -->
+    <div class="modal fade" id="viewCredentialsModal" tabindex="-1" aria-labelledby="viewCredentialsModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title fw-bold" id="viewCredentialsModalLabel">
+                        <i class="fas fa-eye me-2"></i>Your Credentials
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        Keep your credentials secure and do not share with anyone.
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold">Username</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="displayUsername" value="sandeep_admin" readonly>
+                            <button type="button" class="btn btn-outline-primary"
+                                onclick="copyToClipboard('displayUsername')">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Password</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="displayPassword" value="••••••••" readonly>
+                            <button type="button" class="btn btn-outline-secondary" onclick="toggleDisplayPassword()">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button type="button" class="btn btn-outline-primary"
+                                onclick="copyToClipboard('displayPassword')">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 p-3 bg-light rounded">
+                        <h6 class="fw-bold mb-2"><i class="fas fa-user-shield me-2"></i>Security Information</h6>
+                        <small class="text-muted">
+                            <strong>Position:</strong> Administrator<br>
+                            <strong>Last Updated:</strong> <span id="lastUpdated">Just now</span><br>
+                            <strong>Access Level:</strong> Full System Access
+                        </small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-info" onclick="generateNewPassword()">
+                        <i class="fas fa-sync me-1"></i>Generate New Password
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

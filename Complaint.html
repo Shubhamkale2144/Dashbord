@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complaint Register</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #615EF0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 13px;
+        }
+
+        .breadcrumb-nav {
+            background: white;
+            padding: 1rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            margin-bottom: 1rem;
+        }
+
+        .breadcrumb {
+            margin-bottom: 0;
+        }
+
+        .breadcrumb-item a {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .breadcrumb-item.active {
+            color: #6c757d;
+        }
+
+        .complaint-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            padding: 1.5rem;
+            margin: 1rem auto;
+            max-width: 100%;
+        }
+
+        .complaint-header {
+            background: linear-gradient(135deg, var(--primary-color), #764ba2);
+            color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .complaint-header i {
+            font-size: 1.3rem;
+        }
+
+        .complaint-header h2 {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 0.3rem;
+            font-size: 0.8rem;
+        }
+
+        .form-control, .form-select {
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            padding: 0.4rem 0.6rem;
+            font-size: 0.85rem;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.15rem rgba(97, 94, 240, 0.25);
+        }
+
+        .btn-search, .btn-refresh, .btn-print, .btn-add {
+            padding: 0.45rem 1.2rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            border: none;
+        }
+
+        .btn-search {
+            background: linear-gradient(135deg, var(--primary-color), #764ba2);
+            color: white;
+        }
+
+        .btn-refresh {
+            background: #e91e63;
+            color: white;
+        }
+
+        .btn-print {
+            background: var(--warning);
+            color: white;
+        }
+
+        .btn-add {
+            background: #17a2b8;
+            color: white;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin-top: 1.5rem;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+        }
+
+        .complaint-table {
+            background: white;
+            margin-bottom: 0;
+            font-size: 0.8rem;
+        }
+
+        .complaint-table thead {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+        }
+
+        .complaint-table thead th {
+            padding: 0.6rem 0.5rem;
+            font-weight: 600;
+            border: 1px solid #dee2e6;
+            text-align: center;
+            vertical-align: middle;
+            white-space: nowrap;
+            font-size: 0.8rem;
+        }
+
+        .complaint-table tbody td {
+            padding: 0.6rem 0.5rem;
+            vertical-align: middle;
+            text-align: center;
+            border: 1px solid #dee2e6;
+            font-size: 0.75rem;
+        }
+
+        .complaint-table tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .complaint-table tbody tr {
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .status-badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.7rem;
+            display: inline-block;
+        }
+
+        .status-inwork {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .status-assigned {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-pending {
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+
+        .status-completed {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .btn-start-job {
+            background: linear-gradient(135deg, #f59e0b, #f97316);
+            color: white;
+            border: none;
+            padding: 0.35rem 0.8rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.7rem;
+            white-space: nowrap;
+        }
+
+        .action-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 5px;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 0.15rem;
+            font-size: 0.75rem;
+        }
+
+        .action-btn.edit {
+            background: var(--success);
+            color: white;
+        }
+
+        .action-btn.delete {
+            background: var(--danger);
+            color: white;
+        }
+
+        .action-btn:hover {
+            opacity: 0.8;
+        }
+
+        .pagination-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+            font-size: 0.85rem;
+        }
+
+        .page-link {
+            border-radius: 5px;
+            margin: 0 0.15rem;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            font-weight: 600;
+            padding: 0.3rem 0.6rem;
+            font-size: 0.8rem;
+        }
+
+        .page-link.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .modal-content {
+            border-radius: 8px;
+            border: none;
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary-color), #764ba2);
+            color: white;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .modal-footer {
+            border-top: 1px solid #dee2e6;
+        }
+
+        @media (max-width: 768px) {
+            .complaint-card {
+                padding: 1rem;
+            }
+
+            .complaint-table {
+                font-size: 0.7rem;
+            }
+
+            .complaint-table thead th,
+            .complaint-table tbody td {
+                padding: 0.4rem 0.3rem;
+            }
+
+            .action-btn {
+                width: 26px;
+                height: 26px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Breadcrumb Navigation -->
+    <div class="breadcrumb-nav">
+        <div class="container-fluid">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li onclick="navigateBackToIndex()" class="breadcrumb-item"><a href="#"
+                            class="text-decoration-none"><i class="fas fa-home me-1"></i>Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Diesel & Machine Service</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container-fluid">
+        <div class="complaint-card">
+            <!-- Header -->
+            <div class="complaint-header">
+                <i class="fas fa-clipboard-list"></i>
+                <h2 class="mb-0">COMPLAINT REGISTER</h2>
+            </div>
+
+            <!-- Filter Form -->
+            <form id="filterForm">
+                <div class="row g-2 mb-3">
+                    <div class="col-md-3">
+                        <label class="form-label">From Date</label>
+                        <input type="date" class="form-control" id="fromDate" value="2024-09-01">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">To Date</label>
+                        <input type="date" class="form-control" id="toDate" value="2025-10-15">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Customer Name</label>
+                        <input type="text" class="form-control" id="customerName" placeholder="Enter Customer Name">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Employee Name</label>
+                        <input type="text" class="form-control" id="employeeName" placeholder="Enter Employee Name">
+                    </div>
+                </div>
+
+                <div class="row g-2 mb-3">
+                    <div class="col-md-3">
+                        <label class="form-label">Machine Name</label>
+                        <input type="text" class="form-control" id="machineName" placeholder="Enter Machine Name">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Work Status</label>
+                        <select class="form-select" id="workStatus">
+                            <option value="">All</option>
+                            <option value="Pending">Pending</option>
+                            <option value="InWork">In Work</option>
+                            <option value="Assigned">Assigned</option>
+                            <option value="Completed">Completed</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Type Of Service</label>
+                        <select class="form-select" id="serviceType">
+                            <option value="">All</option>
+                            <option value="1st Time">1st Time</option>
+                            <option value="Repeat">Repeat</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Asset Code</label>
+                        <input type="text" class="form-control" id="assetCode" placeholder="Search AssetCode">
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-center gap-2 flex-wrap">
+                    <button type="button" class="btn btn-search" id="searchBtn">
+                        <i class="fas fa-search me-1"></i>Search
+                    </button>
+                    <button type="button" class="btn btn-refresh" id="refreshBtn">
+                        <i class="fas fa-sync-alt me-1"></i>Refresh
+                    </button>
+                    <button type="button" class="btn btn-print" id="printBtn">
+                        <i class="fas fa-print me-1"></i>Print
+                    </button>
+                    <button type="button" class="btn btn-add" id="addComplaintBtn">
+                        <i class="fas fa-plus me-1"></i>Add Complaint
+                    </button>
+                </div>
+            </form>
+
+            <!-- Table -->
+            <div class="table-container">
+                <table class="table table-bordered complaint-table" id="complaintTable">
+                    <thead>
+                        <tr>
+                            <th>Sr</th>
+                            <th>Date</th>
+                            <th>Customer Name</th>
+                            <th>Machine Name</th>
+                            <th>Asset Code</th>
+                            <th>Running Hrs</th>
+                            <th>Type Of Servicing</th>
+                            <th>Nature Of Complaint</th>
+                            <th>Status</th>
+                            <th>Employee</th>
+                            <th>Photo</th>
+                            <th>Schedule Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="complaintTableBody">
+                        <!-- Table rows will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination-container">
+                <div>
+                    <select class="form-select" id="entriesPerPage" style="width: auto; display: inline-block; font-size: 0.8rem;">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        <option value="500">500</option>
+                    </select>
+                    <span class="ms-2 text-muted">entries per page</span>
+                </div>
+                <nav>
+                    <ul class="pagination mb-0" id="pagination">
+                        <!-- Pagination will be populated by JavaScript -->
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Complaint Modal -->
+    <div class="modal fade" id="complaintModal" tabindex="-1" aria-labelledby="complaintModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="complaintModalLabel">Add New Complaint</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="complaintForm">
+                        <input type="hidden" id="complaintId">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Customer Name</label>
+                                <input type="text" class="form-control" id="modalCustomerName" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Machine Name</label>
+                                <input type="text" class="form-control" id="modalMachineName" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Asset Code</label>
+                                <input type="text" class="form-control" id="modalAssetCode">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Running Hours</label>
+                                <input type="text" class="form-control" id="modalRunningHours">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Type Of Servicing</label>
+                                <select class="form-select" id="modalServiceType" required>
+                                    <option value="">Select</option>
+                                    <option value="1st Time">1st Time</option>
+                                    <option value="Repeat">Repeat</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Nature Of Complaint</label>
+                                <textarea class="form-control" id="modalComplaintNature" rows="2" required></textarea>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Status</label>
+                                <select class="form-select" id="modalStatus" required>
+                                    <option value="Pending">Pending</option>
+                                    <option value="Assigned">Assigned</option>
+                                    <option value="InWork">In Work</option>
+                                    <option value="Completed">Completed</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Employee</label>
+                                <select class="form-select" id="modalEmployee" required>
+                                    <option value="">Select Employee</option>
+                                    <option value="BARUN ROY">BARUN ROY</option>
+                                    <option value="SANDEEP">SANDEEP</option>
+                                    <option value="RAJESH">RAJESH</option>
+                                    <option value="AMIT">AMIT</option>
+                                    <option value="VIKAS">VIKAS</option>
+                                    <option value="ROHIT">ROHIT</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Schedule Date</label>
+                                <input type="date" class="form-control" id="modalScheduleDate">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Schedule Time</label>
+                                <input type="time" class="form-control" id="modalScheduleTime">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="saveComplaintBtn">Save Complaint</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Sample data for demonstration - expanded with more records
+        let complaints = [
+            {
+                id: 1,
+                date: "06-10-2025",
+                time: "03:18:38",
+                customerName: "GODREJ EXQUISITE",
+                machineName: "Passenger Hoist",
+                assetCode: "PH-001",
+                runningHours: "1200",
+                serviceType: "1st Time",
+                complaintNature: "abc",
+                status: "InWork",
+                employee: "BARUN ROY",
+                scheduleDate: "06/10/2025",
+                scheduleTime: "03:18:38",
+                completionDate: "01/01/1970",
+                completionTime: "05:36:00"
+            },
+            {
+                id: 2,
+                date: "04-10-2025",
+                time: "10:04:35",
+                customerName: "Acropolis",
+                machineName: "Tower Crane",
+                assetCode: "TC-002",
+                runningHours: "2025-10-04",
+                serviceType: "Repeat",
+                complaintNature: "heating@@$<br><small>1, 2, 3</small>",
+                status: "Assigned",
+                employee: "BARUN ROY",
+                scheduleDate: "",
+                scheduleTime: "",
+                completionDate: "",
+                completionTime: ""
+            },
+            {
+                id: 3,
+                date: "04-10-2025",
+                time: "09:57:45",
+                customerName: "Acropolis",
+                machineName: "Tower Crane",
+                assetCode: "TC-003",
+                runningHours: "2025-09-30",
+                serviceType: "1st Time",
+                complaintNature: "heating@@$",
+                status: "Assigned",
+                employee: "BARUN ROY",
+                scheduleDate: "",
+                scheduleTime: "",
+                completionDate: "",
+                completionTime: ""
+            },
+            {
+                id: 4,
+                date: "30-09-2025",
+                time: "11:23:46",
+                customerName: "Acropolis",
+                machineName: "Tower Crane",
+                assetCode: "TC-004",
+                runningHours: "2025-09-30",
+                serviceType: "1st Time",
+                complaintNature: "heating",
+                status: "Assigned",
+                employee: "BARUN ROY",
+                scheduleDate: "",
+                scheduleTime: "",
+                completionDate: "",
+                completionTime: ""
+            },
+            {
+                id: 5,
+                date: "30-09-2025",
+                time: "11:06:35",
+                customerName: "Acropolis",
+                machineName: "Tower Crane",
+                assetCode: "TC-005",
+                runningHours: "2025-09-30",
+                serviceType: "1st Time",
+                complaintNature: "heating",
+                status: "Assigned",
+                employee: "BARUN ROY",
+                scheduleDate: "",
+                scheduleTime: "",
+                completionDate: "",
+                completionTime: ""
+            },
+            {
+                id: 6,
+                date: "30-09-2025",
+                time: "10:48:28",
+                customerName: "Acropolis",
+                machineName: "Tower Crane",
+                assetCode: "TC-006",
+                runningHours: "2025-09-30",
+                serviceType: "Repeat",
+                complaintNature: "heating",
+                status: "Assigned",
+                employee: "BARUN ROY",
+                scheduleDate: "",
+                scheduleTime: "",
+                completionDate: "",
+                completionTime: ""
+            },
+            {
+                id: 7,
+                date: "30-09-2025",
+                time: "10:46:51",
+                customerName: "Acropolis",
+                machineName: "Tower Crane",
+                assetCode: "TC-007",
+                runningHours: "2025-09-27",
+                serviceType: "1st Time",
+                complaintNature: "heating",
+                status: "Assigned",
+                employee: "BARUN ROY",
+                scheduleDate: "",
+                scheduleTime: "",
+                completionDate: "",
+                completionTime: ""
+            },
+            {
+                id: 8,
+                date: "28-09-2025",
+                time: "14:22:10",
+                customerName: "Infosys Campus",
+                machineName: "Diesel Generator",
+                assetCode: "DG-008",
+                runningHours: "850",
+                serviceType: "Repeat",
+                complaintNature: "Oil leakage",
+                status: "Completed",
+                employee: "SANDEEP",
+                scheduleDate: "28/09/2025",
+                scheduleTime: "14:22:10",
+                completionDate: "29/09/2025",
+                completionTime: "16:45:00"
+            },
+            {
+                id: 9,
+                date: "27-09-2025",
+                time: "09:15:33",
+                customerName: "Tech Park",
+                machineName: "Concrete Mixer",
+                assetCode: "CM-009",
+                runningHours: "2100",
+                serviceType: "1st Time",
+                complaintNature: "Motor not starting",
+                status: "InWork",
+                employee: "RAJESH",
+                scheduleDate: "27/09/2025",
+                scheduleTime: "09:15:33",
+                completionDate: "",
+                completionTime: ""
+            },
+            {
+                id: 10,
+                date: "25-09-2025",
+                time: "16:40:22",
+                customerName: "Mega Mall",
+                machineName: "Escalator",
+                assetCode: "ES-010",
+                runningHours: "3000",
+                serviceType: "Repeat",
+                complaintNature: "Noise in operation",
+                status: "Pending",
+                employee: "AMIT",
+                scheduleDate: "",
+                scheduleTime: "",
+                completionDate: "",
+                completionTime: ""
+            },
+            {
+                id: 11,
+                date: "24-09-2025",
+                time: "11:30:15",
+                customerName: "Residential Complex",
+                machineName: "Water Pump",
+                assetCode: "WP-011",
+                runningHours: "1500",
+                serviceType: "1st Time",
+                complaintNature: "Low pressure",
+                status: "Assigned",
+                employee: "VIKAS",
+                scheduleDate: "",
+                scheduleTime: "",
+                completionDate: "",
+                completionTime: ""
+            },
+            {
+                id: 12,
+                date: "23-09-2025",
+                time: "13:45:50",
+                customerName: "Hospital Building",
+                machineName: "Elevator",
+                assetCode: "EL-012",
+                runningHours: "4200",
+                serviceType: "Repeat",
+                complaintNature: "Door not closing properly",
+                status: "Completed",
+                employee: "ROHIT",
+                scheduleDate: "23/09/2025",
+                scheduleTime: "13:45:50",
+                completionDate: "24/09/2025",
+                completionTime: "10:20:00"
+            },
+            {
+                id: 13,
+                date: "22-09-2025",
+                time: "08:20:05",
+                customerName: "Office Tower",
+                machineName: "HVAC System",
+                assetCode: "HV-013",
+                runningHours: "1800",
+                serviceType: "1st Time",
+                complaintNature: "Cooling not effective",
+                status: "InWork",
+                employee: "BARUN ROY",
+                scheduleDate: "22/09/2025",
+                scheduleTime: "08:20:05",
+                completionDate: "",
+                completionTime: ""
+            },
+            {
+                id: 14,
+                date: "20-09-2025",
+                time: "15:10:40",
+                customerName: "Shopping Center",
+                machineName: "Parking System",
+                assetCode: "PS-014",
+                runningHours: "2500",
+                serviceType: "Repeat",
+                complaintNature: "Sensor malfunction",
+                status: "Pending",
+                employee: "SANDEEP",
+                scheduleDate: "",
+                scheduleTime: "",
+                completionDate: "",
+                completionTime: ""
+            },
+            {
+                id: 15,
+                date: "18-09-2025",
+                time: "10:55:25",
+                customerName: "University Campus",
+                machineName: "Generator Set",
+                assetCode: "GS-015",
+                runningHours: "3200",
+                serviceType: "1st Time",
+                complaintNature: "Fuel consumption high",
+                status: "Assigned",
+                employee: "RAJESH",
+                scheduleDate: "",
+                scheduleTime: "",
+                completionDate: "",
+                completionTime: ""
+            }
+        ];
+
+        // Pagination variables
+        let currentPage = 1;
+        let entriesPerPage = 10;
+        let filteredComplaints = [...complaints];
+
+        // DOM Elements
+        const complaintTableBody = document.getElementById('complaintTableBody');
+        const pagination = document.getElementById('pagination');
+        const entriesPerPageSelect = document.getElementById('entriesPerPage');
+        const searchBtn = document.getElementById('searchBtn');
+        const refreshBtn = document.getElementById('refreshBtn');
+        const printBtn = document.getElementById('printBtn');
+        const addComplaintBtn = document.getElementById('addComplaintBtn');
+        const saveComplaintBtn = document.getElementById('saveComplaintBtn');
+        const complaintModal = new bootstrap.Modal(document.getElementById('complaintModal'));
+        const complaintForm = document.getElementById('complaintForm');
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            renderTable();
+            setupEventListeners();
+        });
+
+        // Set up event listeners
+        function setupEventListeners() {
+            searchBtn.addEventListener('click', handleSearch);
+            refreshBtn.addEventListener('click', handleRefresh);
+            printBtn.addEventListener('click', handlePrint);
+            addComplaintBtn.addEventListener('click', handleAddComplaint);
+            saveComplaintBtn.addEventListener('click', handleSaveComplaint);
+            entriesPerPageSelect.addEventListener('change', handleEntriesPerPageChange);
+        }
+
+        // Render the table with current data
+        function renderTable() {
+            const startIndex = (currentPage - 1) * entriesPerPage;
+            const endIndex = startIndex + entriesPerPage;
+            const currentPageComplaints = filteredComplaints.slice(startIndex, endIndex);
+            
+            complaintTableBody.innerHTML = '';
+            
+            currentPageComplaints.forEach((complaint, index) => {
+                const row = document.createElement('tr');
+                const serialNumber = startIndex + index + 1;
+                
+                row.innerHTML = `
+                    <td>${serialNumber}</td>
+                    <td>${complaint.date}<br><small>${complaint.time}</small></td>
+                    <td>${complaint.customerName}</td>
+                    <td>${complaint.machineName}</td>
+                    <td>${complaint.assetCode}</td>
+                    <td>${complaint.runningHours}</td>
+                    <td>${complaint.serviceType}</td>
+                    <td>${complaint.complaintNature}</td>
+                    <td><span class="status-badge status-${complaint.status.toLowerCase()}">${complaint.status}</span></td>
+                    <td>${complaint.employee}</td>
+                    <td><i class="fas fa-file-alt text-secondary"></i></td>
+                    <td>
+                        ${complaint.scheduleDate ? 
+                            `<small class="text-danger d-block"><i class="fas fa-calendar me-1"></i>${complaint.scheduleDate}</small>
+                             <small class="text-danger">${complaint.scheduleTime}</small><br>
+                             ${complaint.completionDate && complaint.completionDate !== '01/01/1970' ? 
+                                `<small class="text-success d-block mt-1"><i class="fas fa-check-circle me-1"></i>${complaint.completionDate}</small>
+                                 <small class="text-success">${complaint.completionTime}</small>` : 
+                                ''}` : 
+                            `<button class="btn btn-start-job" data-id="${complaint.id}">Start Job</button>`
+                        }
+                    </td>
+                    <td>
+                        <button class="action-btn edit" data-id="${complaint.id}"><i class="fas fa-edit"></i></button>
+                        <button class="action-btn delete" data-id="${complaint.id}"><i class="fas fa-trash"></i></button>
+                    </td>
+                `;
+                
+                complaintTableBody.appendChild(row);
+            });
+            
+            // Add event listeners to action buttons
+            document.querySelectorAll('.action-btn.edit').forEach(btn => {
+                btn.addEventListener('click', handleEditComplaint);
+            });
+            
+            document.querySelectorAll('.action-btn.delete').forEach(btn => {
+                btn.addEventListener('click', handleDeleteComplaint);
+            });
+            
+            document.querySelectorAll('.btn-start-job').forEach(btn => {
+                btn.addEventListener('click', handleStartJob);
+            });
+            
+            renderPagination();
+        }
+
+        // Render pagination controls
+        function renderPagination() {
+            const totalPages = Math.ceil(filteredComplaints.length / entriesPerPage);
+            
+            pagination.innerHTML = '';
+            
+            // First page button
+            const firstPageItem = document.createElement('li');
+            firstPageItem.className = 'page-item';
+            firstPageItem.innerHTML = `<a class="page-link" href="#">First</a>`;
+            firstPageItem.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (currentPage > 1) {
+                    currentPage = 1;
+                    renderTable();
+                }
+            });
+            pagination.appendChild(firstPageItem);
+            
+            // Previous page button
+            const prevPageItem = document.createElement('li');
+            prevPageItem.className = 'page-item';
+            prevPageItem.innerHTML = `<a class="page-link" href="#">«</a>`;
+            prevPageItem.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderTable();
+                }
+            });
+            pagination.appendChild(prevPageItem);
+            
+            // Page numbers
+            const maxVisiblePages = 5;
+            let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+            let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+            
+            if (endPage - startPage + 1 < maxVisiblePages) {
+                startPage = Math.max(1, endPage - maxVisiblePages + 1);
+            }
+            
+            for (let i = startPage; i <= endPage; i++) {
+                const pageItem = document.createElement('li');
+                pageItem.className = 'page-item';
+                pageItem.innerHTML = `<a class="page-link ${i === currentPage ? 'active' : ''}" href="#">${i}</a>`;
+                pageItem.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    currentPage = i;
+                    renderTable();
+                });
+                pagination.appendChild(pageItem);
+            }
+            
+            // Next page button
+            const nextPageItem = document.createElement('li');
+            nextPageItem.className = 'page-item';
+            nextPageItem.innerHTML = `<a class="page-link" href="#">»</a>`;
+            nextPageItem.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderTable();
+                }
+            });
+            pagination.appendChild(nextPageItem);
+            
+            // Last page button
+            const lastPageItem = document.createElement('li');
+            lastPageItem.className = 'page-item';
+            lastPageItem.innerHTML = `<a class="page-link" href="#">Last</a>`;
+            lastPageItem.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (currentPage < totalPages) {
+                    currentPage = totalPages;
+                    renderTable();
+                }
+            });
+            pagination.appendChild(lastPageItem);
+        }
+
+        // Handle search functionality
+        function handleSearch() {
+            const fromDate = document.getElementById('fromDate').value;
+            const toDate = document.getElementById('toDate').value;
+            const customerName = document.getElementById('customerName').value.toLowerCase();
+            const employeeName = document.getElementById('employeeName').value.toLowerCase();
+            const machineName = document.getElementById('machineName').value.toLowerCase();
+            const workStatus = document.getElementById('workStatus').value;
+            const serviceType = document.getElementById('serviceType').value;
+            const assetCode = document.getElementById('assetCode').value.toLowerCase();
+            
+            filteredComplaints = complaints.filter(complaint => {
+                // Date filter
+                const complaintDate = new Date(complaint.date.split('-').reverse().join('-'));
+                const fromDateObj = fromDate ? new Date(fromDate) : null;
+                const toDateObj = toDate ? new Date(toDate) : null;
+                
+                if (fromDateObj && complaintDate < fromDateObj) return false;
+                if (toDateObj && complaintDate > toDateObj) return false;
+                
+                // Text filters
+                if (customerName && !complaint.customerName.toLowerCase().includes(customerName)) return false;
+                if (employeeName && !complaint.employee.toLowerCase().includes(employeeName)) return false;
+                if (machineName && !complaint.machineName.toLowerCase().includes(machineName)) return false;
+                if (assetCode && !complaint.assetCode.toLowerCase().includes(assetCode)) return false;
+                
+                // Select filters
+                if (workStatus && complaint.status !== workStatus) return false;
+                if (serviceType && complaint.serviceType !== serviceType) return false;
+                
+                return true;
+            });
+            
+            currentPage = 1;
+            renderTable();
+        }
+
+        // Handle refresh functionality
+        function handleRefresh() {
+            document.getElementById('filterForm').reset();
+            filteredComplaints = [...complaints];
+            currentPage = 1;
+            renderTable();
+        }
+
+        // Handle print functionality
+        function handlePrint() {
+            window.print();
+        }
+
+        // Handle entries per page change
+        function handleEntriesPerPageChange() {
+            entriesPerPage = parseInt(entriesPerPageSelect.value);
+            currentPage = 1;
+            renderTable();
+        }
+
+        // Handle add complaint
+        function handleAddComplaint() {
+            document.getElementById('complaintModalLabel').textContent = 'Add New Complaint';
+            complaintForm.reset();
+            document.getElementById('complaintId').value = '';
+            complaintModal.show();
+        }
+
+        // Handle edit complaint
+        function handleEditComplaint(e) {
+            const complaintId = parseInt(e.currentTarget.getAttribute('data-id'));
+            const complaint = complaints.find(c => c.id === complaintId);
+            
+            if (complaint) {
+                document.getElementById('complaintModalLabel').textContent = 'Edit Complaint';
+                document.getElementById('complaintId').value = complaint.id;
+                document.getElementById('modalCustomerName').value = complaint.customerName;
+                document.getElementById('modalMachineName').value = complaint.machineName;
+                document.getElementById('modalAssetCode').value = complaint.assetCode;
+                document.getElementById('modalRunningHours').value = complaint.runningHours;
+                document.getElementById('modalServiceType').value = complaint.serviceType;
+                document.getElementById('modalComplaintNature').value = complaint.complaintNature.replace(/<br><small>.*<\/small>/, '');
+                document.getElementById('modalStatus').value = complaint.status;
+                document.getElementById('modalEmployee').value = complaint.employee;
+                
+                if (complaint.scheduleDate) {
+                    const scheduleDateParts = complaint.scheduleDate.split('/');
+                    document.getElementById('modalScheduleDate').value = `${scheduleDateParts[2]}-${scheduleDateParts[1]}-${scheduleDateParts[0]}`;
+                }
+                
+                if (complaint.scheduleTime) {
+                    document.getElementById('modalScheduleTime').value = complaint.scheduleTime;
+                }
+                
+                complaintModal.show();
+            }
+        }
+
+        // Handle delete complaint
+        function handleDeleteComplaint(e) {
+            const complaintId = parseInt(e.currentTarget.getAttribute('data-id'));
+            
+            if (confirm('Are you sure you want to delete this complaint?')) {
+                complaints = complaints.filter(c => c.id !== complaintId);
+                filteredComplaints = filteredComplaints.filter(c => c.id !== complaintId);
+                renderTable();
+            }
+        }
+
+        // Handle start job
+        function handleStartJob(e) {
+            const complaintId = parseInt(e.currentTarget.getAttribute('data-id'));
+            const complaint = complaints.find(c => c.id === complaintId);
+            
+            if (complaint) {
+                complaint.status = 'InWork';
+                const today = new Date();
+                complaint.scheduleDate = today.toLocaleDateString('en-GB').split('/').join('/');
+                complaint.scheduleTime = today.toLocaleTimeString('en-GB', { hour12: false });
+                
+                // Update filtered complaints as well
+                const filteredComplaint = filteredComplaints.find(c => c.id === complaintId);
+                if (filteredComplaint) {
+                    filteredComplaint.status = 'InWork';
+                    filteredComplaint.scheduleDate = complaint.scheduleDate;
+                    filteredComplaint.scheduleTime = complaint.scheduleTime;
+                }
+                
+                renderTable();
+            }
+        }
+
+        // Handle save complaint
+        function handleSaveComplaint() {
+            const complaintId = document.getElementById('complaintId').value;
+            const customerName = document.getElementById('modalCustomerName').value;
+            const machineName = document.getElementById('modalMachineName').value;
+            const assetCode = document.getElementById('modalAssetCode').value;
+            const runningHours = document.getElementById('modalRunningHours').value;
+            const serviceType = document.getElementById('modalServiceType').value;
+            const complaintNature = document.getElementById('modalComplaintNature').value;
+            const status = document.getElementById('modalStatus').value;
+            const employee = document.getElementById('modalEmployee').value;
+            const scheduleDate = document.getElementById('modalScheduleDate').value;
+            const scheduleTime = document.getElementById('modalScheduleTime').value;
+            
+            if (!customerName || !machineName || !serviceType || !complaintNature || !status || !employee) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            const today = new Date();
+            const formattedDate = today.toLocaleDateString('en-GB').split('/').join('-');
+            const formattedTime = today.toLocaleTimeString('en-GB', { hour12: false });
+            
+            if (complaintId) {
+                // Update existing complaint
+                const index = complaints.findIndex(c => c.id === parseInt(complaintId));
+                if (index !== -1) {
+                    complaints[index].customerName = customerName;
+                    complaints[index].machineName = machineName;
+                    complaints[index].assetCode = assetCode;
+                    complaints[index].runningHours = runningHours;
+                    complaints[index].serviceType = serviceType;
+                    complaints[index].complaintNature = complaintNature;
+                    complaints[index].status = status;
+                    complaints[index].employee = employee;
+                    
+                    if (scheduleDate) {
+                        const dateParts = scheduleDate.split('-');
+                        complaints[index].scheduleDate = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
+                        complaints[index].scheduleTime = scheduleTime;
+                    }
+                    
+                    // Update filtered complaints as well
+                    const filteredIndex = filteredComplaints.findIndex(c => c.id === parseInt(complaintId));
+                    if (filteredIndex !== -1) {
+                        filteredComplaints[filteredIndex] = {...complaints[index]};
+                    }
+                }
+            } else {
+                // Add new complaint
+                const newComplaint = {
+                    id: complaints.length > 0 ? Math.max(...complaints.map(c => c.id)) + 1 : 1,
+                    date: formattedDate,
+                    time: formattedTime,
+                    customerName,
+                    machineName,
+                    assetCode,
+                    runningHours,
+                    serviceType,
+                    complaintNature,
+                    status,
+                    employee,
+                    scheduleDate: scheduleDate ? `${scheduleDate.split('-')[2]}/${scheduleDate.split('-')[1]}/${scheduleDate.split('-')[0]}` : '',
+                    scheduleTime: scheduleTime || '',
+                    completionDate: '',
+                    completionTime: ''
+                };
+                
+                complaints.push(newComplaint);
+                filteredComplaints.push(newComplaint);
+            }
+            
+            complaintModal.hide();
+            renderTable();
+        }
+
+        // Navigation function to go back to dashboard
+        function navigateBackToIndex() {
+           window.location.href='index.html'
+        }
+    </script>
+</body>
+</html>

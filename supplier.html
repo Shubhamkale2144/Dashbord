@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supplier & Purchase Management System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #f39c12;
+            --success-color: #27ae60;
+            --danger-color: #e74c3c;
+            --bg-light: #f8f9fa;
+        }
+
+        body {
+            background: linear-gradient(135deg, #3a444227 0%, #2a5298 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .main-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin: 20px;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .breadcrumb-section {
+            background: linear-gradient(135deg, #9eabc4 0%, #a3b1ca 100%);
+            padding: 20px 30px;
+            color: white;
+        }
+
+        .breadcrumb {
+            background: transparent;
+            margin: 0;
+            padding: 0;
+        }
+
+        .breadcrumb-item a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+        }
+
+        .breadcrumb-item.active {
+            color: white;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            padding: 30px;
+            color: white;
+        }
+
+        .filter-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 30px;
+        }
+
+        .stats-card {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .stats-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .table-container {
+            padding: 0 30px 30px 30px;
+        }
+
+        .table {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .table thead {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+        }
+
+        .table thead th {
+            border: none;
+            padding: 15px;
+            font-weight: 600;
+        }
+
+        .table tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        .table tbody tr:hover {
+            background: #f8f9fa;
+            transform: scale(1.01);
+        }
+
+        .badge-paid {
+            background: var(--success-color);
+            padding: 6px 12px;
+            border-radius: 20px;
+        }
+
+        .badge-pending {
+            background: var(--danger-color);
+            padding: 6px 12px;
+            border-radius: 20px;
+        }
+
+        .badge-partial {
+            background: var(--secondary-color);
+            padding: 6px 12px;
+            border-radius: 20px;
+        }
+
+        .btn-action {
+            padding: 5px 10px;
+            margin: 0 2px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-box input {
+            padding-left: 40px;
+            border-radius: 25px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+
+        .pagination-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .purchase-history-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid #1e3c72;
+        }
+
+        .dropdown-export {
+            position: relative;
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #printArea, #printArea * {
+                visibility: visible;
+            }
+            #printArea {
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+        }
+
+        .invoice-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .invoice-details {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb-section">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html" class="text-white"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page"><i class="fas fa-truck"></i> Supplier & Purchase Management</li>
+                </ol>
+            </nav>
+        </div>
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h2><i class="fas fa-truck me-2"></i>Supplier Management</h2>
+                    <p class="mb-0">Manage suppliers, purchases, and machinery products</p>
+                </div>
+                <div class="col-md-6 text-end">
+                    <button class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#addPurchaseModal">
+                        <i class="fas fa-shopping-cart"></i> Add Purchase Entry
+                    </button>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSupplierModal">
+                        <i class="fas fa-plus"></i> Add Supplier
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="row mt-4">
+                <div class="col-md-3">
+                    <div class="stats-card">
+                        <h6><i class="fas fa-truck"></i> Total Suppliers</h6>
+                        <h3 id="totalSuppliers">0</h3>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stats-card" style="background: linear-gradient(135deg, #27ae60, #2ecc71);">
+                        <h6><i class="fas fa-check-circle"></i> Total Paid</h6>
+                        <h3 id="totalPaid">₹0</h3>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stats-card" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">
+                        <h6><i class="fas fa-exclamation-circle"></i> Total Remaining</h6>
+                        <h3 id="totalRemaining">₹0</h3>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stats-card" style="background: linear-gradient(135deg, #f39c12, #e67e22);">
+                        <h6><i class="fas fa-shopping-bag"></i> Total Purchases</h6>
+                        <h3 id="totalPurchases">0</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" class="form-control" placeholder="Search suppliers...">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-primary w-100" onclick="applyFilters()">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+                </div>
+                <div class="col-md-2">
+                    <select id="categoryFilter" class="form-select">
+                        <option value="">All Categories</option>
+                        <option value="material">Materials</option>
+                        <option value="machinery">Machinery</option>
+                        <option value="products">Products</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select id="paymentStatusFilter" class="form-select">
+                        <option value="">Payment Status</option>
+                        <option value="paid">Fully Paid</option>
+                        <option value="partial">Partially Paid</option>
+                        <option value="pending">Pending</option>
+                    </select>
+                </div>
+                <div class="col-md-1">
+                    <select id="entriesPerPage" class="form-select">
+                        <option value="10">10</option>
+                        <option value="50">50</option>
+                        <option value="200">200</option>
+                        <option value="500">500</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-warning w-100" onclick="resetFilters()">
+                        <i class="fas fa-redo"></i> Reset
+                    </button>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-12 text-end">
+                    <div class="dropdown d-inline-block">
+                        <button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-download"></i> Export
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" onclick="exportToExcel()"><i class="fas fa-file-excel text-success"></i> Excel</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="exportToPDF()"><i class="fas fa-file-pdf text-danger"></i> PDF</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="printTable()"><i class="fas fa-print text-primary"></i> Print</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table Container -->
+        <div class="table-container">
+            <div class="table-responsive">
+                <table class="table table-hover" id="supplierTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Supplier Name</th>
+                            <th>Category</th>
+                            <th>Phone</th>
+                            <th>Total Purchases</th>
+                            <th>Total Amount</th>
+                            <th>Paid</th>
+                            <th>Remaining</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="supplierTableBody">
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="pagination-info">
+                <div>
+                    Showing <span id="showingStart">0</span> to <span id="showingEnd">0</span> of <span id="totalEntries">0</span> entries
+                </div>
+                <nav>
+                    <ul class="pagination" id="pagination">
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Supplier Modal -->
+    <div class="modal fade" id="addSupplierModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-plus"></i> Add New Supplier</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="supplierForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Supplier Name *</label>
+                                <input type="text" class="form-control" id="supplierName" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Category *</label>
+                                <select class="form-select" id="supplierCategory" required>
+                                    <option value="">Select Category</option>
+                                    <option value="material">Materials (Cement, Steel, Bricks)</option>
+                                    <option value="machinery">Machinery (Equipment, Tools)</option>
+                                    <option value="products">Products (Goods, Supplies)</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Phone Number *</label>
+                                <input type="tel" class="form-control" id="phoneNumber" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email">
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <label class="form-label">Address</label>
+                                <textarea class="form-control" id="address" rows="2"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="addSupplier()">Add Supplier</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Purchase Modal -->
+    <div class="modal fade" id="addPurchaseModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-shopping-cart"></i> Add Purchase Entry</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="purchaseForm">
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Select Supplier *</label>
+                                <select class="form-select" id="purchaseSupplier" required>
+                                    <option value="">Choose Supplier</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Purchase Date *</label>
+                                <input type="date" class="form-control" id="purchaseDate" required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Invoice/PO Number</label>
+                                <input type="text" class="form-control" id="invoiceNumber">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Item/Product Name *</label>
+                                <input type="text" class="form-control" id="itemName" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Item Description</label>
+                                <input type="text" class="form-control" id="itemDescription">
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label">Quantity *</label>
+                                <input type="number" class="form-control" id="quantity" required>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label">Unit</label>
+                                <input type="text" class="form-control" id="unit" placeholder="kg, pcs, ton">
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label">Price per Unit *</label>
+                                <input type="number" class="form-control" id="pricePerUnit" required>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label">Total Amount *</label>
+                                <input type="number" class="form-control" id="totalAmount" readonly>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Delivery Location *</label>
+                                <input type="text" class="form-control" id="deliveryLocation" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Delivery Date</label>
+                                <input type="date" class="form-control" id="deliveryDate">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Amount Paid</label>
+                                <input type="number" class="form-control" id="paidAmount" value="0">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Remaining Amount</label>
+                                <input type="number" class="form-control" id="remainingAmount" readonly>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <label class="form-label">Notes/Comments</label>
+                                <textarea class="form-control" id="notes" rows="2"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="addPurchase()">Add Purchase</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Supplier Modal -->
+    <div class="modal fade" id="viewSupplierModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-eye"></i> Supplier Details & Purchase History</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="viewSupplierContent">
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" onclick="downloadPurchaseOrderPDF()"><i class="fas fa-file-pdf"></i> Download PO PDF</button>
+                    <button class="btn btn-info text-white" onclick="makePayment()"><i class="fas fa-money-bill"></i> Make Payment</button>
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div class="modal fade" id="paymentModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-money-bill"></i> Make Payment</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="paymentForm">
+                        <input type="hidden" id="paymentPurchaseId">
+                        <div class="mb-3">
+                            <label class="form-label">Remaining Amount</label>
+                            <input type="number" class="form-control" id="paymentRemaining" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Payment Amount *</label>
+                            <input type="number" class="form-control" id="paymentAmountInput" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Payment Date *</label>
+                            <input type="date" class="form-control" id="paymentDate" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Payment Method</label>
+                            <select class="form-select" id="paymentMethod">
+                                <option value="cash">Cash</option>
+                                <option value="bank">Bank Transfer</option>
+                                <option value="cheque">Cheque</option>
+                                <option value="upi">UPI</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Payment Notes</label>
+                            <textarea class="form-control" id="paymentNotes" rows="2"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="submitPayment()">Submit Payment</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden Print Area -->
+    <div id="printArea" style="display: none;"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        let suppliers = [];
+        let purchases = [];
+        let currentPage = 1;
+        let entriesPerPage = 10;
+        let filteredSuppliers = [];
+        let currentViewingSupplierId = null;
+
+        // Initialize with sample data
+        function initializeData() {
+            suppliers = [
+                {id: 1, name: "ABC Materials Ltd", category: "material", phone: "+91 98765 43210", email: "abc@materials.com", address: "Mumbai, Maharashtra"},
+                {id: 2, name: "XYZ Machinery Co", category: "machinery", phone: "+91 98765 43211", email: "xyz@machinery.com", address: "Delhi, India"},
+                {id: 3, name: "Global Products Inc", category: "products", phone: "+91 98765 43212", email: "global@products.com", address: "Bangalore, Karnataka"},
+                {id: 4, name: "Prime Steel Suppliers", category: "material", phone: "+91 98765 43213", email: "prime@steel.com", address: "Pune, Maharashtra"},
+                {id: 5, name: "Elite Equipment", category: "machinery", phone: "+91 98765 43214", email: "elite@equipment.com", address: "Chennai, Tamil Nadu"},
+                {id: 6, name: "ABC Materials Ltd", category: "material", phone: "+91 98765 43210", email: "abc@materials.com", address: "Mumbai, Maharashtra"},
+                {id: 7, name: "XYZ Machinery Co", category: "machinery", phone: "+91 98765 43211", email: "xyz@machinery.com", address: "Delhi, India"},
+                {id: 8, name: "Global Products Inc", category: "products", phone: "+91 98765 43212", email: "global@products.com", address: "Bangalore, Karnataka"},
+                {id: 9, name: "Prime Steel Suppliers", category: "material", phone: "+91 98765 43213", email: "prime@steel.com", address: "Pune, Maharashtra"},
+                {id: 10, name: "Elite Equipment", category: "machinery", phone: "+91 98765 43214", email: "elite@equipment.com", address: "Chennai, Tamil Nadu"},
+                {id: 11, name: "ABC Materials Ltd", category: "material", phone: "+91 98765 43210", email: "abc@materials.com", address: "Mumbai, Maharashtra"},
+                {id: 12, name: "XYZ Machinery Co", category: "machinery", phone: "+91 98765 43211", email: "xyz@machinery.com", address: "Delhi, India"},
+                {id: 13, name: "Global Products Inc", category: "products", phone: "+91 98765 43212", email: "global@products.com", address: "Bangalore, Karnataka"},
+                {id: 14, name: "Prime Steel Suppliers", category: "material", phone: "+91 98765 43213", email: "prime@steel.com", address: "Pune, Maharashtra"},
+                {id: 15, name: "Elite Equipment", category: "machinery", phone: "+91 98765 43214", email: "elite@equipment.com", address: "Chennai, Tamil Nadu"},
+                {id: 16, name: "ABC Materials Ltd", category: "material", phone: "+91 98765 43210", email: "abc@materials.com", address: "Mumbai, Maharashtra"},
+                {id: 17, name: "XYZ Machinery Co", category: "machinery", phone: "+91 98765 43211", email: "xyz@machinery.com", address: "Delhi, India"},
+                {id: 18, name: "Global Products Inc", category: "products", phone: "+91 98765 43212", email: "global@products.com", address: "Bangalore, Karnataka"},
+                {id: 19, name: "Prime Steel Suppliers", category: "material", phone: "+91 98765 43213", email: "prime@steel.com", address: "Pune, Maharashtra"},
+                {id: 20, name: "Elite Equipment", category: "machinery", phone: "+91 98765 43214", email: "elite@equipment.com", address: "Chennai, Tamil Nadu"}
+            ];
+
+            purchases = [
+                {id: 1, supplierId: 1, date: "2024-10-01", invoiceNumber: "INV-001", itemName: "Cement", description: "OPC 53 Grade", quantity: 100, unit: "bags", pricePerUnit: 400, totalAmount: 40000, paidAmount: 20000, remainingAmount: 20000, deliveryLocation: "Site A, Mumbai", deliveryDate: "2024-10-05", notes: "Urgent delivery", payments: [{date: "2024-10-01", amount: 20000, method: "bank", notes: "Initial payment"}]},
+                {id: 2, supplierId: 1, date: "2024-10-10", invoiceNumber: "INV-002", itemName: "Steel Rods", description: "12mm TMT", quantity: 50, unit: "ton", pricePerUnit: 55000, totalAmount: 2750000, paidAmount: 1000000, remainingAmount: 1750000, deliveryLocation: "Site B, Mumbai", deliveryDate: "2024-10-15", notes: "Quality check required", payments: [{date: "2024-10-10", amount: 1000000, method: "cheque", notes: "Advance payment"}]},
+                {id: 3, supplierId: 2, date: "2024-09-20", invoiceNumber: "INV-003", itemName: "Excavator", description: "CAT 320D", quantity: 1, unit: "unit", pricePerUnit: 5500000, totalAmount: 5500000, paidAmount: 5500000, remainingAmount: 0, deliveryLocation: "Delhi Office", deliveryDate: "2024-09-25", notes: "Fully paid", payments: [{date: "2024-09-20", amount: 2750000, method: "bank", notes: "50% advance"}, {date: "2024-09-25", amount: 2750000, method: "bank", notes: "Final payment"}]},
+                {id: 4, supplierId: 3, date: "2024-10-05", invoiceNumber: "INV-004", itemName: "Safety Equipment", description: "Helmets, Gloves, Boots", quantity: 200, unit: "pcs", pricePerUnit: 500, totalAmount: 100000, paidAmount: 0, remainingAmount: 100000, deliveryLocation: "Bangalore Warehouse", deliveryDate: "2024-10-12", notes: "COD", payments: []},
+                {id: 5, supplierId: 4, date: "2024-09-15", invoiceNumber: "INV-005", itemName: "Steel Beams", description: "ISMB 200", quantity: 30, unit: "ton", pricePerUnit: 60000, totalAmount: 1800000, paidAmount: 900000, remainingAmount: 900000, deliveryLocation: "Pune Site", deliveryDate: "2024-09-20", notes: "50% paid", payments: [{date: "2024-09-15", amount: 900000, method: "upi", notes: "Half payment"}]},
+                {id: 6, supplierId: 5, date: "2024-10-01", invoiceNumber: "INV-001", itemName: "Cement", description: "OPC 53 Grade", quantity: 100, unit: "bags", pricePerUnit: 400, totalAmount: 40000, paidAmount: 20000, remainingAmount: 20000, deliveryLocation: "Site A, Mumbai", deliveryDate: "2024-10-05", notes: "Urgent delivery", payments: [{date: "2024-10-01", amount: 20000, method: "bank", notes: "Initial payment"}]},
+                {id: 7, supplierId: 6, date: "2024-10-10", invoiceNumber: "INV-002", itemName: "Steel Rods", description: "12mm TMT", quantity: 50, unit: "ton", pricePerUnit: 55000, totalAmount: 2750000, paidAmount: 1000000, remainingAmount: 1750000, deliveryLocation: "Site B, Mumbai", deliveryDate: "2024-10-15", notes: "Quality check required", payments: [{date: "2024-10-10", amount: 1000000, method: "cheque", notes: "Advance payment"}]},
+                {id: 8, supplierId: 7, date: "2024-09-20", invoiceNumber: "INV-003", itemName: "Excavator", description: "CAT 320D", quantity: 1, unit: "unit", pricePerUnit: 5500000, totalAmount: 5500000, paidAmount: 5500000, remainingAmount: 0, deliveryLocation: "Delhi Office", deliveryDate: "2024-09-25", notes: "Fully paid", payments: [{date: "2024-09-20", amount: 2750000, method: "bank", notes: "50% advance"}, {date: "2024-09-25", amount: 2750000, method: "bank", notes: "Final payment"}]},
+                {id: 9, supplierId: 8, date: "2024-10-05", invoiceNumber: "INV-004", itemName: "Safety Equipment", description: "Helmets, Gloves, Boots", quantity: 200, unit: "pcs", pricePerUnit: 500, totalAmount: 100000, paidAmount: 0, remainingAmount: 100000, deliveryLocation: "Bangalore Warehouse", deliveryDate: "2024-10-12", notes: "COD", payments: []},
+                {id: 10, supplierId: 9, date: "2024-09-15", invoiceNumber: "INV-005", itemName: "Steel Beams", description: "ISMB 200", quantity: 30, unit: "ton", pricePerUnit: 60000, totalAmount: 1800000, paidAmount: 900000, remainingAmount: 900000, deliveryLocation: "Pune Site", deliveryDate: "2024-09-20", notes: "50% paid", payments: [{date: "2024-09-15", amount: 900000, method: "upi", notes: "Half payment"}]},
+                {id: 11, supplierId: 10, date: "2024-10-01", invoiceNumber: "INV-001", itemName: "Cement", description: "OPC 53 Grade", quantity: 100, unit: "bags", pricePerUnit: 400, totalAmount: 40000, paidAmount: 20000, remainingAmount: 20000, deliveryLocation: "Site A, Mumbai", deliveryDate: "2024-10-05", notes: "Urgent delivery", payments: [{date: "2024-10-01", amount: 20000, method: "bank", notes: "Initial payment"}]},
+                {id: 12, supplierId: 11, date: "2024-10-10", invoiceNumber: "INV-002", itemName: "Steel Rods", description: "12mm TMT", quantity: 50, unit: "ton", pricePerUnit: 55000, totalAmount: 2750000, paidAmount: 1000000, remainingAmount: 1750000, deliveryLocation: "Site B, Mumbai", deliveryDate: "2024-10-15", notes: "Quality check required", payments: [{date: "2024-10-10", amount: 1000000, method: "cheque", notes: "Advance payment"}]},
+                {id: 13, supplierId: 12, date: "2024-09-20", invoiceNumber: "INV-003", itemName: "Excavator", description: "CAT 320D", quantity: 1, unit: "unit", pricePerUnit: 5500000, totalAmount: 5500000, paidAmount: 5500000, remainingAmount: 0, deliveryLocation: "Delhi Office", deliveryDate: "2024-09-25", notes: "Fully paid", payments: [{date: "2024-09-20", amount: 2750000, method: "bank", notes: "50% advance"}, {date: "2024-09-25", amount: 2750000, method: "bank", notes: "Final payment"}]},
+                {id: 14, supplierId: 13, date: "2024-10-05", invoiceNumber: "INV-004", itemName: "Safety Equipment", description: "Helmets, Gloves, Boots", quantity: 200, unit: "pcs", pricePerUnit: 500, totalAmount: 100000, paidAmount: 0, remainingAmount: 100000, deliveryLocation: "Bangalore Warehouse", deliveryDate: "2024-10-12", notes: "COD", payments: []},
+                {id: 15, supplierId: 14, date: "2024-09-15", invoiceNumber: "INV-005", itemName: "Steel Beams", description: "ISMB 200", quantity: 30, unit: "ton", pricePerUnit: 60000, totalAmount: 1800000, paidAmount: 900000, remainingAmount: 900000, deliveryLocation: "Pune Site", deliveryDate: "2024-09-20", notes: "50% paid", payments: [{date: "2024-09-15", amount: 900000, method: "upi", notes: "Half payment"}]}
+            ];
+
+            updateSupplierSelect();
+            filteredSuppliers = [...suppliers];
+            updateStats();
+            renderTable();
+        }
+
+        function updateSupplierSelect() {
+            const select = document.getElementById('purchaseSupplier');
+            select.innerHTML = '<option value="">Choose Supplier</option>';
+            suppliers.forEach(supplier => {
+                select.innerHTML += `<option value="${supplier.id}">${supplier.name} (${supplier.category})</option>`;
+            });
+        }
+
+        function getSupplierPurchases(supplierId) {
+            return purchases.filter(p => p.supplierId === supplierId);
+        }
+
+        function getSupplierStats(supplierId) {
+            const supplierPurchases = getSupplierPurchases(supplierId);
+            const totalPurchases = supplierPurchases.length;
+            const totalAmount = supplierPurchases.reduce((sum, p) => sum + p.totalAmount, 0);
+            const paidAmount = supplierPurchases.reduce((sum, p) => sum + p.paidAmount, 0);
+            const remainingAmount = supplierPurchases.reduce((sum, p) => sum + p.remainingAmount, 0);
+            return { totalPurchases, totalAmount, paidAmount, remainingAmount };
+        }
+
+        function updateStats() {
+            document.getElementById('totalSuppliers').textContent = suppliers.length;
+            document.getElementById('totalPurchases').textContent = purchases.length;
+            
+            const totalPaid = purchases.reduce((sum, p) => sum + p.paidAmount, 0);
+            const totalRemaining = purchases.reduce((sum, p) => sum + p.remainingAmount, 0);
+            
+            document.getElementById('totalPaid').textContent = '₹' + totalPaid.toLocaleString();
+            document.getElementById('totalRemaining').textContent = '₹' + totalRemaining.toLocaleString();
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('supplierTableBody');
+            const start = (currentPage - 1) * entriesPerPage;
+            const end = start + entriesPerPage;
+            const paginatedData = filteredSuppliers.slice(start, end);
+
+            tbody.innerHTML = paginatedData.map(supplier => {
+                const stats = getSupplierStats(supplier.id);
+                const status = stats.remainingAmount === 0 ? 'paid' : 
+                              stats.paidAmount === 0 ? 'pending' : 'partial';
+                const statusBadge = status === 'paid' ? 'badge-paid' : 
+                                   status === 'pending' ? 'badge-pending' : 'badge-partial';
+                const statusText = status === 'paid' ? 'Fully Paid' : 
+                                  status === 'pending' ? 'Pending' : 'Partial';
+
+                return `
+                    <tr>
+                        <td>${supplier.id}</td>
+                        <td><strong>${supplier.name}</strong></td>
+                        <td><span class="badge bg-info">${supplier.category}</span></td>
+                        <td>${supplier.phone}</td>
+                        <td><span class="badge bg-secondary">${stats.totalPurchases}</span></td>
+                        <td>₹${stats.totalAmount.toLocaleString()}</td>
+                        <td>₹${stats.paidAmount.toLocaleString()}</td>
+                        <td>₹${stats.remainingAmount.toLocaleString()}</td>
+                        <td><span class="badge ${statusBadge}">${statusText}</span></td>
+                        <td>
+                            <button class="btn btn-sm btn-info btn-action" onclick="viewSupplier(${supplier.id})" title="View Details">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn btn-sm btn-success btn-action" onclick="quickPayment(${supplier.id})" title="Make Payment">
+                                <i class="fas fa-money-bill"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger btn-action" onclick="deleteSupplier(${supplier.id})" title="Delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+
+            updatePagination();
+            updatePaginationInfo();
+        }
+
+        function updatePagination() {
+            const totalPages = Math.ceil(filteredSuppliers.length / entriesPerPage);
+            const pagination = document.getElementById('pagination');
+            
+            let html = '';
+            
+            html += `<li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                        <a class="page-link" href="#" onclick="changePage(${currentPage - 1})">Previous</a>
+                     </li>`;
+            
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === 1 || i === totalPages || (i >= currentPage - 2 && i <= currentPage + 2)) {
+                    html += `<li class="page-item ${i === currentPage ? 'active' : ''}">
+                                <a class="page-link" href="#" onclick="changePage(${i})">${i}</a>
+                             </li>`;
+                } else if (i === currentPage - 3 || i === currentPage + 3) {
+                    html += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+                }
+            }
+            
+            html += `<li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+                        <a class="page-link" href="#" onclick="changePage(${currentPage + 1})">Next</a>
+                     </li>`;
+            
+            pagination.innerHTML = html;
+        }
+
+        function updatePaginationInfo() {
+            const start = (currentPage - 1) * entriesPerPage + 1;
+            const end = Math.min(start + entriesPerPage - 1, filteredSuppliers.length);
+            
+            document.getElementById('showingStart').textContent = start;
+            document.getElementById('showingEnd').textContent = end;
+            document.getElementById('totalEntries').textContent = filteredSuppliers.length;
+        }
+
+        function changePage(page) {
+            const totalPages = Math.ceil(filteredSuppliers.length / entriesPerPage);
+            if (page >= 1 && page <= totalPages) {
+                currentPage = page;
+                renderTable();
+            }
+        }
+
+        function applyFilters() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const categoryFilter = document.getElementById('categoryFilter').value;
+            const paymentFilter = document.getElementById('paymentStatusFilter').value;
+
+            filteredSuppliers = suppliers.filter(supplier => {
+                const matchesSearch = supplier.name.toLowerCase().includes(searchTerm) ||
+                                     supplier.phone.includes(searchTerm) ||
+                                     supplier.email.toLowerCase().includes(searchTerm);
+                
+                const matchesCategory = !categoryFilter || supplier.category === categoryFilter;
+                
+                const stats = getSupplierStats(supplier.id);
+                const status = stats.remainingAmount === 0 ? 'paid' : 
+                              stats.paidAmount === 0 ? 'pending' : 'partial';
+                const matchesPayment = !paymentFilter || status === paymentFilter;
+
+                return matchesSearch && matchesCategory && matchesPayment;
+            });
+
+            currentPage = 1;
+            renderTable();
+        }
+
+        function resetFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('categoryFilter').value = '';
+            document.getElementById('paymentStatusFilter').value = '';
+            filteredSuppliers = [...suppliers];
+            currentPage = 1;
+            renderTable();
+        }
+
+        function addSupplier() {
+            const name = document.getElementById('supplierName').value;
+            const category = document.getElementById('supplierCategory').value;
+            const phone = document.getElementById('phoneNumber').value;
+            const email = document.getElementById('email').value;
+            const address = document.getElementById('address').value;
+
+            if (!name || !category || !phone) {
+                alert('Please fill all required fields');
+                return;
+            }
+
+            const newSupplier = {
+                id: suppliers.length + 1,
+                name, category, phone, email, address
+            };
+
+            suppliers.push(newSupplier);
+            filteredSuppliers = [...suppliers];
+            updateSupplierSelect();
+            updateStats();
+            renderTable();
+
+            bootstrap.Modal.getInstance(document.getElementById('addSupplierModal')).hide();
+            document.getElementById('supplierForm').reset();
+        }
+
+        function addPurchase() {
+            const supplierId = parseInt(document.getElementById('purchaseSupplier').value);
+            const date = document.getElementById('purchaseDate').value;
+            const invoiceNumber = document.getElementById('invoiceNumber').value;
+            const itemName = document.getElementById('itemName').value;
+            const description = document.getElementById('itemDescription').value;
+            const quantity = parseFloat(document.getElementById('quantity').value);
+            const unit = document.getElementById('unit').value;
+            const pricePerUnit = parseFloat(document.getElementById('pricePerUnit').value);
+            const totalAmount = parseFloat(document.getElementById('totalAmount').value);
+            const paidAmount = parseFloat(document.getElementById('paidAmount').value) || 0;
+            const remainingAmount = totalAmount - paidAmount;
+            const deliveryLocation = document.getElementById('deliveryLocation').value;
+            const deliveryDate = document.getElementById('deliveryDate').value;
+            const notes = document.getElementById('notes').value;
+
+            if (!supplierId || !date || !itemName || !quantity || !pricePerUnit || !deliveryLocation) {
+                alert('Please fill all required fields');
+                return;
+            }
+
+            const newPurchase = {
+                id: purchases.length + 1,
+                supplierId, date, invoiceNumber, itemName, description,
+                quantity, unit, pricePerUnit, totalAmount,
+                paidAmount, remainingAmount, deliveryLocation,
+                deliveryDate, notes,
+                payments: paidAmount > 0 ? [{
+                    date: date,
+                    amount: paidAmount,
+                    method: 'initial',
+                    notes: 'Initial payment'
+                }] : []
+            };
+
+            purchases.push(newPurchase);
+            updateStats();
+            renderTable();
+
+            bootstrap.Modal.getInstance(document.getElementById('addPurchaseModal')).hide();
+            document.getElementById('purchaseForm').reset();
+            alert('Purchase entry added successfully!');
+        }
+
+        function viewSupplier(id) {
+            currentViewingSupplierId = id;
+            const supplier = suppliers.find(s => s.id === id);
+            const supplierPurchases = getSupplierPurchases(id);
+            const stats = getSupplierStats(id);
+
+            let purchaseHistory = '';
+            supplierPurchases.forEach(purchase => {
+                const paymentHistory = purchase.payments.map(p => 
+                    `<div class="mb-2"><small><strong>${p.date}</strong>: ₹${p.amount.toLocaleString()} (${p.method}) - ${p.notes}</small></div>`
+                ).join('');
+
+                purchaseHistory += `
+                    <div class="purchase-history-item">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h6><i class="fas fa-box"></i> ${purchase.itemName}</h6>
+                                <p class="mb-1"><strong>Description:</strong> ${purchase.description}</p>
+                                <p class="mb-1"><strong>Date:</strong> ${purchase.date} | <strong>Invoice:</strong> ${purchase.invoiceNumber}</p>
+                                <p class="mb-1"><strong>Quantity:</strong> ${purchase.quantity} ${purchase.unit} @ ₹${purchase.pricePerUnit.toLocaleString()}/${purchase.unit}</p>
+                                <p class="mb-1"><strong>Delivery:</strong> ${purchase.deliveryLocation} (${purchase.deliveryDate})</p>
+                                <p class="mb-0"><strong>Notes:</strong> ${purchase.notes}</p>
+                            </div>
+                            <div class="col-md-4 text-end">
+                                <h5 class="text-primary">₹${purchase.totalAmount.toLocaleString()}</h5>
+                                <p class="mb-1"><strong>Paid:</strong> <span class="text-success">₹${purchase.paidAmount.toLocaleString()}</span></p>
+                                <p class="mb-2"><strong>Remaining:</strong> <span class="text-danger">₹${purchase.remainingAmount.toLocaleString()}</span></p>
+                                ${purchase.remainingAmount > 0 ? `<button class="btn btn-sm btn-success" onclick="makePaymentForPurchase(${purchase.id})"><i class="fas fa-money-bill"></i> Pay</button>` : '<span class="badge badge-paid">Paid</span>'}
+                            </div>
+                            ${purchase.payments.length > 0 ? `<div class="col-md-12 mt-2"><hr><strong>Payment History:</strong>${paymentHistory}</div>` : ''}
+                        </div>
+                    </div>
+                `;
+            });
+
+            const content = `
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <h4>${supplier.name}</h4>
+                        <p class="mb-1"><strong><i class="fas fa-tag"></i> Category:</strong> ${supplier.category}</p>
+                        <p class="mb-1"><strong><i class="fas fa-phone"></i> Phone:</strong> ${supplier.phone}</p>
+                        <p class="mb-1"><strong><i class="fas fa-envelope"></i> Email:</strong> ${supplier.email}</p>
+                        <p class="mb-0"><strong><i class="fas fa-map-marker-alt"></i> Address:</strong> ${supplier.address}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="stats-card">
+                            <h6>Total Purchases: ${stats.totalPurchases}</h6>
+                            <h4>₹${stats.totalAmount.toLocaleString()}</h4>
+                            <div class="row mt-3">
+                                <div class="col-6">
+                                    <small>Paid</small><br>
+                                    <strong class="text-success">₹${stats.paidAmount.toLocaleString()}</strong>
+                                </div>
+                                <div class="col-6">
+                                    <small>Remaining</small><br>
+                                    <strong class="text-danger">₹${stats.remainingAmount.toLocaleString()}</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <h5><i class="fas fa-history"></i> Purchase History</h5>
+                ${purchaseHistory || '<p class="text-muted">No purchases yet</p>'}
+            `;
+
+            document.getElementById('viewSupplierContent').innerHTML = content;
+            new bootstrap.Modal(document.getElementById('viewSupplierModal')).show();
+        }
+
+        function makePaymentForPurchase(purchaseId) {
+            const purchase = purchases.find(p => p.id === purchaseId);
+            document.getElementById('paymentPurchaseId').value = purchaseId;
+            document.getElementById('paymentRemaining').value = purchase.remainingAmount;
+            document.getElementById('paymentAmountInput').value = purchase.remainingAmount;
+            document.getElementById('paymentDate').value = new Date().toISOString().split('T')[0];
+            
+            new bootstrap.Modal(document.getElementById('paymentModal')).show();
+        }
+
+        function quickPayment(supplierId) {
+            const supplierPurchases = getSupplierPurchases(supplierId);
+            const unpaidPurchase = supplierPurchases.find(p => p.remainingAmount > 0);
+            
+            if (unpaidPurchase) {
+                makePaymentForPurchase(unpaidPurchase.id);
+            } else {
+                alert('All payments are completed for this supplier!');
+            }
+        }
+
+        function makePayment() {
+            const supplierPurchases = getSupplierPurchases(currentViewingSupplierId);
+            const unpaidPurchase = supplierPurchases.find(p => p.remainingAmount > 0);
+            
+            if (unpaidPurchase) {
+                makePaymentForPurchase(unpaidPurchase.id);
+            } else {
+                alert('All payments are completed for this supplier!');
+            }
+        }
+
+        function submitPayment() {
+            const purchaseId = parseInt(document.getElementById('paymentPurchaseId').value);
+            const amount = parseFloat(document.getElementById('paymentAmountInput').value);
+            const date = document.getElementById('paymentDate').value;
+            const method = document.getElementById('paymentMethod').value;
+            const notes = document.getElementById('paymentNotes').value;
+
+            const purchase = purchases.find(p => p.id === purchaseId);
+            
+            if (amount > purchase.remainingAmount) {
+                alert('Payment amount cannot exceed remaining amount!');
+                return;
+            }
+
+            purchase.paidAmount += amount;
+            purchase.remainingAmount -= amount;
+            purchase.payments.push({ date, amount, method, notes });
+
+            updateStats();
+            renderTable();
+            
+            bootstrap.Modal.getInstance(document.getElementById('paymentModal')).hide();
+            
+            if (currentViewingSupplierId) {
+                viewSupplier(currentViewingSupplierId);
+            }
+            
+            alert('Payment recorded successfully!');
+        }
+
+        function deleteSupplier(id) {
+            if (confirm('Are you sure you want to delete this supplier? All purchase records will also be deleted.')) {
+                suppliers = suppliers.filter(s => s.id !== id);
+                purchases = purchases.filter(p => p.supplierId !== id);
+                filteredSuppliers = [...suppliers];
+                updateStats();
+                renderTable();
+            }
+        }
+
+        function downloadPurchaseOrderPDF() {
+            if (!currentViewingSupplierId) return;
+            
+            const supplier = suppliers.find(s => s.id === currentViewingSupplierId);
+            const supplierPurchases = getSupplierPurchases(currentViewingSupplierId);
+            
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            doc.setFontSize(20);
+            doc.text('PURCHASE ORDER', 105, 20, { align: 'center' });
+            
+            doc.setFontSize(12);
+            doc.text('Supplier Details:', 20, 40);
+            doc.setFontSize(10);
+            doc.text(`Name: ${supplier.name}`, 20, 50);
+            doc.text(`Phone: ${supplier.phone}`, 20, 57);
+            doc.text(`Email: ${supplier.email}`, 20, 64);
+            doc.text(`Address: ${supplier.address}`, 20, 71);
+            
+            let yPos = 90;
+            doc.setFontSize(12);
+            doc.text('Purchase Details:', 20, yPos);
+            yPos += 10;
+            
+            supplierPurchases.forEach((purchase, index) => {
+                doc.setFontSize(10);
+                doc.text(`${index + 1}. ${purchase.itemName} - ${purchase.description}`, 20, yPos);
+                yPos += 7;
+                doc.text(`   Qty: ${purchase.quantity} ${purchase.unit} | Price: ₹${purchase.pricePerUnit} | Total: ₹${purchase.totalAmount.toLocaleString()}`, 20, yPos);
+                yPos += 7;
+                doc.text(`   Date: ${purchase.date} | Delivery: ${purchase.deliveryLocation}`, 20, yPos);
+                yPos += 7;
+                doc.text(`   Paid: ₹${purchase.paidAmount.toLocaleString()} | Remaining: ₹${purchase.remainingAmount.toLocaleString()}`, 20, yPos);
+                yPos += 10;
+                
+                if (yPos > 270) {
+                    doc.addPage();
+                    yPos = 20;
+                }
+            });
+            
+            doc.save(`PO_${supplier.name}_${new Date().toISOString().split('T')[0]}.pdf`);
+        }
+
+        function exportToExcel() {
+            const exportData = filteredSuppliers.map(supplier => {
+                const stats = getSupplierStats(supplier.id);
+                return {
+                    'ID': supplier.id,
+                    'Supplier Name': supplier.name,
+                    'Category': supplier.category,
+                    'Phone': supplier.phone,
+                    'Email': supplier.email,
+                    'Address': supplier.address,
+                    'Total Purchases': stats.totalPurchases,
+                    'Total Amount': stats.totalAmount,
+                    'Paid Amount': stats.paidAmount,
+                    'Remaining Amount': stats.remainingAmount
+                };
+            });
+
+            const ws = XLSX.utils.json_to_sheet(exportData);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Suppliers");
+            XLSX.writeFile(wb, `Supplier_Data_${new Date().toISOString().split('T')[0]}.xlsx`);
+        }
+
+        function exportToPDF() {
+            window.print();
+        }
+
+        function printTable() {
+            const printContent = `
+                <h2 style="text-align: center;">Supplier & Purchase Report</h2>
+                <p style="text-align: center;">Generated on: ${new Date().toLocaleDateString()}</p>
+                <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="background: #1e3c72; color: white;">
+                            <th>ID</th>
+                            <th>Supplier Name</th>
+                            <th>Category</th>
+                            <th>Phone</th>
+                            <th>Purchases</th>
+                            <th>Total Amount</th>
+                            <th>Paid</th>
+                            <th>Remaining</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${filteredSuppliers.map(supplier => {
+                            const stats = getSupplierStats(supplier.id);
+                            return `
+                                <tr>
+                                    <td>${supplier.id}</td>
+                                    <td>${supplier.name}</td>
+                                    <td>${supplier.category}</td>
+                                    <td>${supplier.phone}</td>
+                                    <td>${stats.totalPurchases}</td>
+                                    <td>₹${stats.totalAmount.toLocaleString()}</td>
+                                    <td>₹${stats.paidAmount.toLocaleString()}</td>
+                                    <td>₹${stats.remainingAmount.toLocaleString()}</td>
+                                </tr>
+                            `;
+                        }).join('')}
+                    </tbody>
+                </table>
+            `;
+            
+            document.getElementById('printArea').innerHTML = printContent;
+            document.getElementById('printArea').style.display = 'block';
+            window.print();
+            document.getElementById('printArea').style.display = 'none';
+        }
+
+        // Event Listeners
+        document.getElementById('searchInput').addEventListener('input', applyFilters);
+        document.getElementById('categoryFilter').addEventListener('change', applyFilters);
+        document.getElementById('paymentStatusFilter').addEventListener('change', applyFilters);
+        document.getElementById('entriesPerPage').addEventListener('change', function() {
+            entriesPerPage = parseInt(this.value);
+            currentPage = 1;
+            renderTable();
+        });
+
+        // Auto-calculate total amount in purchase form
+        document.getElementById('quantity').addEventListener('input', calculateTotal);
+        document.getElementById('pricePerUnit').addEventListener('input', calculateTotal);
+        document.getElementById('totalAmount').addEventListener('input', calculateRemaining);
+        document.getElementById('paidAmount').addEventListener('input', calculateRemaining);
+
+        function calculateTotal() {
+            const qty = parseFloat(document.getElementById('quantity').value) || 0;
+            const price = parseFloat(document.getElementById('pricePerUnit').value) || 0;
+            document.getElementById('totalAmount').value = qty * price;
+            calculateRemaining();
+        }
+
+        function calculateRemaining() {
+            const total = parseFloat(document.getElementById('totalAmount').value) || 0;
+            const paid = parseFloat(document.getElementById('paidAmount').value) || 0;
+            document.getElementById('remainingAmount').value = total - paid;
+        }
+
+        // Set today's date as default
+        document.getElementById('purchaseDate').value = new Date().toISOString().split('T')[0];
+
+        // Initialize
+        initializeData();
+    </script>
+</body>
+</html>

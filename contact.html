@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Attendance Management</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        /* Header Styles */
+        .header {
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .header-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 0.5rem 0;
+        }
+        .header-divider {
+            width: 1px;
+            height: 50px;
+            background-color: #e0e0e0;
+        }
+        .company-name {
+            color: #2c3e50;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Main Content */
+        .main-content {
+            padding: 1rem;
+        }
+        
+        .breadcrumb-section {
+            background: white;
+            padding: 1rem;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.08);
+            margin-bottom: 1.5rem;
+        }
+        .breadcrumb {
+            margin-bottom: 0;
+            background: transparent;
+        }
+        .breadcrumb-item + .breadcrumb-item::before {
+            content: "›";
+            font-size: 1.2rem;
+            color: #6c757d;
+        }
+        
+        .back-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #667eea;
+            color: #667eea;
+            background: white;
+            transition: all 0.3s;
+        }
+        .back-button:hover {
+            background: #667eea;
+            color: white;
+            transform: rotate(-360deg);
+        }
+        
+        .card {
+            border: none;
+            box-shadow: 0 0 20px rgba(0,0,0,0.08);
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        .card-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px 12px 0 0 !important;
+            padding: 15px 20px;
+        }
+        
+        .search-box {
+            border-radius: 25px;
+            border: 2px solid #e0e0e0;
+            padding: 10px 20px;
+            transition: all 0.3s;
+        }
+        .search-box:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.2);
+        }
+        
+        .filter-section {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            padding: 8px 20px;
+            border-radius: 8px;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .nav-tabs {
+            border-bottom: 2px solid #e9ecef;
+        }
+        .nav-tabs .nav-link {
+            color: #667eea;
+            border: none;
+            margin-right: 5px;
+            padding: 12px 24px;
+            border-radius: 8px 8px 0 0;
+            transition: all 0.3s;
+        }
+        .nav-tabs .nav-link:hover {
+            background-color: #f8f9fa;
+        }
+        .nav-tabs .nav-link.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+        }
+        
+        .badge {
+            padding: 6px 12px;
+            font-weight: 500;
+        }
+        
+        .status-present { color: #28a745; }
+        .status-absent { color: #dc3545; }
+        .status-logged-in { background-color: #28a745; }
+        .status-logged-out { background-color: #6c757d; }
+        
+        th { 
+            background-color: #f8f9fa; 
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .table-responsive {
+            border-radius: 8px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .header-section {
+                justify-content: center;
+                text-align: center;
+            }
+            .header-divider {
+                display: none !important;
+            }
+            .table {
+                font-size: 0.85rem;
+            }
+            .card-header h5 {
+                font-size: 1rem;
+            }
+            .nav-tabs .nav-link {
+                padding: 8px 12px;
+                font-size: 0.85rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .main-content {
+                padding: 0.5rem;
+            }
+            .filter-section {
+                padding: 15px;
+            }
+            .table {
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+        <!-- Header -->
+        <header class="header bg-white py-2">
+            <div class="container-fluid">
+                <div class="header-section">
+                    <!-- Company Info -->
+                    <div class="d-flex align-items-center">
+                        <div class="me-3">
+                            <i class="fas fa-industry fa-2x text-primary"></i>
+                        </div>
+                        <div>
+                            <h1 class="company-name mb-0 fs-4 fw-bold text-dark">KOLOKHE PIPES</h1>
+                            <p class="software-code mb-0 text-muted small">
+                                <i class="fas fa-code me-1"></i>Software code-09
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="header-divider d-none d-md-block"></div>
+
+                    <!-- Due Days & Expiry -->
+                    <div class="d-flex gap-4">
+                        <div class="text-center">
+                            <small class="text-muted d-block fw-medium">
+                                <i class="fas fa-calendar-day me-1"></i>Due Days
+                            </small>
+                            <strong class="text-success fs-6">046 Days</strong>
+                        </div>
+                        <div class="text-center">
+                            <small class="text-muted d-block fw-medium">
+                                <i class="fas fa-clock me-1"></i>Expiry Date
+                            </small>
+                            <strong class="text-dark fs-6">09/02/2027</strong>
+                        </div>
+                    </div>
+
+                    <div class="header-divider d-none d-md-block"></div>
+
+                    <!-- Buttons Group -->
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-outline-primary btn-sm px-3">
+                            <span class="badge bg-primary text-white me-2">08</span>
+                            Sales Order
+                        </button>
+
+                        <button class="btn btn-outline-warning btn-sm px-3">
+                            <span class="badge bg-warning text-dark me-2">08</span>
+                            Stock Reminder
+                        </button>
+
+                        <button class="btn btn-success btn-sm px-3">
+                            <i class="fas fa-phone me-1"></i> Call
+                        </button>
+                    </div>
+
+                    <div class="header-divider d-none d-md-block"></div>
+
+                    <!-- Notification Bell -->
+                    <div class="position-relative">
+                        <button class="btn btn-light btn-sm position-relative">
+                            <i class="fas fa-bell text-dark"></i>
+                            <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-2 border-white rounded-circle">
+                                <span class="visually-hidden">Notifications</span>
+                            </span>
+                        </button>
+                    </div>
+
+                    <!-- User Profile -->
+                    <div class="d-flex align-items-center gap-2">
+                        <img src="https://ui-avatars.com/api/?name=Sandeep&background=615EF0&color=fff&size=40&bold=true"
+                            alt="User" class="rounded-circle border border-3 border-primary" width="42"
+                            height="42">
+                        <div class="d-none d-md-block">
+                            <div class="fw-bold text-dark">Sandeep</div>
+                            <small class="text-muted">
+                                <i class="fas fa-shield-alt me-1"></i>Admin
+                            </small>
+                        </div>
+                        <i class="fas fa-chevron-down text-muted d-none d-md-block"></i>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Breadcrumb & Back Button -->
+        <div class="container-fluid px-3 px-md-4 mt-3">
+            <div class="breadcrumb-section">
+                <div class="d-flex align-items-center justify-content-between">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0">
+                            <li onclick="navigateBacktoNndex()" class="breadcrumb-item"><a href="#" class="text-decoration-none"><i class="fas fa-home me-1" ></i>Dashboard</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">View Attendance</li>
+                        </ol>
+                    </nav>
+                    <button class="back-button" onclick="navigateBacktoNndex()" title="Go Back">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="row mb-4">
+                <div class="col-md-8 mx-auto">
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0">
+                            <i class="fas fa-search text-muted"></i>
+                        </span>
+                        <input type="text" id="globalSearch" class="form-control border-start-0 search-box" 
+                               placeholder="Search by Employee Name, ID, or Position...">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <ul class="nav nav-tabs mb-4" id="attendanceTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="all-tab" data-bs-toggle="tab" 
+                            data-bs-target="#all" type="button">
+                        <i class="fas fa-users me-2"></i>All Employees
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="today-tab" data-bs-toggle="tab" 
+                            data-bs-target="#today" type="button">
+                        <i class="fas fa-calendar-day me-2"></i>Today's Attendance
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="monthly-tab" data-bs-toggle="tab" 
+                            data-bs-target="#monthly" type="button">
+                        <i class="fas fa-calendar-alt me-2"></i>Monthly Report
+                    </button>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="attendanceTabContent">
+                <!-- All Employees -->
+                <div class="tab-pane fade show active" id="all" role="tabpanel">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0"><i class="fas fa-address-book me-2"></i>All Employees Directory</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover" id="allEmployeesTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Employee ID</th>
+                                            <th>Name</th>
+                                            <th>Position</th>
+                                            <th>Mobile</th>
+                                            <th>Address</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="allEmployeesTableBody">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Today's Attendance -->
+                <div class="tab-pane fade" id="today" role="tabpanel">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0"><i class="fas fa-users me-2"></i>Today's Attendance Overview</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover" id="todayTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Employee ID</th>
+                                            <th>Name</th>
+                                            <th>Position</th>
+                                            <th>Login Time</th>
+                                            <th>Logout Time</th>
+                                            <th>Total Hours</th>
+                                            <th>Salary</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="todayTableBody">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Monthly Report -->
+                <div class="tab-pane fade" id="monthly" role="tabpanel">
+                    <!-- Filters -->
+                    <div class="filter-section">
+                        <div class="row g-3 align-items-end">
+                            <div class="col-md-3 col-sm-6">
+                                <label class="form-label"><i class="fas fa-calendar me-2"></i>Month</label>
+                                <select class="form-select" id="monthFilter">
+                                    <option value="">All Months</option>
+                                    <option value="01">January</option>
+                                    <option value="02">February</option>
+                                    <option value="03">March</option>
+                                    <option value="04">April</option>
+                                    <option value="05">May</option>
+                                    <option value="06">June</option>
+                                    <option value="07">July</option>
+                                    <option value="08">August</option>
+                                    <option value="09">September</option>
+                                    <option value="10" selected>October</option>
+                                    <option value="11">November</option>
+                                    <option value="12">December</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 col-sm-6">
+                                <label class="form-label"><i class="fas fa-briefcase me-2"></i>Position</label>
+                                <select class="form-select" id="positionFilter">
+                                    <option value="">All Positions</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 col-sm-6">
+                                <label class="form-label"><i class="fas fa-user-check me-2"></i>Status</label>
+                                <select class="form-select" id="statusFilter">
+                                    <option value="">All Status</option>
+                                    <option value="present">Present Days ≥ 20</option>
+                                    <option value="absent">Absent Days ≥ 5</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 col-sm-6">
+                                <button class="btn btn-primary w-100" onclick="applyFilters()">
+                                    <i class="fas fa-filter me-2"></i>Apply Filters
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0"><i class="fas fa-chart-bar me-2"></i>Monthly Attendance Report</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover" id="monthlyTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Employee ID</th>
+                                            <th>Name</th>
+                                            <th>Position</th>
+                                            <th>Total Days Present</th>
+                                            <th>Total Days Absent</th>
+                                            <th>Attendance %</th>
+                                            <th>Total Salary</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="monthlyTableBody">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Sample Data
+        const employees = [
+            { id: 'EMP001', name: 'Rajesh Kumar', position: 'Software Engineer', salary: 75000, loginTime: '09:00', logoutTime: '18:00', totalHours: '9:00', status: 'logged-out', presentDays: 22, absentDays: 1, mobile: '+91 98765 43210', address: 'Andheri West, Mumbai, Maharashtra' },
+            { id: 'EMP002', name: 'Priya Sharma', position: 'Project Manager', salary: 85000, loginTime: '08:30', logoutTime: '17:30', totalHours: '9:00', status: 'logged-out', presentDays: 20, absentDays: 3, mobile: '+91 98765 43211', address: 'Koramangala, Bangalore, Karnataka' },
+            { id: 'EMP003', name: 'Amit Patel', position: 'Designer', salary: 65000, loginTime: '09:15', logoutTime: '', totalHours: '4:45', status: 'logged-in', presentDays: 23, absentDays: 0, mobile: '+91 98765 43212', address: 'Navrangpura, Ahmedabad, Gujarat' },
+            { id: 'EMP004', name: 'Sneha Reddy', position: 'HR Manager', salary: 70000, loginTime: '08:45', logoutTime: '17:45', totalHours: '9:00', status: 'logged-out', presentDays: 21, absentDays: 2, mobile: '+91 98765 43213', address: 'Banjara Hills, Hyderabad, Telangana' },
+            { id: 'EMP005', name: 'Vikram Singh', position: 'Software Engineer', salary: 72000, loginTime: '09:30', logoutTime: '18:30', totalHours: '9:00', status: 'logged-out', presentDays: 19, absentDays: 4, mobile: '+91 98765 43214', address: 'Connaught Place, New Delhi' },
+            { id: 'EMP006', name: 'Anjali Verma', position: 'Marketing Manager', salary: 78000, loginTime: '09:00', logoutTime: '', totalHours: '5:00', status: 'logged-in', presentDays: 22, absentDays: 1, mobile: '+91 98765 43215', address: 'Park Street, Kolkata, West Bengal' },
+            { id: 'EMP007', name: 'Arjun Desai', position: 'Data Analyst', salary: 68000, loginTime: '08:30', logoutTime: '17:30', totalHours: '9:00', status: 'logged-out', presentDays: 20, absentDays: 3, mobile: '+91 98765 43216', address: 'Viman Nagar, Pune, Maharashtra' },
+            { id: 'EMP008', name: 'Kavya Iyer', position: 'Designer', salary: 66000, loginTime: '09:15', logoutTime: '18:15', totalHours: '9:00', status: 'logged-out', presentDays: 24, absentDays: 0, mobile: '+91 98765 43217', address: 'Anna Nagar, Chennai, Tamil Nadu' },
+            { id: 'EMP009', name: 'Rohit Mehta', position: 'Team Lead', salary: 90000, loginTime: '08:00', logoutTime: '17:00', totalHours: '9:00', status: 'logged-out', presentDays: 23, absentDays: 0, mobile: '+91 98765 43218', address: 'Whitefield, Bangalore, Karnataka' },
+            { id: 'EMP010', name: 'Deepika Joshi', position: 'Business Analyst', salary: 71000, loginTime: '09:00', logoutTime: '18:00', totalHours: '9:00', status: 'logged-out', presentDays: 21, absentDays: 2, mobile: '+91 98765 43219', address: 'Pimple Saudagar, Pune, Maharashtra' }
+        ];
+
+        let allEmployees = [...employees];
+        let filteredEmployees = [...employees];
+
+        // Populate All Employees Table
+        function populateAllEmployeesTable(data) {
+            const tbody = document.getElementById('allEmployeesTableBody');
+            tbody.innerHTML = '';
+            
+            data.forEach(emp => {
+                const row = `
+                    <tr>
+                        <td><strong>${emp.id}</strong></td>
+                        <td><i class="fas fa-user me-2 text-primary"></i>${emp.name}</td>
+                        <td><span class="badge bg-info">${emp.position}</span></td>
+                        <td><i class="fas fa-phone me-2 text-success"></i>${emp.mobile}</td>
+                        <td><i class="fas fa-map-marker-alt me-2 text-danger"></i>${emp.address}</td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+        }
+
+        // Populate Today's Table
+        function populateTodayTable(data) {
+            const tbody = document.getElementById('todayTableBody');
+            tbody.innerHTML = '';
+            
+            data.forEach(emp => {
+                const row = `
+                    <tr>
+                        <td><strong>${emp.id}</strong></td>
+                        <td>${emp.name}</td>
+                        <td><span class="badge bg-info">${emp.position}</span></td>
+                        <td><i class="fas fa-sign-in-alt text-success me-2"></i>${emp.loginTime}</td>
+                        <td><i class="fas fa-sign-out-alt text-danger me-2"></i>${emp.logoutTime || '-'}</td>
+                        <td><strong>${emp.totalHours}</strong></td>
+                        <td><strong>₹${emp.salary.toLocaleString()}</strong></td>
+                        <td><span class="badge status-${emp.status}">${emp.status === 'logged-in' ? 'Active' : 'Completed'}</span></td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+        }
+
+        // Populate Monthly Table
+        function populateMonthlyTable(data) {
+            const tbody = document.getElementById('monthlyTableBody');
+            tbody.innerHTML = '';
+            
+            data.forEach(emp => {
+                const totalDays = emp.presentDays + emp.absentDays;
+                const attendancePercentage = ((emp.presentDays / totalDays) * 100).toFixed(1);
+                const monthlySalary = (emp.salary / 12).toFixed(2);
+                
+                const row = `
+                    <tr>
+                        <td><strong>${emp.id}</strong></td>
+                        <td>${emp.name}</td>
+                        <td><span class="badge bg-info">${emp.position}</span></td>
+                        <td><span class="status-present"><i class="fas fa-check-circle me-1"></i>${emp.presentDays}</span></td>
+                        <td><span class="status-absent"><i class="fas fa-times-circle me-1"></i>${emp.absentDays}</span></td>
+                        <td>
+                            <div class="progress" style="height: 20px;">
+                                <div class="progress-bar ${attendancePercentage >= 90 ? 'bg-success' : attendancePercentage >= 75 ? 'bg-warning' : 'bg-danger'}" 
+                                     style="width: ${attendancePercentage}%">${attendancePercentage}%</div>
+                            </div>
+                        </td>
+                        <td><strong>₹${parseFloat(monthlySalary).toLocaleString()}</strong></td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+        }
+
+        // Populate position filter
+        function populatePositionFilter() {
+            const positions = [...new Set(allEmployees.map(emp => emp.position))];
+            const select = document.getElementById('positionFilter');
+            positions.forEach(pos => {
+                const option = document.createElement('option');
+                option.value = pos;
+                option.textContent = pos;
+                select.appendChild(option);
+            });
+        }
+
+        // Apply Filters
+        function applyFilters() {
+            const position = document.getElementById('positionFilter').value;
+            const status = document.getElementById('statusFilter').value;
+            
+            filteredEmployees = allEmployees.filter(emp => {
+                const positionMatch = !position || emp.position === position;
+                let statusMatch = true;
+                
+                if (status === 'present') {
+                    statusMatch = emp.presentDays >= 20;
+                } else if (status === 'absent') {
+                    statusMatch = emp.absentDays >= 5;
+                }
+                
+                return positionMatch && statusMatch;
+            });
+            
+            populateMonthlyTable(filteredEmployees);
+        }
+
+        // Global Search
+        document.getElementById('globalSearch').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            
+            const filtered = allEmployees.filter(emp => 
+                emp.name.toLowerCase().includes(searchTerm) ||
+                emp.id.toLowerCase().includes(searchTerm) ||
+                emp.position.toLowerCase().includes(searchTerm)
+            );
+            
+            const activeTab = document.querySelector('.tab-pane.active').id;
+            if (activeTab === 'all') {
+                populateAllEmployeesTable(filtered);
+            } else if (activeTab === 'today') {
+                populateTodayTable(filtered);
+            } else {
+                populateMonthlyTable(filtered);
+            }
+        });
+
+        // Initialize
+        populateAllEmployeesTable(allEmployees);
+        populateTodayTable(allEmployees);
+        populateMonthlyTable(allEmployees);
+        populatePositionFilter();
+
+        function navigateBacktoNndex() {
+            // Navigate to contact.html when the card is clicked
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>

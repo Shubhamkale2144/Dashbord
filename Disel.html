@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disel Tracker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+
+        /* Body Styles */
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .filter-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .table-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-period {
+            margin: 2px;
+            border-radius: 20px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-period:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-period.active {
+            background-color: #0d6efd;
+            color: white;
+        }
+
+        .action-btns button {
+            margin: 0 2px;
+            transition: all 0.3s ease;
+        }
+
+        .action-btns button:hover {
+            transform: scale(1.1);
+        }
+
+        .header-section-main {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .header-section-main h2 {
+            color: #667eea;
+            font-weight: bold;
+            margin: 0;
+            text-align: center;
+        }
+
+        .stats-card {
+            background: linear-gradient(135deg, #b4880e 0%, #abccb0 100%);
+            color: white;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .stats-card h4 {
+            font-size: 28px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .stats-card p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .pagination-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .page-size-selector {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .table thead th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            font-weight: 600;
+        }
+
+        .table-striped tbody tr:hover {
+            background-color: #f0f0ff;
+            cursor: pointer;
+        }
+
+        .badge-status {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+
+        .status-due {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .status-upcoming {
+            background-color: #ffc107;
+            color: #000;
+        }
+
+        .status-good {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .back-btn {
+            margin-right: 15px;
+        }
+
+        .machine-details-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .machine-details-content {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #6c757d;
+        }
+
+        .close-btn:hover {
+            color: #000;
+        }
+
+        .machine-details-header {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .machine-details-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .detail-item {
+            margin-bottom: 10px;
+        }
+
+        .detail-label {
+            font-weight: bold;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .detail-value {
+            color: #495057;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+
+        .status-online {
+            background-color: #28a745;
+        }
+
+        .status-offline {
+            background-color: #dc3545;
+        }
+
+        .location-link {
+            color: #0d6efd;
+            text-decoration: none;
+        }
+
+        .location-link:hover {
+            text-decoration: underline;
+        }
+
+        .contact-info {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        .service-info {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .service-date {
+            font-weight: bold;
+            color: #495057;
+        }
+
+        @media (max-width: 768px) {
+            .machine-details-body {
+                grid-template-columns: 1fr;
+            }
+
+            .pagination-controls {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .page-size-selector {
+                margin-bottom: 10px;
+            }
+
+            .header-section-main .col-md-6:first-child {
+                margin-bottom: 15px;
+            }
+
+            .header-section-main .col-md-6:last-child {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header Section -->
+  
+
+    <div class="container-fluid">
+        <!-- Main Header Section -->
+        <div class="header-section-main">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0">
+                            <li onclick="navigateBacktoNndex()" class="breadcrumb-item"><a href="#"
+                                    class="text-decoration-none"><i class="fas fa-home me-1"></i>Dashboard</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Disel & Machine Service</li>
+                        </ol>
+                    </nav>
+
+
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <button class="btn btn-success btn-lg" onclick="addMachine()">
+                        <i class="fas fa-plus"></i> Add New Machine
+                    </button>
+                    <button class="btn btn-primary btn-lg" onclick="exportData()">
+                        <i class="fas fa-download"></i> Export
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="row mb-3">
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <h4 id="totalMachines">5</h4>
+                    <p>Total Machines</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                    <h4 id="totalDieselExpense">₹94,800</h4>
+                    <p>Diesel Expenses</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                    <h4 id="totalOtherExpense">₹23,100</h4>
+                    <p>Other Expenses</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                    <h4 id="serviceDue">2</h4>
+                    <p>Service Due Soon</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter Section -->
+        <div class="filter-card">
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <h5><i class="fas fa-filter"></i> Filter by Period</h5>
+                    <button class="btn btn-outline-primary btn-period active" onclick="filterByPeriod('1day')">
+                        <i class="fas fa-calendar-day"></i> 1 Day
+                    </button>
+                    <button class="btn btn-outline-primary btn-period" onclick="filterByPeriod('1week')">
+                        <i class="fas fa-calendar-week"></i> 1 Week
+                    </button>
+                    <button class="btn btn-outline-primary btn-period" onclick="filterByPeriod('1month')">
+                        <i class="fas fa-calendar-alt"></i> 1 Month
+                    </button>
+                    <button class="btn btn-outline-primary btn-period" onclick="filterByPeriod('6month')">
+                        <i class="fas fa-calendar"></i> 6 Months
+                    </button>
+                    <button class="btn btn-outline-primary btn-period" onclick="filterByPeriod('12month')">
+                        <i class="fas fa-calendar-check"></i> 12 Months
+                    </button>
+                    <button class="btn btn-outline-secondary btn-period" onclick="resetFilters()">
+                        <i class="fas fa-redo"></i> Reset
+                    </button>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3 mb-3">
+                    <label class="form-label"><i class="fas fa-hashtag"></i> Machine Number</label>
+                    <select class="form-select" id="machineNumber" onchange="applyFilters()">
+                        <option value="">All Machines</option>
+                        <option value="MH-001">MH-001</option>
+                        <option value="MH-002">MH-002</option>
+                        <option value="MH-003">MH-003</option>
+                        <option value="MH-004">MH-004</option>
+                        <option value="MH-005">MH-005</option>
+                    </select>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label"><i class="fas fa-tools"></i> Machine Type</label>
+                    <select class="form-select" id="machineType" onchange="applyFilters()">
+                        <option value="">All Types</option>
+                        <option value="Excavator">Excavator</option>
+                        <option value="Bulldozer">Bulldozer</option>
+                        <option value="Crane">Crane</option>
+                        <option value="Loader">Loader</option>
+                        <option value="Grader">Grader</option>
+                    </select>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label"><i class="fas fa-user"></i> Operator Name</label>
+                    <select class="form-select" id="operatorName" onchange="applyFilters()">
+                        <option value="">All Operators</option>
+                        <option value="Rajesh Kumar">Rajesh Kumar</option>
+                        <option value="Suresh Patil">Suresh Patil</option>
+                        <option value="Amit Sharma">Amit Sharma</option>
+                        <option value="Vikas Deshmukh">Vikas Deshmukh</option>
+                        <option value="Prakash Jadhav">Prakash Jadhav</option>
+                    </select>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label"><i class="fas fa-search"></i> Global Search</label>
+                    <input type="text" class="form-control" id="globalSearch" placeholder="Search anything..."
+                        onkeyup="applyFilters()">
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Info -->
+        <div class="mb-3">
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i> Showing <strong><span id="showingCount">5</span></strong> of
+                <strong><span id="totalCount">5</span></strong> machines
+            </div>
+        </div>
+
+        <!-- Table Section -->
+        <div class="table-card">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Sr No</th>
+                            <th>Machine Name <i class="fas fa-sort" style="cursor:pointer"
+                                    onclick="sortTable('name')"></i></th>
+                            <th>Machine No</th>
+                            <th>Type</th>
+                            <th>Last Servicing <i class="fas fa-sort" style="cursor:pointer"
+                                    onclick="sortTable('lastService')"></i></th>
+                            <th>Operator Name</th>
+                            <th>Next Servicing <i class="fas fa-sort" style="cursor:pointer"
+                                    onclick="sortTable('nextService')"></i></th>
+                            <th>Status</th>
+                            <th>Diesel (₹) <i class="fas fa-sort" style="cursor:pointer"
+                                    onclick="sortTable('diesel')"></i></th>
+                            <th>Other (₹) <i class="fas fa-sort" style="cursor:pointer"
+                                    onclick="sortTable('other')"></i></th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="machineTableBody">
+                        <!-- Sample Data -->
+                        <tr>
+                            <td>1</td>
+                            <td><strong>CAT Excavator 320</strong></td>
+                            <td><span class="badge bg-secondary">MH-001</span></td>
+                            <td>Excavator</td>
+                            <td>2025-10-10</td>
+                            <td><i class="fas fa-user-circle"></i> Rajesh Kumar</td>
+                            <td>2025-11-10</td>
+                            <td><span class="badge badge-status status-good">Good</span></td>
+                            <td>15,500</td>
+                            <td>3,200</td>
+                            <td class="action-btns">
+                                <button class="btn btn-sm btn-info" onclick="viewDetails(1)" title="View Details"><i
+                                        class="fas fa-eye"></i></button>
+                                <button class="btn btn-sm btn-warning" onclick="editMachine(1)" title="Edit"><i
+                                        class="fas fa-edit"></i></button>
+                                <button class="btn btn-sm btn-danger" onclick="deleteMachine(1)" title="Delete"><i
+                                        class="fas fa-trash"></i></button>
+                                <button class="btn btn-sm btn-primary" onclick="addDiesel(1)" title="Add Diesel"><i
+                                        class="fas fa-gas-pump"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td><strong>Komatsu Bulldozer D65</strong></td>
+                            <td><span class="badge bg-secondary">MH-002</span></td>
+                            <td>Bulldozer</td>
+                            <td>2025-10-08</td>
+                            <td><i class="fas fa-user-circle"></i> Suresh Patil</td>
+                            <td>2025-12-08</td>
+                            <td><span class="badge badge-status status-good">Good</span></td>
+                            <td>22,300</td>
+                            <td>5,800</td>
+                            <td class="action-btns">
+                                <button class="btn btn-sm btn-info" onclick="viewDetails(2)" title="View Details"><i
+                                        class="fas fa-eye"></i></button>
+                                <button class="btn btn-sm btn-warning" onclick="editMachine(2)" title="Edit"><i
+                                        class="fas fa-edit"></i></button>
+                                <button class="btn btn-sm btn-danger" onclick="deleteMachine(2)" title="Delete"><i
+                                        class="fas fa-trash"></i></button>
+                                <button class="btn btn-sm btn-primary" onclick="addDiesel(2)" title="Add Diesel"><i
+                                        class="fas fa-gas-pump"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td><strong>Tata Hitachi Loader</strong></td>
+                            <td><span class="badge bg-secondary">MH-003</span></td>
+                            <td>Loader</td>
+                            <td>2025-09-15</td>
+                            <td><i class="fas fa-user-circle"></i> Amit Sharma</td>
+                            <td>2025-10-15</td>
+                            <td><span class="badge badge-status status-due">Due</span></td>
+                            <td>18,900</td>
+                            <td>4,500</td>
+                            <td class="action-btns">
+                                <button class="btn btn-sm btn-info" onclick="viewDetails(3)" title="View Details"><i
+                                        class="fas fa-eye"></i></button>
+                                <button class="btn btn-sm btn-warning" onclick="editMachine(3)" title="Edit"><i
+                                        class="fas fa-edit"></i></button>
+                                <button class="btn btn-sm btn-danger" onclick="deleteMachine(3)" title="Delete"><i
+                                        class="fas fa-trash"></i></button>
+                                <button class="btn btn-sm btn-primary" onclick="addDiesel(3)" title="Add Diesel"><i
+                                        class="fas fa-gas-pump"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td><strong>JCB Crane 450</strong></td>
+                            <td><span class="badge bg-secondary">MH-004</span></td>
+                            <td>Crane</td>
+                            <td>2025-10-12</td>
+                            <td><i class="fas fa-user-circle"></i> Vikas Deshmukh</td>
+                            <td>2025-11-12</td>
+                            <td><span class="badge badge-status status-good">Good</span></td>
+                            <td>12,700</td>
+                            <td>2,900</td>
+                            <td class="action-btns">
+                                <button class="btn btn-sm btn-info" onclick="viewDetails(4)" title="View Details"><i
+                                        class="fas fa-eye"></i></button>
+                                <button class="btn btn-sm btn-warning" onclick="editMachine(4)" title="Edit"><i
+                                        class="fas fa-edit"></i></button>
+                                <button class="btn btn-sm btn-danger" onclick="deleteMachine(4)" title="Delete"><i
+                                        class="fas fa-trash"></i></button>
+                                <button class="btn btn-sm btn-primary" onclick="addDiesel(4)" title="Add Diesel"><i
+                                        class="fas fa-gas-pump"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td><strong>Mahindra Grader G75</strong></td>
+                            <td><span class="badge bg-secondary">MH-005</span></td>
+                            <td>Grader</td>
+                            <td>2025-08-20</td>
+                            <td><i class="fas fa-user-circle"></i> Prakash Jadhav</td>
+                            <td>2025-10-20</td>
+                            <td><span class="badge badge-status status-upcoming">Upcoming</span></td>
+                            <td>25,400</td>
+                            <td>6,700</td>
+                            <td class="action-btns">
+                                <button class="btn btn-sm btn-info" onclick="viewDetails(5)" title="View Details"><i
+                                        class="fas fa-eye"></i></button>
+                                <button class="btn btn-sm btn-warning" onclick="editMachine(5)" title="Edit"><i
+                                        class="fas fa-edit"></i></button>
+                                <button class="btn btn-sm btn-danger" onclick="deleteMachine(5)" title="Delete"><i
+                                        class="fas fa-trash"></i></button>
+                                <button class="btn btn-sm btn-primary" onclick="addDiesel(5)" title="Add Diesel"><i
+                                        class="fas fa-gas-pump"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination Controls -->
+            <div class="pagination-controls">
+                <div class="page-size-selector">
+                    <label>Show:</label>
+                    <select class="form-select form-select-sm" id="pageSize" onchange="changePageSize()"
+                        style="width: auto;">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        <option value="250">250</option>
+                        <option value="500">500</option>
+                    </select>
+                    <span>entries per page</span>
+                </div>
+
+                <nav aria-label="Page navigation">
+                    <ul class="pagination pagination-sm mb-0" id="paginationList">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" onclick="goToPage('prev')">
+                                <i class="fas fa-chevron-left"></i> Previous
+                            </a>
+                        </li>
+                        <li class="page-item active"><a class="page-link" href="#" onclick="goToPage(1)">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#" onclick="goToPage(2)">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#" onclick="goToPage(3)">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#" onclick="goToPage('next')">
+                                Next <i class="fas fa-chevron-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <div>
+                    <span class="text-muted">Page <strong id="currentPage">1</strong> of <strong
+                            id="totalPages">1</strong></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Machine Details Modal -->
+    <div class="machine-details-modal" id="machineDetailsModal" style="display: none;">
+        <div class="machine-details-content">
+            <button class="close-btn" onclick="closeMachineDetails()">&times;</button>
+            <div class="machine-details-header">
+                <h3 id="machineModalTitle">Machine Details</h3>
+            </div>
+            <div class="machine-details-body">
+                <div class="detail-item">
+                    <div class="detail-label">Machine Name</div>
+                    <div class="detail-value" id="detailMachineName">-</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Machine Number</div>
+                    <div class="detail-value" id="detailMachineNo">-</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Type</div>
+                    <div class="detail-value" id="detailType">-</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Operator</div>
+                    <div class="detail-value">
+                        <div id="detailOperator">-</div>
+                        <div class="contact-info" id="detailOperatorContact">-</div>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Current Location</div>
+                    <div class="detail-value">
+                        <a href="#" class="location-link" id="detailLocationLink" target="_blank">View Live Location</a>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Status</div>
+                    <div class="detail-value">
+                        <span class="status-indicator" id="detailStatusIndicator"></span>
+                        <span id="detailStatus">-</span>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Today's Start Time</div>
+                    <div class="detail-value" id="detailStartTime">-</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Working Hours Today</div>
+                    <div class="detail-value" id="detailWorkingHours">-</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Last Online</div>
+                    <div class="detail-value" id="detailLastOnline">-</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Service Information</div>
+                    <div class="detail-value service-info">
+                        <div><span class="detail-label">Next Service:</span> <span class="service-date"
+                                id="detailNextService">-</span></div>
+                        <div><span class="detail-label">Last Service:</span> <span class="service-date"
+                                id="detailLastService">-</span></div>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Diesel Expenses</div>
+                    <div class="detail-value" id="detailDiesel">-</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Other Expenses</div>
+                    <div class="detail-value" id="detailOther">-</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Sample data for demonstration
+        let allMachines = [
+            {
+                id: 1,
+                name: 'CAT Excavator 320',
+                machineNo: 'MH-001',
+                type: 'Excavator',
+                lastService: '2025-10-10',
+                operator: 'Rajesh Kumar',
+                operatorContact: '+91 98765 43210',
+                nextService: '2025-11-10',
+                diesel: 15500,
+                other: 3200,
+                status: 'Good',
+                location: 'Site A, Mumbai',
+                locationLink: 'https://maps.google.com/?q=19.0760,72.8777',
+                online: true,
+                startTime: '08:00 AM',
+                workingHours: '6h 30m',
+                lastOnline: '5 minutes ago'
+            },
+            {
+                id: 2,
+                name: 'Komatsu Bulldozer D65',
+                machineNo: 'MH-002',
+                type: 'Bulldozer',
+                lastService: '2025-10-08',
+                operator: 'Suresh Patil',
+                operatorContact: '+91 98765 43211',
+                nextService: '2025-12-08',
+                diesel: 22300,
+                other: 5800,
+                status: 'Good',
+                location: 'Site B, Pune',
+                locationLink: 'https://maps.google.com/?q=18.5204,73.8567',
+                online: true,
+                startTime: '07:45 AM',
+                workingHours: '7h 15m',
+                lastOnline: '2 minutes ago'
+            },
+            {
+                id: 3,
+                name: 'Tata Hitachi Loader',
+                machineNo: 'MH-003',
+                type: 'Loader',
+                lastService: '2025-09-15',
+                operator: 'Amit Sharma',
+                operatorContact: '+91 98765 43212',
+                nextService: '2025-10-15',
+                diesel: 18900,
+                other: 4500,
+                status: 'Due',
+                location: 'Site C, Nagpur',
+                locationLink: 'https://maps.google.com/?q=21.1458,79.0882',
+                online: false,
+                startTime: 'Not started',
+                workingHours: '0h 0m',
+                lastOnline: '2 hours ago'
+            },
+            {
+                id: 4,
+                name: 'JCB Crane 450',
+                machineNo: 'MH-004',
+                type: 'Crane',
+                lastService: '2025-10-12',
+                operator: 'Vikas Deshmukh',
+                operatorContact: '+91 98765 43213',
+                nextService: '2025-11-12',
+                diesel: 12700,
+                other: 2900,
+                status: 'Good',
+                location: 'Site D, Nashik',
+                locationLink: 'https://maps.google.com/?q=20.0059,73.7910',
+                online: true,
+                startTime: '08:30 AM',
+                workingHours: '5h 45m',
+                lastOnline: '10 minutes ago'
+            },
+            {
+                id: 5,
+                name: 'Mahindra Grader G75',
+                machineNo: 'MH-005',
+                type: 'Grader',
+                lastService: '2025-08-20',
+                operator: 'Prakash Jadhav',
+                operatorContact: '+91 98765 43214',
+                nextService: '2025-10-20',
+                diesel: 25400,
+                other: 6700,
+                status: 'Upcoming',
+                location: 'Site E, Aurangabad',
+                locationLink: 'https://maps.google.com/?q=19.8762,75.3433',
+                online: true,
+                startTime: '07:15 AM',
+                workingHours: '8h 0m',
+                lastOnline: 'Just now'
+            },
+            {
+                id: 5,
+                name: 'Mahindra',
+                machineNo: 'MH-005',
+                type: 'Grader',
+                lastService: '2025-08-20',
+                operator: 'MAyur  K',
+                operatorContact: '+91 98765 43214',
+                nextService: '2025-10-20',
+                diesel: 25400,
+                other: 6700,
+                status: 'Upcoming',
+                location: 'Site E, Aurangabad',
+                locationLink: 'https://maps.google.com/?q=19.8762,75.3433',
+                online: true,
+                startTime: '07:15 AM',
+                workingHours: '8h 0m',
+                lastOnline: 'Just now'
+            },
+            {
+                id: 6,
+                name: 'JCB',
+                machineNo: 'MH-006',
+                type: 'Grader',
+                lastService: '2025-08-20',
+                operator: 'Prakash Jadhav',
+                operatorContact: '+91 98765 43214',
+                nextService: '2025-10-20',
+                diesel: 25400,
+                other: 6700,
+                status: 'Upcoming',
+                location: 'Site E, pune',
+                locationLink: 'https://maps.google.com/?q=19.8762,75.3433',
+                online: true,
+                startTime: '07:15 AM',
+                workingHours: '8h 0m',
+                lastOnline: 'Just now'
+            },
+            {
+                id: 7,
+                name: 'JCB1',
+                machineNo: 'MH-007',
+                type: 'Grader',
+                lastService: '2025-08-20',
+                operator: 'Rohit Arvikar',
+                operatorContact: '+91 98765 43214',
+                nextService: '2025-10-20',
+                diesel: 25400,
+                other: 6700,
+                status: 'Upcoming',
+                location: 'Site E, Pune',
+                locationLink: 'https://maps.google.com/?q=19.8762,75.3433',
+                online: true,
+                startTime: '07:15 AM',
+                workingHours: '8h 0m',
+                lastOnline: 'Just now'
+            },
+            {
+                id: 8,
+                name: 'Mahindra Jio 350',
+                machineNo: 'MH-008',
+                type: 'Grader',
+                lastService: '2025-08-20',
+                operator: 'abhi Jadhav',
+                operatorContact: '+91 98765 43214',
+                nextService: '2025-10-20',
+                diesel: 25400,
+                other: 6700,
+                status: 'Good',
+                location: 'Site E, Mumbai',
+                locationLink: 'https://maps.google.com/?q=19.8762,75.3433',
+                online: true,
+                startTime: '07:15 AM',
+                workingHours: '8h 0m',
+                lastOnline: 'Just now'
+            },
+            {
+                id: 9,
+                name: 'Mahindra Tractor 565',
+                machineNo: 'MH-009',
+                type: 'Grader',
+                lastService: '2025-08-20',
+                operator: 'suraj Korde',
+                operatorContact: '+91 98765 43214',
+                nextService: '2025-10-20',
+                diesel: 25400,
+                other: 6700,
+                status: 'Due',
+                location: 'Site E, Manchar',
+                locationLink: 'https://maps.google.com/?q=19.8762,75.3433',
+                online: true,
+                startTime: '07:15 AM',
+                workingHours: '8h 0m',
+                lastOnline: 'Just now'
+            },
+            {
+                id: 10,
+                name: ' SWaraj 350',
+                machineNo: 'MH-010',
+                type: 'Grader',
+                lastService: '2025-08-20',
+                operator: 'SK',
+                operatorContact: '+91 98765 43214',
+                nextService: '2025-10-20',
+                diesel: 25400,
+                other: 6700,
+                status: 'Good',
+                location: 'Site E, Aurangabad',
+                locationLink: 'https://maps.google.com/?q=19.8762,75.3433',
+                online: true,
+                startTime: '07:15 AM',
+                workingHours: '8h 0m',
+                lastOnline: 'Just now'
+            },
+            {
+                id: 11,
+                name: 'Mahindra Jio 350 ',
+                machineNo: 'MH-0011',
+                type: 'Grader',
+                lastService: '2025-08-20',
+                operator: 'Sunny patil',
+                operatorContact: '+91 98765 43214',
+                nextService: '2025-10-20',
+                diesel: 232400,
+                other: 64700,
+                status: 'Good',
+                location: 'Site E, Mumabai',
+                locationLink: 'https://maps.google.com/?q=19.8762,75.3433',
+                online: true,
+                startTime: '07:15 AM',
+                workingHours: '8h 0m',
+                lastOnline: 'Just now'
+            },
+        ];
+
+        let filteredMachines = [...allMachines];
+        let currentPage = 1;
+        let pageSize = 10;
+        let currentPeriod = '1day';
+        let sortColumn = '';
+        let sortDirection = 'asc';
+
+        function filterByPeriod(period) {
+            currentPeriod = period;
+            document.querySelectorAll('.btn-period').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            applyFilters();
+        }
+
+        function resetFilters() {
+            document.getElementById('machineNumber').value = '';
+            document.getElementById('machineType').value = '';
+            document.getElementById('operatorName').value = '';
+            document.getElementById('globalSearch').value = '';
+            currentPeriod = '1day';
+            document.querySelectorAll('.btn-period').forEach(btn => btn.classList.remove('active'));
+            document.querySelector('.btn-period').classList.add('active');
+            applyFilters();
+        }
+
+        function applyFilters() {
+            const machineNo = document.getElementById('machineNumber').value.toLowerCase();
+            const machineType = document.getElementById('machineType').value.toLowerCase();
+            const operatorName = document.getElementById('operatorName').value.toLowerCase();
+            const globalSearch = document.getElementById('globalSearch').value.toLowerCase();
+
+            filteredMachines = allMachines.filter(machine => {
+                const matchMachineNo = machineNo === '' || machine.machineNo.toLowerCase() === machineNo;
+                const matchType = machineType === '' || machine.type.toLowerCase() === machineType;
+                const matchOperator = operatorName === '' || machine.operator.toLowerCase() === operatorName;
+                const matchGlobal = globalSearch === '' ||
+                    machine.name.toLowerCase().includes(globalSearch) ||
+                    machine.machineNo.toLowerCase().includes(globalSearch) ||
+                    machine.operator.toLowerCase().includes(globalSearch) ||
+                    machine.type.toLowerCase().includes(globalSearch);
+
+                return matchMachineNo && matchType && matchOperator && matchGlobal;
+            });
+
+            currentPage = 1;
+            updateTable();
+            updateStats();
+        }
+
+        function sortTable(column) {
+            if (sortColumn === column) {
+                sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+            } else {
+                sortColumn = column;
+                sortDirection = 'asc';
+            }
+
+            filteredMachines.sort((a, b) => {
+                let aVal, bVal;
+
+                switch (column) {
+                    case 'name':
+                        aVal = a.name;
+                        bVal = b.name;
+                        break;
+                    case 'lastService':
+                        aVal = new Date(a.lastService);
+                        bVal = new Date(b.lastService);
+                        break;
+                    case 'nextService':
+                        aVal = new Date(a.nextService);
+                        bVal = new Date(b.nextService);
+                        break;
+                    case 'diesel':
+                        aVal = a.diesel;
+                        bVal = b.diesel;
+                        break;
+                    case 'other':
+                        aVal = a.other;
+                        bVal = b.other;
+                        break;
+                    default:
+                        return 0;
+                }
+
+                if (aVal < bVal) return sortDirection === 'asc' ? -1 : 1;
+                if (aVal > bVal) return sortDirection === 'asc' ? 1 : -1;
+                return 0;
+            });
+
+            updateTable();
+        }
+
+        function updateTable() {
+            const tbody = document.getElementById('machineTableBody');
+            const start = (currentPage - 1) * pageSize;
+            const end = start + pageSize;
+            const pageData = filteredMachines.slice(start, end);
+
+            tbody.innerHTML = pageData.map((machine, index) => {
+                const statusClass = machine.status === 'Due' ? 'status-due' :
+                    machine.status === 'Upcoming' ? 'status-upcoming' : 'status-good';
+
+                return `
+                    <tr onclick="showMachineDetails(${machine.id})">
+                        <td>${start + index + 1}</td>
+                        <td><strong>${machine.name}</strong></td>
+                        <td><span class="badge bg-secondary">${machine.machineNo}</span></td>
+                        <td>${machine.type}</td>
+                        <td>${machine.lastService}</td>
+                        <td><i class="fas fa-user-circle"></i> ${machine.operator}</td>
+                        <td>${machine.nextService}</td>
+                        <td><span class="badge badge-status ${statusClass}">${machine.status}</span></td>
+                        <td>${machine.diesel.toLocaleString()}</td>
+                        <td>${machine.other.toLocaleString()}</td>
+                        <td class="action-btns">
+                            <button class="btn btn-sm btn-info" onclick="viewDetails(${machine.id})" title="View Details"><i class="fas fa-eye"></i></button>
+                            <button class="btn btn-sm btn-warning" onclick="editMachine(${machine.id})" title="Edit"><i class="fas fa-edit"></i></button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteMachine(${machine.id})" title="Delete"><i class="fas fa-trash"></i></button>
+                            <button class="btn btn-sm btn-primary" onclick="addDiesel(${machine.id})" title="Add Diesel"><i class="fas fa-gas-pump"></i></button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+
+            updatePagination();
+            updateCounts();
+        }
+
+        function updatePagination() {
+            const totalPages = Math.ceil(filteredMachines.length / pageSize);
+            document.getElementById('currentPage').textContent = currentPage;
+            document.getElementById('totalPages').textContent = totalPages;
+
+            const paginationList = document.getElementById('paginationList');
+            let paginationHTML = '';
+
+            // Previous button
+            paginationHTML += `
+                <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                    <a class="page-link" href="#" onclick="goToPage('prev'); return false;">
+                        <i class="fas fa-chevron-left"></i> Previous
+                    </a>
+                </li>
+            `;
+
+            // Page numbers
+            let startPage = Math.max(1, currentPage - 2);
+            let endPage = Math.min(totalPages, currentPage + 2);
+
+            if (startPage > 1) {
+                paginationHTML += `<li class="page-item"><a class="page-link" href="#" onclick="goToPage(1); return false;">1</a></li>`;
+                if (startPage > 2) {
+                    paginationHTML += `<li class="page-item disabled"><a class="page-link" href="#">...</a></li>`;
+                }
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                paginationHTML += `
+                    <li class="page-item ${i === currentPage ? 'active' : ''}">
+                        <a class="page-link" href="#" onclick="goToPage(${i}); return false;">${i}</a>
+                    </li>
+                `;
+            }
+
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) {
+                    paginationHTML += `<li class="page-item disabled"><a class="page-link" href="#">...</a></li>`;
+                }
+                paginationHTML += `<li class="page-item"><a class="page-link" href="#" onclick="goToPage(${totalPages}); return false;">${totalPages}</a></li>`;
+            }
+
+            // Next button
+            paginationHTML += `
+                <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+                    <a class="page-link" href="#" onclick="goToPage('next'); return false;">
+                        Next <i class="fas fa-chevron-right"></i>
+                    </a>
+                </li>
+            `;
+
+            paginationList.innerHTML = paginationHTML;
+        }
+
+        function goToPage(page) {
+            const totalPages = Math.ceil(filteredMachines.length / pageSize);
+
+            if (page === 'prev' && currentPage > 1) {
+                currentPage--;
+            } else if (page === 'next' && currentPage < totalPages) {
+                currentPage++;
+            } else if (typeof page === 'number') {
+                currentPage = page;
+            }
+
+            updateTable();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function changePageSize() {
+            pageSize = parseInt(document.getElementById('pageSize').value);
+            currentPage = 1;
+            updateTable();
+        }
+
+        function updateCounts() {
+            const start = (currentPage - 1) * pageSize + 1;
+            const end = Math.min(start + pageSize - 1, filteredMachines.length);
+            document.getElementById('showingCount').textContent = filteredMachines.length > 0 ? `${start}-${end}` : '0';
+            document.getElementById('totalCount').textContent = filteredMachines.length;
+        }
+
+        function updateStats() {
+            const totalDiesel = filteredMachines.reduce((sum, m) => sum + m.diesel, 0);
+            const totalOther = filteredMachines.reduce((sum, m) => sum + m.other, 0);
+            const serviceDue = filteredMachines.filter(m => m.status === 'Due' || m.status === 'Upcoming').length;
+
+            document.getElementById('totalMachines').textContent = filteredMachines.length;
+            document.getElementById('totalDieselExpense').textContent = '₹' + totalDiesel.toLocaleString();
+            document.getElementById('totalOtherExpense').textContent = '₹' + totalOther.toLocaleString();
+            document.getElementById('serviceDue').textContent = serviceDue;
+        }
+
+        function addMachine() {
+            alert('Add Machine Modal will open here.\n\nIntegrate with your backend to add new machines.');
+        }
+
+        function viewDetails(id) {
+            const machine = allMachines.find(m => m.id === id);
+            if (machine) {
+                alert(`Machine Details:\n\nName: ${machine.name}\nMachine No: ${machine.machineNo}\nType: ${machine.type}\nOperator: ${machine.operator}\nLast Service: ${machine.lastService}\nNext Service: ${machine.nextService}\nDiesel Expense: ₹${machine.diesel.toLocaleString()}\nOther Expense: ₹${machine.other.toLocaleString()}\nStatus: ${machine.status}`);
+            }
+        }
+
+        function showMachineDetails(id) {
+            const machine = allMachines.find(m => m.id === id);
+            if (machine) {
+                document.getElementById('machineModalTitle').textContent = machine.name;
+                document.getElementById('detailMachineName').textContent = machine.name;
+                document.getElementById('detailMachineNo').textContent = machine.machineNo;
+                document.getElementById('detailType').textContent = machine.type;
+                document.getElementById('detailOperator').textContent = machine.operator;
+                document.getElementById('detailOperatorContact').textContent = machine.operatorContact;
+                document.getElementById('detailLocationLink').href = machine.locationLink;
+                document.getElementById('detailStatus').textContent = machine.online ? 'Online' : 'Offline';
+                document.getElementById('detailStatusIndicator').className = machine.online ? 'status-indicator status-online' : 'status-indicator status-offline';
+                document.getElementById('detailStartTime').textContent = machine.startTime;
+                document.getElementById('detailWorkingHours').textContent = machine.workingHours;
+                document.getElementById('detailLastOnline').textContent = machine.lastOnline;
+                document.getElementById('detailLastService').textContent = machine.lastService;
+                document.getElementById('detailNextService').textContent = machine.nextService;
+                document.getElementById('detailDiesel').textContent = '₹' + machine.diesel.toLocaleString();
+                document.getElementById('detailOther').textContent = '₹' + machine.other.toLocaleString();
+
+                document.getElementById('machineDetailsModal').style.display = 'flex';
+            }
+        }
+
+        function closeMachineDetails() {
+            document.getElementById('machineDetailsModal').style.display = 'none';
+        }
+
+        function editMachine(id) {
+            alert(`Edit Machine ID: ${id}\n\nEdit form will open here. Integrate with your backend.`);
+        }
+
+        function deleteMachine(id) {
+            if (confirm('Are you sure you want to delete this machine?')) {
+                const index = allMachines.findIndex(m => m.id === id);
+                if (index > -1) {
+                    allMachines.splice(index, 1);
+                    applyFilters();
+                    alert('Machine deleted successfully!');
+                }
+            }
+        }
+
+        function addDiesel(id) {
+            const amount = prompt('Enter diesel expense amount (₹):');
+            if (amount && !isNaN(amount)) {
+                const machine = allMachines.find(m => m.id === id);
+                if (machine) {
+                    machine.diesel += parseInt(amount);
+                    updateTable();
+                    updateStats();
+                    alert(`Added diesel expense ₹${parseInt(amount).toLocaleString()} for ${machine.name}`);
+                }
+            }
+        }
+
+        function exportData() {
+            alert('Export functionality:\n\n- Export to Excel\n- Export to PDF\n- Export to CSV\n\nIntegrate with your backend for actual export.');
+        }
+
+        function goBack() {
+            window.location.href = 'index.html';
+        }
+        function navigateBacktoNndex() {
+            // Navigate to contact.html when the card is clicked
+            window.location.href = 'index.html';
+        }
+
+        // Initialize on page load
+        window.onload = function () {
+            updateTable();
+            updateStats();
+        };
+
+
+    </script>
+</body>
+
+</html>
