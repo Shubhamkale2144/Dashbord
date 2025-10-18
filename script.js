@@ -2900,6 +2900,10 @@ function navigateToMachine() {
     // Navigate to contact.html when the card is clicked
     window.location.href = 'Allmachine.html';
 }
+function navigateToLiveMachine() {
+    // Navigate to contact.html when the card is clicked
+    window.location.href = 'Livemachine.html';
+}
 
 
 
